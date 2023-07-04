@@ -5,7 +5,7 @@ const KeyCloakBaseUrl = isProduction
     : 'https://authorization.codepickles.com';
 const identifier = 'MymikanoApp';
 const secret = isProduction
-            ? '9817dbef-c26a-420d-abac-63b4b296cc1e'
+            ? 'fHCgpEGQ2dnHEbRwyxTv5XkQAf6BXcOi'
             : 'Wy2JMrLhbLBs239nxmONV1RtsXAemx88';
 const authorizationEndpoint =
     '$KeyCloakBaseUrl/auth/realms/master/protocol/openid-connect/token';
