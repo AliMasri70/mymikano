@@ -30,6 +30,7 @@ class Custom_GaugeWidgetState extends State<Custom_GaugeWidget> {
       enableLoadingAnimation: true,
       axes: [
         RadialAxis(
+          
           minimum: widget.min,
           maximum: widget.max,
           // minorTicksPerInterval: 5,
@@ -37,6 +38,7 @@ class Custom_GaugeWidgetState extends State<Custom_GaugeWidget> {
           endAngle: 30,
           pointers: [
             NeedlePointer(
+
               value: widget.value,
               enableAnimation: true,
               needleLength: 0.6,

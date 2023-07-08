@@ -151,7 +151,7 @@ class ApiConfigurationPagee extends StatelessWidget {
                                     Navigator.of(context).pushReplacement(
                                       MaterialPageRoute(
                                         // builder: (context) => ApiConfigurationPage(),
-                                        builder: (context) => FetchGenerators(RefreshRate: 10), 
+                                        builder: (context) => FetchGenerators(RefreshRate: 1),
                                       ),
                                     );
                                   }

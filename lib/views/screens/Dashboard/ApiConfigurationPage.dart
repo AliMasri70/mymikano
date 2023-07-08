@@ -575,7 +575,7 @@ class ApiConfigurationPage extends StatelessWidget {
                                 }
                                 Navigator.of(context).push(MaterialPageRoute(
                                     builder: (context) =>
-                                        CloudDashboard_Index(RefreshRate: 10)));
+                                        CloudDashboard_Index(RefreshRate: 1)));
                                 value.isNotFirstTime();
                                prefs.setBool(
                                   prefs_DashboardFirstTimeAccess, false);  

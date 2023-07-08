@@ -34,7 +34,7 @@ class MenuScreen extends StatefulWidget {
 class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
   bool guestLogin = true;
   bool DashboardFirstTimeAccess = true;
-  int RefreshRate = 60;
+  int RefreshRate = 2;
   String generatorType = '';
 
   @override

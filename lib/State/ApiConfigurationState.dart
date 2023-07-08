@@ -14,7 +14,7 @@ class ApiConfigurationState extends ChangeNotifier {
   String chosenGeneratorId = '';
   var chosenSSID;
   var chosenGeneratorName;
-  int RefreshRate = 60;
+  int RefreshRate = 1;
   int cloudMode = 0;
   String password = '';
   String cloudUsername = '';
@@ -158,7 +158,7 @@ class ApiConfigurationState extends ChangeNotifier {
     chosenSSID = null;
     chosenGeneratorId = '';
     chosenGeneratorName = null;
-    RefreshRate = 60;
+    RefreshRate = 1;
     cloudMode = 0;
     password = '';
     cloudUsername = '';

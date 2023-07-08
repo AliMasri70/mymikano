@@ -319,7 +319,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                                            .pushReplacement(
                                                            MaterialPageRoute(
                                                                builder: (context) =>
-                                                                   FetchGenerators(RefreshRate: 10)));
+                                                                   FetchGenerators(RefreshRate: 1)));
                                                             sharedPreferences.setBool(
                                     prefs_DashboardFirstTimeAccess, true);          
                                                      }
@@ -372,7 +372,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                                   .pushReplacement(
                                                   MaterialPageRoute(
                                                       builder: (context) =>
-                                                         FetchGenerators(RefreshRate: 10)));
+                                                         FetchGenerators(RefreshRate: 1)));
                                          
                                             
                                       },

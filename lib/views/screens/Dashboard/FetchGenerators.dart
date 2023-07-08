@@ -52,6 +52,13 @@ class _FetchGenerators  extends State<FetchGenerators>{
   Widget build(BuildContext context) {
     return Consumer<ApiConfigurationStatee>(
         builder: (context, value, child) => Scaffold(
+          appBar: AppBar(
+            foregroundColor: Colors.black,
+            backgroundColor: Colors.transparent,
+
+            elevation: 0,
+          ),
+
                 body: SafeArea(
               child: CustomScrollView(scrollDirection: Axis.vertical, slivers: [
                 SliverFillRemaining(
@@ -650,7 +657,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                               value.configsList.add(ConfigurationModel(
                                 ssid: "",
                                 password: "",
-                                refreshRate: 10,
+                                refreshRate: 1,
                                 cloudUser: value.cloudUsername,
                                 cloudPassword: value.cloudPassword,
                                 cloudMode: value.cloudMode,
@@ -665,7 +672,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                               value.configModel = ConfigurationModel(
                                 ssid: "",
                                 password: "",
-                                refreshRate: 10,
+                                refreshRate: 1,
                                 cloudUser: value.cloudUsername,
                                 cloudPassword: value.cloudPassword,
                                 cloudMode: value.cloudMode,
@@ -709,7 +716,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             CloudDashboard_Index(
-                                                RefreshRate: 10)));
+                                                RefreshRate: 1)));
 
                                 value.isNotFirstTime();
                                 sharedPreferences.setBool(
@@ -746,7 +753,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                     MaterialPageRoute(
                                         builder: (context) =>
                                             CloudDashboard_Index(
-                                                RefreshRate: 10)));
+                                                RefreshRate: 1)));
 
                                 value.isNotFirstTime();
 
