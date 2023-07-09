@@ -6,6 +6,8 @@ const lbl_maintenance_repair = "Maintenance & Repair";
 const lbl_lbl_proceed = "Proceed";
 const lbl_hint_Email = "Email";
 const lbl_hint_password = "Password";
+const lbl_AlarmNotifications = 'Alarms';
+
 const lbl_lbl_sign_up = "Sign Up";
 const lbl_lbl_already_member = "Already have an account?";
 const lbl_lbl_login = "Login";

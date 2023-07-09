@@ -6,12 +6,12 @@ import FlutterMacOS
 import Foundation
 
 import audioplayers
-import connectivity_plus
+import connectivity_plus_macos
 import firebase_core
 import firebase_messaging
 import geolocator_apple
 import nb_utils
-import path_provider_foundation
+import path_provider_macos
 import record_macos
 import shared_preferences_foundation
 import sqflite

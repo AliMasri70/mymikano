@@ -10,14 +10,14 @@ import '../../utils/AppColors.dart';
 import '../widgets/TitleText.dart';
 import 'MainDashboard.dart';
 
-class NotificationsPage extends StatefulWidget {
-  NotificationsPage({Key? key}) : super(key: key);
+class AlarmNotification extends StatefulWidget {
+  AlarmNotification({Key? key}) : super(key: key);
 
   @override
-  State<NotificationsPage> createState() => _NotificationsPageState();
+  State<AlarmNotification> createState() => _AlarmNotificationState();
 }
 
-class _NotificationsPageState extends State<NotificationsPage> {
+class _AlarmNotificationState extends State<AlarmNotification> {
   @override
   void initState() {
     // TODO: implement initState
@@ -43,19 +43,14 @@ class _NotificationsPageState extends State<NotificationsPage> {
                       color: backArrowColor,
                     ),
                     onPressed: () async {
-                      Navigator.popUntil(context, (route) => route.isFirst);
-                      await Navigator.push(
-                        context,
-                        MaterialPageRoute(
-                            builder: (context) => Theme5Dashboard()),
-                      );
+                      Navigator.pop(context, (route) => route.isFirst);
                     },
                   ),
                 ),
                 Align(
                   alignment: Alignment.center,
                   child: TitleText(
-                    title: lbl_Notifications,
+                    title: lbl_AlarmNotifications,
                     textSize: 24,
                   ),
                 ),
@@ -70,12 +65,12 @@ class _NotificationsPageState extends State<NotificationsPage> {
                     NotificationModel notification =
                         Provider.of<NotificationState>(context)
                             .notifications[index];
-                    if (notification.source.toString() == "My Mikano") {
+                    if (notification.source.toString() != "My Mikano") {
                       return NotificationItem(
                         notification: notification,
                       );
                     }
-                    // return null;
+                    return null;
                   },
                 ),
               ),
