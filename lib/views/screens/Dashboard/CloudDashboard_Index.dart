@@ -880,13 +880,14 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                               Column(
                                 children: <Widget>[
                                   ExpansionTile(
-                                    title: Text(lbl_Engine),
+                                    title: Text('Engine Status'),
                                     children: [
                                       ListView(
                                         physics: const ScrollPhysics(),
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
                                         children: <Widget>[
+                                          infotile(title: "Engine State", value: cloud.EngineState.value),
                                           infotile(
                                             title: lbl_Pressure,
                                             value: (double.parse(cloud
