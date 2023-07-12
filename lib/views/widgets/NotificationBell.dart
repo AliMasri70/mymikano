@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:mymikano_app/views/screens/AlarmNotifcationScreen.dart';
+import 'package:mymikano_app/views/screens/Dashboard/LanDashboard_Index.dart';
 import 'package:mymikano_app/views/screens/NotificationsScreen.dart';
 
 class NotificationBell extends StatelessWidget {
@@ -14,7 +15,9 @@ class NotificationBell extends StatelessWidget {
           Navigator.of(context).push(
             MaterialPageRoute(
               builder: (context) => NotificationsPage(),
-              // builder: (context) => AlarmNotification(),
+              // builder: (context) => LanDashboard_Index(
+              //       RefreshRate: 1,
+              //     )
             ),
           );
         },

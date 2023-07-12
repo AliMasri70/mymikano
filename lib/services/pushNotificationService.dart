@@ -26,8 +26,17 @@ class PushNotificationService {
     // https://console.firebase.google.com/project/YOUR_PROJECT_ID/notification/compose
     String? token = await _fcm.getToken();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    await prefs.setString("DeviceToken", token.toString());
-    debugPrint("Device Token: $token");
+    bool isLoged = await prefs.getBool('IsLoggedIn') ?? false;
+    if (isLoged) {
+      print("isloggggg");
+      await prefs.setString("DeviceToken", token.toString());
+      debugPrint("Device Token: $token");
+    } else {
+      print("Notloggggg");
+      token = "";
+      await prefs.setString("DeviceToken", "");
+      debugPrint("Device Tokenn: $token");
+    }
 
     Future<void> messageHandler(RemoteMessage message,
         {bool navigate = false}) async {

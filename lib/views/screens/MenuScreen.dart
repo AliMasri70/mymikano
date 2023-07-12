@@ -45,6 +45,12 @@ class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
     });
   }
 
+  // @override
+  // void dispose() {
+  //   // TODO: implement dispose
+  //   super.dispose();
+  // }
+
   Future<void> initializePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     this.guestLogin = await prefs.getBool("GuestLogin")!;

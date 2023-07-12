@@ -75,7 +75,7 @@ class _NotificationsPageState extends State<NotificationsPage> {
                         notification: notification,
                       );
                     }
-                    // return null;
+                    return null;
                   },
                 ),
               ),

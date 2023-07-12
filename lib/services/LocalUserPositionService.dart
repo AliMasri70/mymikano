@@ -142,7 +142,7 @@ class gps {
       }
     } catch (e) {
       debugPrint(e.toString());
-      throw Exception(e);
+      // throw Exception(e);
     }
   }
 

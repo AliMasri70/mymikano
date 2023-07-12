@@ -65,12 +65,26 @@ class _AlarmNotificationState extends State<AlarmNotification> {
                     NotificationModel notification =
                         Provider.of<NotificationState>(context)
                             .notifications[index];
-                    if (notification.source.toString() != "My Mikano") {
+                    // print("notiiii source: " + notification.source.toString());
+                    // print("notiiii msg: " + notification.message.toString());
+                    // print("notiiii len: " +
+                    //     Provider.of<NotificationState>(context)
+                    //         .notifications
+                    //         .length
+                    //         .toString());
+                    // print("notiiii msg: " +
+                    //     Provider.of<NotificationState>(context)
+                    //         .notifications[15]
+                    //         .source
+                    //         .toString());
+                    if ((notification.source.toString().trim() !=
+                        "My Mikano")) {
                       return NotificationItem(
                         notification: notification,
                       );
                     }
-                    return null;
+
+                    // return null;
                   },
                 ),
               ),

@@ -28,8 +28,7 @@ class FetchGenerators extends StatefulWidget {
   _FetchGenerators createState() => _FetchGenerators();
 }
 
-class _FetchGenerators  extends State<FetchGenerators>{
-  
+class _FetchGenerators extends State<FetchGenerators> {
   final ControllerAddressController = TextEditingController();
   final refreshRateController = TextEditingController();
   final passwordController = TextEditingController();
@@ -42,24 +41,17 @@ class _FetchGenerators  extends State<FetchGenerators>{
   void initState() {
     // TODO: implement initState
     super.initState();
-   
-    
-   
   }
-
-
 
   Widget build(BuildContext context) {
     return Consumer<ApiConfigurationStatee>(
         builder: (context, value, child) => Scaffold(
-          appBar: AppBar(
-            foregroundColor: Colors.black,
-            backgroundColor: Colors.transparent,
-
-            elevation: 0,
-          ),
-
-                body: SafeArea(
+            appBar: AppBar(
+              foregroundColor: Colors.black,
+              backgroundColor: Colors.transparent,
+              elevation: 0,
+            ),
+            body: SafeArea(
               child: CustomScrollView(scrollDirection: Axis.vertical, slivers: [
                 SliverFillRemaining(
                   hasScrollBody: false,
@@ -69,7 +61,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                       TitleText(
                         title: lbl_API_Configuration,
                       ),
-                    
+
                       SizedBox(
                         height: 35,
                       ),
@@ -113,7 +105,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                   onChanged: (item) {
                                     value.ChooseGeneratorName(item.toString());
                                     int i = (value.gens).indexWhere((element) =>
-                                        element.name == item.toString()); 
+                                        element.name == item.toString());
                                     value.setChosenGeneratorId(
                                         value.gens.elementAt(i).generatorId);
                                     //value.setChosenGeneratorId(item.toString());
@@ -236,7 +228,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                               padding: EdgeInsets.all(0.0),
                             ),
                             onPressed: () {
-                              value.ChangeMode('comap'); 
+                              value.ChangeMode('comap');
                               // if (value.DashBoardFirstTimeAccess == false) {
                               //   Navigator.of(context).push(MaterialPageRoute(
                               //       builder: (context) => Dashboard_Index()));
@@ -411,16 +403,15 @@ class _FetchGenerators  extends State<FetchGenerators>{
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               //added by youssef//
-                              if(value.chosenSSID==null){
-                                value.chosenSSID="";
-                                value.password="";
-                              }
-                              else {
+                              if (value.chosenSSID == null) {
+                                value.chosenSSID = "";
+                                value.password = "";
+                              } else {
                                 value.Loading(true);
                                 await value.service.Connecttossid(
                                     value.chosenSSID,
                                     passwordController.text,
-                                    value.cloudUsername, 
+                                    value.cloudUsername,
                                     value.cloudPassword,
                                     value.cloudMode.toString(),
                                     value.chosenGeneratorId,
@@ -436,7 +427,6 @@ class _FetchGenerators  extends State<FetchGenerators>{
                           height: 20,
                         ),
                         TextFormField(
-            
                           onChanged: (apiendpoint) =>
                               value.changeApiLanEndpoint(apiendpoint),
                           style: TextStyle(
@@ -448,14 +438,14 @@ class _FetchGenerators  extends State<FetchGenerators>{
                           decoration: InputDecoration(
                             contentPadding: EdgeInsets.fromLTRB(26, 14, 4, 14),
                             hintText: lbl_Api_Endpoint,
-                            hintStyle: 
+                            hintStyle:
                                 primaryTextStyle(color: textFieldHintColor),
-                            filled: true,   
-                            fillColor: hasError ? Colors.red : lightBorderColor, 
+                            filled: true,
+                            fillColor: hasError ? Colors.red : lightBorderColor,
                             enabledBorder: OutlineInputBorder(
-                              borderRadius: BorderRadius.circular(10),  
+                              borderRadius: BorderRadius.circular(10),
                               borderSide: BorderSide(
-                                  color:  Colors.transparent, width: 0.0),
+                                  color: Colors.transparent, width: 0.0),
                             ),
                             focusedBorder: OutlineInputBorder(
                               // borderRadius: BorderRadius.circular(24),
@@ -463,27 +453,42 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                   color: Colors.transparent, width: 0.0),
                             ),
                           ),
-               
                         ),
                         SizedBox(height: 20),
                         T13Button(
                             textContent: lbl_Submit_Settings,
                             onPressed: () async {
-                               // final response = await http.get(Uri.parse("http://" + apiEndpointLanController.text));
+                              // final response = await http.get(Uri.parse("http://" + apiEndpointLanController.text));
                               var dio = Dio();
                               final response;
-                           try {
-                              response= await dio.get(
-                                 'http://' + apiEndpointLanController.text +
-                                     '/getValue?param=CoolantTemp');
-                              if (response.statusCode == 200) {
+                              try {
+                                response = await dio.get('http://' +
+                                    apiEndpointLanController.text +
+                                    '/getValue?param=CoolantTemp');
+                                if (response.statusCode == 200) {
+                                  SharedPreferences prefs =
+                                      await SharedPreferences.getInstance();
 
-                                SharedPreferences prefs =
-                                await SharedPreferences.getInstance();
-
-                                value.setApiLanEndpoint(
-                                    "http://" + apiEndpointLanController.text);
-                                value.configsList.add(ConfigurationModel(
+                                  value.setApiLanEndpoint("http://" +
+                                      apiEndpointLanController.text);
+                                  value.configsList.add(ConfigurationModel(
+                                      ssid: value.chosenSSID,
+                                      password: value.password,
+                                      refreshRate: value.RefreshRate,
+                                      cloudUser: value.cloudUsername,
+                                      cloudPassword: value.cloudPassword,
+                                      cloudMode: value.cloudMode,
+                                      generatorId: value.chosenGeneratorId,
+                                      generatorName: value.chosenGeneratorName,
+                                      espapiendpoint:
+                                          apiEndpointLanController.text,
+                                      controllerAddress:
+                                          ControllerAddressController.text));
+                                  prefs.setBool(
+                                      prefs_DashboardFirstTimeAccess, false);
+                                  //await getListConfigurationModel();
+                                  //configsList.add(ConfigurationModel(ssid:value.chosenSSID, password:value.password, refreshRate:value.RefreshRate, cloudUser: value.cloudUsername, cloudPassword: value.cloudPassword, cloudMode: value.cloudMode, generatorId: value.chosenGeneratorId,generatorName: value.chosenGeneratorName,espapiendpoint: apiEndpointLanController.text));
+                                  value.configModel = ConfigurationModel(
                                     ssid: value.chosenSSID,
                                     password: value.password,
                                     refreshRate: value.RefreshRate,
@@ -492,156 +497,152 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                     cloudMode: value.cloudMode,
                                     generatorId: value.chosenGeneratorId,
                                     generatorName: value.chosenGeneratorName,
-                                    espapiendpoint: apiEndpointLanController.text,
+                                    espapiendpoint:
+                                        apiEndpointLanController.text,
                                     controllerAddress:
-                                    ControllerAddressController.text));
-                                prefs.setBool(
-                                    prefs_DashboardFirstTimeAccess, false);
-                                //await getListConfigurationModel();
-                                //configsList.add(ConfigurationModel(ssid:value.chosenSSID, password:value.password, refreshRate:value.RefreshRate, cloudUser: value.cloudUsername, cloudPassword: value.cloudPassword, cloudMode: value.cloudMode, generatorId: value.chosenGeneratorId,generatorName: value.chosenGeneratorName,espapiendpoint: apiEndpointLanController.text));
-                                value.configModel = ConfigurationModel(
-                                  ssid: value.chosenSSID,
-                                  password: value.password,
-                                  refreshRate: value.RefreshRate,
-                                  cloudUser: value.cloudUsername,
-                                  cloudPassword: value.cloudPassword,
-                                  cloudMode: value.cloudMode,
-                                  generatorId: value.chosenGeneratorId,
-                                  generatorName: value.chosenGeneratorName,
-                                  espapiendpoint: apiEndpointLanController.text,
-                                  controllerAddress:
-                                  ControllerAddressController.text,
-                                );
-                                if (value.generatorNameList.length != 1) {
-                                  SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
+                                        ControllerAddressController.text,
+                                  );
+                                  if (value.generatorNameList.length != 1) {
+                                    SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
 
-                                  //List<String> ConfigsEncoded = value.ConfigurationModelsList.map((config) => jsonEncode(ConfigurationModel.toJson())).;
-                                  //String Configs=jsonEncode(value.ConfigurationModelsList);
-                                  String Configs = jsonEncode(value.configsList);
-                                  String SelectedConfigurationModel =
-                                  jsonEncode(value.configModel);
-                                  await sharedPreferences.setString(
-                                      'Configurations', Configs);
-                                  await sharedPreferences.setString(
-                                      'SelectedConfigurationModel',
-                                      SelectedConfigurationModel);
-                                  sharedPreferences.setBool(
-                                      prefs_DashboardFirstTimeAccess, false);
-                                  value.generatorNameList.removeWhere((generator) =>
-                                  generator == value.chosenGeneratorName);
-                                  value.chosenGeneratorName =
-                                      value.generatorNameList.elementAt(0);
-                                  List<String> gens = await sharedPreferences
-                                      .getStringList("generatorNameList")!;
-                                  gens.remove(value.chosenGeneratorName);
-                                  Generator Chosen = value.gens.firstWhere(
-                                          (element) =>
-                                      element.name ==
-                                          value.chosenGeneratorName);
-                                  value.chosenGeneratorId = Chosen.generatorId;
-                                  await sharedPreferences.setStringList(
-                                      "genneratorNameList", gens);
-                                  if (value.option == 'cloud') {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CloudDashboard_Index(
+                                    //List<String> ConfigsEncoded = value.ConfigurationModelsList.map((config) => jsonEncode(ConfigurationModel.toJson())).;
+                                    //String Configs=jsonEncode(value.ConfigurationModelsList);
+                                    String Configs =
+                                        jsonEncode(value.configsList);
+                                    String SelectedConfigurationModel =
+                                        jsonEncode(value.configModel);
+                                    await sharedPreferences.setString(
+                                        'Configurations', Configs);
+                                    await sharedPreferences.setString(
+                                        'SelectedConfigurationModel',
+                                        SelectedConfigurationModel);
+                                    sharedPreferences.setBool(
+                                        prefs_DashboardFirstTimeAccess, false);
+                                    value.generatorNameList.removeWhere(
+                                        (generator) =>
+                                            generator ==
+                                            value.chosenGeneratorName);
+                                    value.chosenGeneratorName =
+                                        value.generatorNameList.elementAt(0);
+                                    List<String> gens = await sharedPreferences
+                                        .getStringList("generatorNameList")!;
+                                    gens.remove(value.chosenGeneratorName);
+                                    Generator Chosen = value.gens.firstWhere(
+                                        (element) =>
+                                            element.name ==
+                                            value.chosenGeneratorName);
+                                    value.chosenGeneratorId =
+                                        Chosen.generatorId;
+                                    await sharedPreferences.setStringList(
+                                        "genneratorNameList", gens);
+                                    if (value.option == 'cloud') {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CloudDashboard_Index(
+                                                      RefreshRate:
+                                                          value.RefreshRate)));
+                                    } else if (value.option == 'comap') {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Dashboard_Index()));
+                                    } else {
+                                      //added by youssef k to initialize the background lan notification service//
+                                      if (await prefs.getBool("FirstLanGen") ==
+                                          null) {
+                                        await initializeService();
+                                      }
+                                      await prefs.setBool("FirstLanGen", false);
+                                      ///////////////////////////////////////////////////////////////////////////
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LanDashboard_Index(
                                                     RefreshRate:
-                                                    value.RefreshRate)));
-                                  } else if (value.option == 'comap') {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Dashboard_Index()));
-                                  } else {
-                                    //added by youssef k to initialize the background lan notification service//
-                                    if(await prefs.getBool("FirstLanGen")==null) {
-                                      await initializeService();
+                                                        value.RefreshRate,
+                                                  )));
                                     }
-                                    await prefs.setBool("FirstLanGen", false);
-                                    ///////////////////////////////////////////////////////////////////////////
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LanDashboard_Index(
-                                                  RefreshRate: value.RefreshRate,
-                                                )));
-                                  }
-                                  value.isNotFirstTime();
-                                  prefs.setBool(
-                                      prefs_DashboardFirstTimeAccess, false);
-                                }
-                                else if (value.generatorNameList.length == 1) {
-                                  SharedPreferences sharedPreferences =
-                                  await SharedPreferences.getInstance();
+                                    value.isNotFirstTime();
+                                    prefs.setBool(
+                                        prefs_DashboardFirstTimeAccess, false);
+                                  } else if (value.generatorNameList.length ==
+                                      1) {
+                                    SharedPreferences sharedPreferences =
+                                        await SharedPreferences.getInstance();
 
-                                  //List<String> ConfigsEncoded = value.ConfigurationModelsList.map((config) => jsonEncode(ConfigurationModel.toJson())).;
-                                  //String Configs=jsonEncode(value.ConfigurationModelsList);
-                                  String Configs = jsonEncode(value.configsList);
-                                  String SelectedConfigurationModel =
-                                  jsonEncode(value.configModel);
-                                  await sharedPreferences.setString(
-                                      'Configurations', Configs);
-                                  await sharedPreferences.setString(
-                                      'SelectedConfigurationModel',
-                                      SelectedConfigurationModel);
-                                  sharedPreferences.setBool(
-                                      prefs_DashboardFirstTimeAccess, false);
+                                    //List<String> ConfigsEncoded = value.ConfigurationModelsList.map((config) => jsonEncode(ConfigurationModel.toJson())).;
+                                    //String Configs=jsonEncode(value.ConfigurationModelsList);
+                                    String Configs =
+                                        jsonEncode(value.configsList);
+                                    String SelectedConfigurationModel =
+                                        jsonEncode(value.configModel);
+                                    await sharedPreferences.setString(
+                                        'Configurations', Configs);
+                                    await sharedPreferences.setString(
+                                        'SelectedConfigurationModel',
+                                        SelectedConfigurationModel);
+                                    sharedPreferences.setBool(
+                                        prefs_DashboardFirstTimeAccess, false);
 
-                                  value.chosenGeneratorName =
-                                      value.generatorNameList.elementAt(0);
-                                  List<String> gens = await sharedPreferences
-                                      .getStringList("generatorNameList")!;
-                                  gens.remove(value.chosenGeneratorName);
-                                  Generator Chosen = value.gens.firstWhere(
-                                          (element) =>
-                                      element.name ==
-                                          value.chosenGeneratorName);
-                                  value.chosenGeneratorId = Chosen.generatorId;
-                                  await sharedPreferences.setStringList(
-                                      "genneratorNameList", gens);
-                                  if (value.option == 'cloud') {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                CloudDashboard_Index(
+                                    value.chosenGeneratorName =
+                                        value.generatorNameList.elementAt(0);
+                                    List<String> gens = await sharedPreferences
+                                        .getStringList("generatorNameList")!;
+                                    gens.remove(value.chosenGeneratorName);
+                                    Generator Chosen = value.gens.firstWhere(
+                                        (element) =>
+                                            element.name ==
+                                            value.chosenGeneratorName);
+                                    value.chosenGeneratorId =
+                                        Chosen.generatorId;
+                                    await sharedPreferences.setStringList(
+                                        "genneratorNameList", gens);
+                                    if (value.option == 'cloud') {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  CloudDashboard_Index(
+                                                      RefreshRate:
+                                                          value.RefreshRate)));
+                                    } else if (value.option == 'comap') {
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  Dashboard_Index()));
+                                    } else {
+                                      //added by youssef k to initialize the background lan notification service//
+                                      if (await prefs.getBool("FirstLanGen") ==
+                                          null) {
+                                        await initializeService();
+                                      }
+                                      await prefs.setBool("FirstLanGen", false);
+                                      ///////////////////////////////////////////////////////////////////////////
+                                      Navigator.of(context).pushReplacement(
+                                          MaterialPageRoute(
+                                              builder: (context) =>
+                                                  LanDashboard_Index(
                                                     RefreshRate:
-                                                    value.RefreshRate)));
-                                  } else if (value.option == 'comap') {
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                Dashboard_Index()));
-                                  } else {
-                                    //added by youssef k to initialize the background lan notification service//
-                                    if(await prefs.getBool("FirstLanGen")==null) {
-                                      await initializeService();
+                                                        value.RefreshRate,
+                                                  )));
                                     }
-                                    await prefs.setBool("FirstLanGen", false);
-                                    ///////////////////////////////////////////////////////////////////////////
-                                    Navigator.of(context).pushReplacement(
-                                        MaterialPageRoute(
-                                            builder: (context) =>
-                                                LanDashboard_Index(
-                                                  RefreshRate: value.RefreshRate,
-                                                )));
+                                    value.isNotFirstTime();
+                                    prefs.setBool(
+                                        prefs_DashboardFirstTimeAccess, false);
+                                    value.generatorNameList.removeWhere(
+                                        (generator) =>
+                                            generator ==
+                                            value.chosenGeneratorName);
                                   }
-                                  value.isNotFirstTime();
-                                  prefs.setBool(
-                                      prefs_DashboardFirstTimeAccess, false);
-                                  value.generatorNameList.removeWhere((generator) =>
-                                  generator == value.chosenGeneratorName);
                                 }
-
+                              } on Exception catch (_) {
+                                ScaffoldMessenger.of(context)
+                                    .showSnackBar(SnackBar(
+                                  content: Text("Api EndPoint Not Valid !"),
+                                ));
                               }
-                           }
-                          on Exception catch (_) {
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(       content: Text("Api EndPoint Not Valid !"),     ));
-                          }
-  }
-                            ),
-  
+                            }),
                         SizedBox(height: 20),
                         SizedBox(
                           height: 25,
@@ -760,7 +761,7 @@ class _FetchGenerators  extends State<FetchGenerators>{
                                 value.generatorNameList.removeWhere(
                                     (generator) =>
                                         generator == value.chosenGeneratorName);
-                              }  
+                              }
 
                               // prefs.setBool(
                               //     prefs_DashboardFirstTimeAccess, false);
@@ -789,7 +790,6 @@ class _FetchGenerators  extends State<FetchGenerators>{
 //     }
 //     return configsList;
 //   }
-
 }
 
 enum ConfigValue { withConfig, withoutConfig }

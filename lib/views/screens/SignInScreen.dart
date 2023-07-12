@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_spinkit/flutter_spinkit.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mymikano_app/State/InspectionsState.dart';
 import 'package:mymikano_app/State/ProductState.dart';
 import 'package:mymikano_app/State/RequestFormState.dart';
@@ -33,13 +34,19 @@ class T13SignInScreenState extends State<T13SignInScreen> {
   bool pressed = false;
   bool passwordvisible = true;
   final _formKey = GlobalKey<FormState>();
+  void getLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+  }
 
   @override
   void initState() {
-    Provider.of<ProductState>(context, listen: false).clear();
-    Provider.of<InspectionsState>(context, listen: false).clear();
-    Provider.of<RequestFormState>(context, listen: false).clear();
-    Provider.of<UserState>(context, listen: false).clear();
+    getLocation();
+    // Provider.of<ProductState>(context, listen: false).clear();
+    // Provider.of<InspectionsState>(context, listen: false).clear();
+    // Provider.of<RequestFormState>(context, listen: false).clear();
+    // Provider.of<UserState>(context, listen: false).clear();
     super.initState();
   }
 
@@ -207,7 +214,7 @@ class T13SignInScreenState extends State<T13SignInScreen> {
                               textContent: lbl_lbl_login,
                               onPressed: () async {
                                 if (!_formKey.currentState!.validate()) {
-                                  return; 
+                                  return;
                                 }
                                 FocusScope.of(context).unfocus();
                                 pressed = true;
