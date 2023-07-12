@@ -587,21 +587,30 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         Positioned(
                                           top: 72,
                                           left: 232,
-                                          child: new Bounceable(
-                                              scaleFactor: 0.6,
-                                              onTap: () {
-                                                setState(() {
-                                                  cloud.changeIsIO(false);
-                                                });
-                                              },
-                                              child: Container(
-                                                  width: 65,
-                                                  height: 48,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image: AssetImage(ic_o),
-                                                        fit: BoxFit.fitWidth),
-                                                  ))),
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 9,
+                                              ),
+                                              new Bounceable(
+                                                  scaleFactor: 0.6,
+                                                  onTap: () {
+                                                    setState(() {
+                                                      cloud.changeIsIO(false);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      width: 65,
+                                                      height: 48,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(
+                                                                ic_o),
+                                                            fit: BoxFit
+                                                                .fitWidth),
+                                                      ))),
+                                            ],
+                                          ),
                                         ),
                                       if (cloud.ControllerModeStatus != 2)
                                         Positioned(
@@ -887,7 +896,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
                                         children: <Widget>[
-                                          infotile(title: "Engine State", value: cloud.EngineState.value),
+                                          infotile(
+                                              title: "Engine State",
+                                              value: cloud.EngineState.value),
                                           infotile(
                                             title: lbl_Pressure,
                                             value: (double.parse(cloud
