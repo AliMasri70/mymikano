@@ -50,6 +50,7 @@ dependencies:
   confirm_dialog: ^1.0.1
   localstorage: ^4.0.0+1
   flutter_bounceable: ^1.0.3
+  toggle_switch: ^2.1.0
   flutter_paystack:
     git:
       url: https://github.com/definitelyme/flutter_paystack.git

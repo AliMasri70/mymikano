@@ -38,7 +38,7 @@ class CloudDashBoard_Service {
 
   //fin added by youssef//
 
-  late List<CloudSensor> cloudsensors = [];  
+  late List<CloudSensor> cloudsensors = [];
 
   Future<List<CloudSensor>> FetchData() async {
     final responseAuth = await http.post(Uri.parse(cloudIotMautoAuthUrl),
@@ -57,11 +57,11 @@ class CloudDashBoard_Service {
             configModel.generatorId),
         headers: {'Authorization': 'Bearer ' + token.toString()});
     if (response.statusCode == 200) {
-      debugPrint(response.body);
       Map<String, dynamic> data = json.decode(response.body);
       data['nominalLoadkW'];
       print(data['nominalLoadkW']);
-      printLongString(data['values'].toString());
+      // debugPrint("resssssssss: " + data['values'].toString());
+      // printLongString(data['values'].toString());
       CloudSensor nominalLoadkW = CloudSensor(
           sensorID: "0000-1111",
           sensorName: "nominalLoadkW",
@@ -71,12 +71,12 @@ class CloudDashBoard_Service {
       cloudsensors =
           (data['values'] as List).map((s) => CloudSensor.fromJson(s)).toList();
       cloudsensors.add(nominalLoadkW);
-      
-      return cloudsensors;  
-    } else { 
+
+      return cloudsensors;
+    } else {
       debugPrint(response.toString());
-     // printLongString(response.toString());
-     
+      // printLongString(response.toString());
+
       List<CloudSensor> emptylist = [];
       return emptylist;
     }
@@ -140,7 +140,57 @@ class CloudDashBoard_Service {
     }
     return isSuccess;
   }
-Future<bool> SwitchAlarmClear(bool status) async {
+////////////////
+  ///
+
+  Future<bool> SwitchApplicationMode(int status) async {
+    String Mode;
+    bool isSuccess = false;
+
+    if (status == 1)
+      Mode = "MRS";
+    else
+      Mode = "AMF";
+
+    final responseAuth = await http.post(Uri.parse(cloudIotMautoAuthUrl),
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: jsonEncode(<String, String>{
+          'email': configModel.cloudUser,
+          'password': configModel.cloudPassword,
+        }));
+    final token = jsonDecode((responseAuth.body))['token'];
+
+    final response = await http.post(
+      Uri.parse(cloudIotMautoSensorsUrl + configModel.generatorId),
+      headers: <String, String>{
+        'Content-Type': 'application/json',
+        'Authorization': 'Bearer ' + token.toString()
+      },
+      body: jsonEncode([
+        <String, String>{
+          'generatorSensorID': dotenv.env['ApplicationMode_id'].toString(),
+          'value': Mode.toString(),
+          //'timeStamp':DateTime.now().toString()
+          'timeStamp': DateTime.now().toIso8601String()
+        }
+      ]),
+    );
+
+    if (response.statusCode == 200) {
+      isSuccess = true;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to update sensor');
+    }
+    return isSuccess;
+  }
+
+///////////
+
+  Future<bool> SwitchAlarmClear(bool status) async {
     double alarmclearvalue;
     bool isSuccess = false;
     if (status)
@@ -353,4 +403,3 @@ void printLongString(String text) {
       .allMatches(text)
       .forEach((RegExpMatch match) => print(match.group(0)));
 }
-

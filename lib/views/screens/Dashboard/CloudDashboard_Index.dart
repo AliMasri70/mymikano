@@ -20,6 +20,7 @@ import 'package:mymikano_app/views/screens/MenuScreen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
 import 'package:mymikano_app/services/CloudDashboard_Service.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 import '../../../State/ApiConfigurationStatee.dart';
 import '../../widgets/Custom_GaugeWidget.dart';
 import 'package:flutter_bounceable/flutter_bounceable.dart';
@@ -507,12 +508,39 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                               SizedBox(
                                 height: 20,
                               ),
+                              Center(
+                                  child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ToggleSwitch(
+                                    minWidth: 90.0,
+                                    cornerRadius: 20.0,
+                                    activeBgColors: [
+                                      [Colors.green[800]!],
+                                      [Colors.green[800]!]
+                                    ],
+                                    activeFgColor: Colors.white,
+                                    inactiveBgColor: Colors.grey,
+                                    inactiveFgColor: Colors.white,
+                                    initialLabelIndex: 1,
+                                    totalSwitches: 2,
+                                    labels: ['MRS', 'AMF'],
+                                    radiusStyle: true,
+                                    onToggle: (index) {
+                                      print('switched to: $index');
+                                    },
+                                  ),
+                                ],
+                              )),
+                              SizedBox(
+                                height: 20,
+                              ),
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(5.0, 4.0, 8.0, 8.0),
                                 child: Container(
-                                    padding:
-                                        EdgeInsets.fromLTRB(5.0, 4.0, 8.0, 8.0),
+                                    // padding:
+                                    //     EdgeInsets.fromLTRB(5.0, 4.0, 8.0, 8.0),
                                     width: 350,
                                     height: 150,
                                     decoration: BoxDecoration(
@@ -521,10 +549,10 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     child: Stack(children: <Widget>[
                                       Positioned(
                                           top: 4,
-                                          left: 15,
+                                          left: -15,
                                           child: Container(
                                               width: 90,
-                                              height: 61,
+                                              height: 66,
                                               child: IconButton(
                                                 icon: Image.asset(ic_tower,
                                                     color: ((double.parse(cloud
@@ -548,9 +576,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                               ))),
                                       Positioned(
                                           top: 15,
-                                          left: 80,
+                                          left: 60,
                                           child: Container(
-                                            width: 40,
+                                            width: 50,
                                             height: 48,
                                             child: ImageIcon(
                                               AssetImage(ic_line),
@@ -586,7 +614,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                       if (cloud.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
-                                          left: 232,
+                                          left: 288,
                                           child: Column(
                                             children: [
                                               SizedBox(
@@ -615,7 +643,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                       if (cloud.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 4,
-                                          left: 241,
+                                          left: 295,
                                           child: new Bounceable(
                                               scaleFactor: 0.6,
                                               onTap: () {
@@ -634,9 +662,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         ),
                                       Positioned(
                                           top: 24,
-                                          left: 185,
+                                          left: 200,
                                           child: Container(
-                                            width: 60,
+                                            width: 65,
                                             height: 28,
                                             child: ImageIcon(
                                               AssetImage(ic_g),
@@ -648,7 +676,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                           )),
                                       Positioned(
                                           top: 15,
-                                          left: 150,
+                                          left: 160,
                                           child: Container(
                                             width: 50,
                                             height: 48,
@@ -675,7 +703,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                           left: 115,
                                           child: Container(
                                             width: 40,
-                                            height: 26,
+                                            height: 30,
                                             child: ImageIcon(
                                               AssetImage(ic_factory),
                                               color: (cloud.ReadyToLoad.value ==
