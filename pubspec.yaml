@@ -3,7 +3,7 @@ description: A new Flutter application.
 
 # The following line prevents the package from being accidentally published to
 # pub.dev using `pub publish`. This is preferred for private packages.
-publish_to: "none" # Remove this line if you wish to publish to pub.dev
+publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
 # The following defines the version and build number for your application.
 # A version number is three numbers separated by dots, like 1.2.43
@@ -18,20 +18,20 @@ publish_to: "none" # Remove this line if you wish to publish to pub.dev
 version: 1.0.2+6
 
 environment:
-  sdk: ">=2.12.0 <3.0.0"
+  sdk: '>=2.12.0 <3.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  nb_utils: 
-  cached_network_image: 
+  nb_utils:
+  cached_network_image:
   flutter_svg: ^0.22.0
   html: ^0.15.0
   intl: ^0.17.0
-  flutter_spinkit: "^5.0.0"
+  flutter_spinkit: '^5.0.0'
   path_provider: ^2.0.2
   fluttertoast: ^8.0.7
-  multi_image_picker: 
+  multi_image_picker:
   audioplayers: ^0.19.1
   permission_handler: ^10.2.0
   firebase_core: ^2.4.0
@@ -47,7 +47,7 @@ dependencies:
   file_picker: ^4.5.1
   record: '4.1.1'
   url_launcher: ^6.1.5
-  confirm_dialog: ^1.0.1 
+  confirm_dialog: ^1.0.1
   localstorage: ^4.0.0+1
   flutter_bounceable: ^1.0.3
   flutter_paystack:
@@ -72,7 +72,7 @@ dev_dependencies:
 flutter_icons:
   android: true
   ios: true
-  image_path: "images/MyMikanoLogo.png"
+  image_path: 'images/MyMikanoLogo.png'
 # For information on the generic Dart part of this file, see the
 # following page: https://dart.dev/tools/pub/pubspec
 
