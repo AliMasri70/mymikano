@@ -527,10 +527,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     labels: ['MRS', 'AMF'],
                                     radiusStyle: true,
                                     onToggle: (index) async {
-                                     
                                       setState(() {
                                         cloud.changeAppModeStatus(index);
-                                    });
+                                      });
                                     },
                                   ),
                                 ],
@@ -550,70 +549,75 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                       color: Color.fromRGBO(255, 255, 255, 1),
                                     ),
                                     child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 4,
-                                          left: -15,
-                                          child: Container(
-                                              width: 90,
-                                              height: 66,
-                                              child: IconButton(
-                                                icon: Image.asset(ic_tower,
-                                                    color: ((double.parse(cloud
-                                                                        .mainsvoltageL1N
-                                                                        .value)) >
-                                                                    0 ||
-                                                                (double.parse(cloud
-                                                                        .mainsvoltageL2N
-                                                                        .value)) >
-                                                                    0 ||
-                                                                (double.parse(cloud
-                                                                        .mainsvoltageL3N
-                                                                        .value)) >
-                                                                    0) &&
-                                                            cloud.MainsHealthy
-                                                                    .value ==
-                                                                '1'
-                                                        ? GreenpowerColor
-                                                        : mainGreyColorTheme),
-                                                onPressed: () {},
-                                              ))),
-                                      Positioned(
-                                          top: 15,
-                                          left: 60,
-                                          child: Container(
-                                            width: 50,
-                                            height: 48,
-                                            child: ImageIcon(
-                                              AssetImage(ic_line),
-                                              color: ((double.parse(cloud.mainsvoltageL1N.value)) > 0 ||
-                                                          (double.parse(cloud.mainsvoltageL2N.value)) >
-                                                              0 ||
-                                                          (double.parse(cloud
-                                                                  .mainsvoltageL3N
-                                                                  .value)) >
-                                                              0) &&
-                                                      cloud.MainsHealthy.value ==
-                                                          '1' &&
-                                                      timedelayMCBFeedback(cloud) ==
-                                                          true &&
-                                                      cloud.MCBModeStatus ==
-                                                          true
-                                                  ? GreenpowerColor
-                                                  : ((double.parse(cloud.mainsvoltageL1N.value)) > 0 ||
+                                      cloud.AppModeStatus != 0
+                                          ? Positioned(
+                                              top: 4,
+                                              left: -15,
+                                              child: Container(
+                                                  width: 90,
+                                                  height: 66,
+                                                  child: IconButton(
+                                                    icon: Image.asset(ic_tower,
+                                                        color: ((double.parse(
+                                                                            cloud
+                                                                                .mainsvoltageL1N.value)) >
+                                                                        0 ||
+                                                                    (double.parse(cloud
+                                                                            .mainsvoltageL2N
+                                                                            .value)) >
+                                                                        0 ||
+                                                                    (double.parse(cloud
+                                                                            .mainsvoltageL3N
+                                                                            .value)) >
+                                                                        0) &&
+                                                                cloud.MainsHealthy
+                                                                        .value ==
+                                                                    '1'
+                                                            ? GreenpowerColor
+                                                            : mainGreyColorTheme),
+                                                    onPressed: () {},
+                                                  )))
+                                          : Container(),
+                                      cloud.AppModeStatus != 0
+                                          ? Positioned(
+                                              top: 15,
+                                              left: 60,
+                                              child: Container(
+                                                width: 50,
+                                                height: 48,
+                                                child: ImageIcon(
+                                                  AssetImage(ic_line),
+                                                  color: ((double.parse(cloud.mainsvoltageL1N.value)) > 0 ||
                                                               (double.parse(cloud.mainsvoltageL2N.value)) >
                                                                   0 ||
-                                                              (double.parse(cloud.mainsvoltageL3N.value)) >
+                                                              (double.parse(cloud
+                                                                      .mainsvoltageL3N
+                                                                      .value)) >
                                                                   0) &&
                                                           cloud.MainsHealthy.value ==
                                                               '1' &&
                                                           timedelayMCBFeedback(cloud) ==
-                                                              false &&
+                                                              true &&
                                                           cloud.MCBModeStatus ==
                                                               true
-                                                      ? mainColorTheme
-                                                      : mainGreyColorTheme,
-                                            ),
-                                          )),
+                                                      ? GreenpowerColor
+                                                      : ((double.parse(cloud.mainsvoltageL1N.value)) > 0 ||
+                                                                  (double.parse(cloud.mainsvoltageL2N.value)) >
+                                                                      0 ||
+                                                                  (double.parse(cloud.mainsvoltageL3N.value)) >
+                                                                      0) &&
+                                                              cloud
+                                                                      .MainsHealthy
+                                                                      .value ==
+                                                                  '1' &&
+                                                              timedelayMCBFeedback(cloud) ==
+                                                                  false &&
+                                                              cloud.MCBModeStatus == true
+                                                          ? mainColorTheme
+                                                          : mainGreyColorTheme,
+                                                ),
+                                              ))
+                                          : Container(),
                                       if (cloud.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
@@ -729,64 +733,72 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                             ),
                                           )),
                                       if (cloud.ControllerModeStatus != 2)
-                                        Positioned(
-                                          top: 72,
-                                          left: 67,
-                                          child: Column(
-                                            children: [
-                                              Container(
-                                                height: 8,
-                                                width: 25,
-                                                decoration: BoxDecoration(
-                                                    color: cloud.MCBModeStatus
-                                                        ? greenColor
-                                                        : Colors.grey),
-                                              ),
-                                              SizedBox(
-                                                height: 3,
-                                              ),
-                                              new Bounceable(
-                                                  scaleFactor: 0.6,
-                                                  onTap: () {
-                                                    if (cloud.MCBModeStatus ==
-                                                        false) {
-                                                      cloud.changeMCBModeStatus(
-                                                          true);
-                                                    } else {
-                                                      cloud.changeMCBModeStatus(
-                                                          false);
-                                                    }
-                                                  },
-                                                  // onTap: () async {
-                                                  //       sleep(Duration(seconds: 2));
-                                                  //   await  Future.delayed(Duration(seconds: 2), () {
-                                                  //     if(cloud.MCBModeStatus == false){
-                                                  //
-                                                  //       cloud.changeMCBModeStatus(
-                                                  //           true);
-                                                  //     }
-                                                  //     else{
-                                                  //
-                                                  //       cloud.changeMCBModeStatus(
-                                                  //           false);
-                                                  //     }
-                                                  //   });
-                                                  //
-                                                  //
-                                                  // },Image.asset(ic_factory),
-                                                  child: Container(
-                                                      width: 60,
-                                                      height: 48,
+                                        cloud.AppModeStatus != 0
+                                            ? Positioned(
+                                                top: 72,
+                                                left: 67,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
+                                                      height: 8,
+                                                      width: 25,
                                                       decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image: AssetImage(
-                                                                ic_io),
-                                                            fit: BoxFit
-                                                                .fitWidth),
-                                                      ))),
-                                            ],
-                                          ),
-                                        ),
+                                                          color: cloud
+                                                                  .MCBModeStatus
+                                                              ? greenColor
+                                                              : Colors.grey),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 3,
+                                                    ),
+                                                    new Bounceable(
+                                                        scaleFactor: 0.6,
+                                                        onTap: () {
+                                                          if (cloud
+                                                                  .MCBModeStatus ==
+                                                              false) {
+                                                            cloud
+                                                                .changeMCBModeStatus(
+                                                                    true);
+                                                          } else {
+                                                            cloud
+                                                                .changeMCBModeStatus(
+                                                                    false);
+                                                          }
+                                                        },
+                                                        // onTap: () async {
+                                                        //       sleep(Duration(seconds: 2));
+                                                        //   await  Future.delayed(Duration(seconds: 2), () {
+                                                        //     if(cloud.MCBModeStatus == false){
+                                                        //
+                                                        //       cloud.changeMCBModeStatus(
+                                                        //           true);
+                                                        //     }
+                                                        //     else{
+                                                        //
+                                                        //       cloud.changeMCBModeStatus(
+                                                        //           false);
+                                                        //     }
+                                                        //   });
+                                                        //
+                                                        //
+                                                        // },Image.asset(ic_factory),
+                                                        child: Container(
+                                                            width: 60,
+                                                            height: 48,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image:
+                                                                      AssetImage(
+                                                                          ic_io),
+                                                                  fit: BoxFit
+                                                                      .fitWidth),
+                                                            ))),
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(),
                                       if (cloud.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
