@@ -522,12 +522,15 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     activeFgColor: Colors.white,
                                     inactiveBgColor: Colors.grey,
                                     inactiveFgColor: Colors.white,
-                                    initialLabelIndex: 1,
+                                    initialLabelIndex: cloud.AppModeStatus,
                                     totalSwitches: 2,
                                     labels: ['MRS', 'AMF'],
                                     radiusStyle: true,
-                                    onToggle: (index) {
-                                      print('switched to: $index');
+                                    onToggle: (index) async {
+                                     
+                                      setState(() {
+                                        cloud.changeAppModeStatus(index);
+                                    });
                                     },
                                   ),
                                 ],

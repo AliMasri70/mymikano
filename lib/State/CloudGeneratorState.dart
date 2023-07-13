@@ -270,7 +270,7 @@ class CloudGeneratorState extends ChangeNotifier {
       timeStamp: "Error");
   int ControllerModeStatus = 1;
   bool MCBModeStatus = false;
-  bool AppModeStatus = false;
+  int AppModeStatus = 0;
   bool PowerStatus = false;
   bool isGCB = false;
   bool isIO = false;
@@ -321,7 +321,10 @@ class CloudGeneratorState extends ChangeNotifier {
 
   changeAppModeStatus(value) async {
     bool isSuccess = await cloudService.SwitchApplicationMode(value);
+    print("isSuccess: " + isSuccess.toString());
     if (isSuccess == true) {
+      print("isSuccess: " + value.toString());
+
       AppModeStatus = value;
       notifyListeners();
     }
@@ -334,6 +337,16 @@ class CloudGeneratorState extends ChangeNotifier {
     if (cloudsensors == []) {
       return false;
     } else {
+      // for (int i = 0; i < cloudsensors.length; i++) {
+      //   print("lennnnn: " +
+      //       cloudsensors[i].sensorName +
+      //       " // " +
+      //       cloudsensors[i].value.toString() +
+      //       " // " +
+      //       cloudsensors[i].sensorID.toString());
+      // }
+      // print("lennnnn: " + cloudsensors.length.toString());
+
       EngineState =
           FindSensor(cloudsensors, dotenv.env['EngineState_id'].toString());
       BreakState =
@@ -365,8 +378,7 @@ class CloudGeneratorState extends ChangeNotifier {
 
       ControllerMode =
           FindSensor(cloudsensors, dotenv.env['ControllerMode_id'].toString());
-      ApplicationMode =
-          FindSensor(cloudsensors, dotenv.env['ApplicationMode_id'].toString());
+      ApplicationMode = FindSensorr(cloudsensors, "Application Mode");
 
       MCBMode = FindSensor(cloudsensors, dotenv.env['MCBMode_id'].toString());
       GCBMode = FindSensor(cloudsensors, dotenv.env['GCB_id'].toString());
@@ -432,6 +444,11 @@ class CloudGeneratorState extends ChangeNotifier {
         ControllerModeStatus = 1;
       else if (ControllerMode.value == "OFF") ControllerModeStatus = 0;
 
+      if (ApplicationMode.value == "MRS") {
+        AppModeStatus = 0;
+      } else {
+        AppModeStatus = 1;
+      }
       //for testing purposes only
       //MCBMode.value="1";
       if (MCBMode.value == "Close-On")
@@ -481,6 +498,14 @@ class CloudGeneratorState extends ChangeNotifier {
   CloudSensor FindSensor(List<CloudSensor> cloudsensors, String param) {
     final index =
         cloudsensors.indexWhere((element) => element.sensorID == param);
+    CloudSensor sensor = cloudsensors.elementAt(index);
+
+    return sensor;
+  }
+
+  CloudSensor FindSensorr(List<CloudSensor> cloudsensors, String param) {
+    final index = cloudsensors
+        .indexWhere((element) => element.sensorName.trim() == param.trim());
     CloudSensor sensor = cloudsensors.elementAt(index);
 
     return sensor;

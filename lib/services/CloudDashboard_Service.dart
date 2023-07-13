@@ -5,6 +5,7 @@ import 'package:flutter_dotenv/flutter_dotenv.dart';
 import 'package:http/http.dart' as http;
 import 'package:mymikano_app/models/CloudSensor_Model.dart';
 import 'package:mymikano_app/models/ConfigurationModel.dart';
+import 'package:mymikano_app/models/Sensor_Model.dart';
 import 'package:mymikano_app/utils/appsettings.dart';
 import 'package:nb_utils/nb_utils.dart';
 
@@ -59,7 +60,7 @@ class CloudDashBoard_Service {
     if (response.statusCode == 200) {
       Map<String, dynamic> data = json.decode(response.body);
       data['nominalLoadkW'];
-      print(data['nominalLoadkW']);
+      // print(data['nominalLoadkW']);
       // debugPrint("resssssssss: " + data['values'].toString());
       // printLongString(data['values'].toString());
       CloudSensor nominalLoadkW = CloudSensor(
@@ -140,14 +141,15 @@ class CloudDashBoard_Service {
     }
     return isSuccess;
   }
+
 ////////////////
-  ///
 
   Future<bool> SwitchApplicationMode(int status) async {
     String Mode;
     bool isSuccess = false;
+    String sensorid = FindSensorr(cloudsensors, "Application Mode");
 
-    if (status == 1)
+    if (status == 0)
       Mode = "MRS";
     else
       Mode = "AMF";
@@ -170,7 +172,7 @@ class CloudDashBoard_Service {
       },
       body: jsonEncode([
         <String, String>{
-          'generatorSensorID': dotenv.env['ApplicationMode_id'].toString(),
+          'generatorSensorID': sensorid,
           'value': Mode.toString(),
           //'timeStamp':DateTime.now().toString()
           'timeStamp': DateTime.now().toIso8601String()
@@ -188,6 +190,13 @@ class CloudDashBoard_Service {
     return isSuccess;
   }
 
+  String FindSensorr(List<CloudSensor> cloudsensors, String param) {
+    final index = cloudsensors
+        .indexWhere((element) => element.sensorName.trim() == param.trim());
+    CloudSensor sensor = cloudsensors.elementAt(index);
+
+    return sensor.sensorID;
+  }
 ///////////
 
   Future<bool> SwitchAlarmClear(bool status) async {
