@@ -1,9 +1,20 @@
+import 'dart:async';
+import 'dart:convert';
+
+import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_local_notifications/flutter_local_notifications.dart';
+import 'package:intl/intl.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/NotificationState.dart';
 import 'package:mymikano_app/models/NotificationModel.dart';
+import 'package:mymikano_app/models/WlanNotificationModel.dart';
+import 'package:mymikano_app/services/LanAlarmManager.dart';
 import 'package:mymikano_app/utils/strings.dart';
 import 'package:mymikano_app/views/widgets/NotificationItem.dart';
+import 'package:mymikano_app/views/widgets/WlanNotificationItem.dart';
+import 'package:nb_utils/nb_utils.dart';
+import 'package:network_info_plus/network_info_plus.dart';
 import 'package:provider/provider.dart';
 
 import '../../utils/AppColors.dart';
@@ -18,15 +29,104 @@ class WlanNotificationScreen extends StatefulWidget {
 }
 
 class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
+  final dio = Dio();
+
+  List<WlanNotificationModel> viewList = [];
+  List<WlanNotificationModel> newVariables = [];
+  final alarmManager = AlarmManager();
+  Future<void> fetchDataAndNotify() async {
+    String? IPaddr = await getIpGateway();
+    print('http://$IPaddr/alarms/');
+
+    final response = await dio.get('http://$IPaddr/alarms/');
+    if (response.statusCode == 200) {
+      newVariables.clear();
+      final jsonList = json.decode(response.data) as List<dynamic>;
+
+      int len1 = jsonList.length;
+      int len2 = alarmManager.previousVariables.length;
+
+      final variables = jsonList.map((json) {
+        String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
+        return WlanNotificationModel.fromJson(json, currentDate);
+      }).toList();
+
+      variables.forEach((element) {
+        if (!alarmManager.previousVariables.contains(element)) {
+          setState(() {
+            newVariables.add(element);
+          });
+        }
+      });
+
+      setState(() {
+        alarmManager.previousVariables.clear();
+        viewList.clear();
+        viewList.addAll(variables);
+        alarmManager.previousVariables.addAll(newVariables);
+      });
+
+      if (newVariables.isNotEmpty) {
+        // Create a notification
+        final flutterLocalNotificationsPlugin =
+            FlutterLocalNotificationsPlugin();
+        const AndroidNotificationDetails androidPlatformChannelSpecifics =
+            AndroidNotificationDetails(
+          'wlan_notification_ID',
+          'wlan_Not',
+          '',
+          importance: Importance.max,
+          priority: Priority.high,
+        );
+        const NotificationDetails platformChannelSpecifics =
+            NotificationDetails(android: androidPlatformChannelSpecifics);
+
+        if (len1 > len2) {
+          for (var variable in newVariables) {
+            await flutterLocalNotificationsPlugin.show(
+              variable.hashCode,
+              'WLan Notification',
+              '${variable.text}',
+              platformChannelSpecifics,
+            );
+            setState(() {});
+          }
+        }
+      }
+    }
+  }
+
+  Future<String?> getIpGateway() async {
+    final info = NetworkInfo();
+
+    return await info.getWifiGatewayIP();
+  }
+
+  void setupTimer() {
+    const duration =
+        Duration(seconds: 10); // Adjust the interval as per your requirements
+    Timer.periodic(duration, (timer) {
+      fetchDataAndNotify();
+    });
+  }
+
+  @override
+  void dispose() {
+    // TODO: implement dispose
+    super.dispose();
+  }
+
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<NotificationState>(context, listen: false).update();
+    setupTimer();
+
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
+    final alarmManager = AlarmManager();
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -58,19 +158,15 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
               SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
-                  itemCount: Provider.of<NotificationState>(context)
-                      .notifications
-                      .length,
+                  itemCount: viewList.length,
                   itemBuilder: (context, index) {
-                    NotificationModel notification =
-                        Provider.of<NotificationState>(context)
-                            .notifications[index];
-                    if ((notification.source.toString().trim() == "IOT")) {
-                      return NotificationItem(
-                        notification: notification,
-                      );
-                    }
-                    return null;
+                    // NotificationModel notification =
+                    //     Provider.of<NotificationState>(context)
+                    //         .notifications[index];
+
+                    return WlanNotificationItem(
+                      wlanNotification: viewList[index],
+                    );
                   },
                 ),
               ),
