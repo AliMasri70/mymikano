@@ -1,14 +1,12 @@
 import 'dart:async';
 import 'dart:ui';
 
-
 import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:mymikano_app/State/ApiConfigurationState.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/CurrencyState.dart';
@@ -43,21 +41,20 @@ final GlobalKey<NavigatorState> navigator =
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   //aded by yousef k for lan notification
-  AwesomeNotifications().initialize(
-      'resource://drawable/ic_notification_icon',
-      [            // notification icon
-        NotificationChannel(
-          channelGroupKey: 'LanNotification_test',
-          channelKey: 'LanNotification',
-          channelName: 'LanNotification',
-          channelDescription: 'Notification channel for lan',
-          channelShowBadge: true,
-          importance: NotificationImportance.High,
-          enableVibration: true,
-        ),
-      ]);
-FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
-      FlutterLocalNotificationsPlugin();
+  AwesomeNotifications()
+      .initialize('resource://drawable/ic_notification_icon', [
+    // notification icon
+    NotificationChannel(
+      channelGroupKey: 'LanNotification_test',
+      channelKey: 'LanNotification',
+      channelName: 'LanNotification',
+      channelDescription: 'Notification channel for lan',
+      channelShowBadge: true,
+      importance: NotificationImportance.High,
+      enableVibration: true,
+    ),
+  ]);
+ 
   ///////////////////////////////////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -71,9 +68,6 @@ FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
   await dotenv.load(fileName: ".env");
   runApp(MyApp());
 }
-
-
-
 
 class MyApp extends StatelessWidget {
   @override
@@ -126,4 +120,3 @@ class MyApp extends StatelessWidget {
     );
   }
 }
-

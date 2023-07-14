@@ -56,7 +56,10 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
     getSelectedConfigurationModel();
 
     isDataFetched().whenComplete(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
+      ;
     });
 
     timer = Timer.periodic(Duration(seconds: widget.RefreshRate), (Timer t) {
@@ -64,7 +67,10 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
         content: Text("Refreshing values..."),
       ));
       isDataFetched().whenComplete(() {
-        setState(() {});
+        if (mounted) {
+          setState(() {});
+        }
+        ;
       });
     });
   }
@@ -149,6 +155,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                       color: backArrowColor,
                                     ),
                                     onPressed: () {
+                                      timer.cancel();
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -436,10 +443,12 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         ? true
                                         : false,
                                     onSelected: (bool selected) {
-                                      setState(() {
-                                        // _value = (selected ? 0 : null)!;
-                                        cloud.changeControllerModeStatus(2);
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          // _value = (selected ? 0 : null)!;
+                                          cloud.changeControllerModeStatus(2);
+                                        });
+                                      }
                                     },
                                   ),
                                   ChoiceChip(
@@ -456,10 +465,12 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         ? true
                                         : false,
                                     onSelected: (bool selected) {
-                                      setState(() {
-                                        //_value = (selected ? 1 : null)!;
-                                        cloud.changeControllerModeStatus(1);
-                                      });
+                                      if (mounted) {
+                                        setState(() {
+                                          //_value = (selected ? 1 : null)!;
+                                          cloud.changeControllerModeStatus(1);
+                                        });
+                                      }
                                     },
                                   ),
                                   ChoiceChip(
@@ -476,12 +487,12 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         ? true
                                         : false,
                                     onSelected: (bool selected) {
-                                      setState(() {
+                                    if (mounted) { setState(() {
                                         //_value = (selected ? 1 : null)!;
                                         cloud.changeControllerModeStatus(0);
 
                                         //cloud.changeIsIO(false);
-                                      });
+                                      });}
                                     },
                                   ),
                                   Align(
@@ -527,9 +538,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     labels: ['MRS', 'AMF'],
                                     radiusStyle: true,
                                     onToggle: (index) async {
-                                      setState(() {
+                                      if (mounted) {setState(() {
                                         cloud.changeAppModeStatus(index);
-                                      });
+                                      });}
                                     },
                                   ),
                                 ],
@@ -630,9 +641,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                               new Bounceable(
                                                   scaleFactor: 0.6,
                                                   onTap: () {
-                                                    setState(() {
+                                                  if (mounted)  { setState(() {
                                                       cloud.changeIsIO(false);
-                                                    });
+                                                    });}
                                                   },
                                                   child: Container(
                                                       width: 65,
@@ -654,9 +665,9 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                           child: new Bounceable(
                                               scaleFactor: 0.6,
                                               onTap: () {
-                                                setState(() {
+                                                if (mounted) {setState(() {
                                                   cloud.changeIsIO(true);
-                                                });
+                                                });}
                                               },
                                               child: Container(
                                                   width: 48,

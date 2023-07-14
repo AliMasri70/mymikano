@@ -1,9 +1,9 @@
 import 'dart:async';
 import 'dart:convert';
 
+import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:intl/intl.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/NotificationState.dart';
@@ -68,32 +68,43 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
       if (newVariables.isNotEmpty) {
         // Create a notification
-        final flutterLocalNotificationsPlugin =
-            FlutterLocalNotificationsPlugin();
-        const AndroidNotificationDetails androidPlatformChannelSpecifics =
-            AndroidNotificationDetails(
-          'wlan_notification_ID',
-          'wlan_Not',
-          '',
-          importance: Importance.max,
-          priority: Priority.high,
-        );
-        const NotificationDetails platformChannelSpecifics =
-            NotificationDetails(android: androidPlatformChannelSpecifics);
 
         if (len1 > len2) {
           for (var variable in newVariables) {
-            await flutterLocalNotificationsPlugin.show(
-              variable.hashCode,
-              'WLan Notification',
-              '${variable.text}',
-              platformChannelSpecifics,
-            );
+            scheduleNewNotification(
+                variable.hashCode, 'WLan Notification', variable.text);
+
             setState(() {});
           }
         }
       }
     }
+  }
+
+  static Future<void> scheduleNewNotification(
+      int id, String title, String body) async {
+    bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+    // if (!isAllowed) isAllowed = await displayNotificationRationale();
+    if (!isAllowed) return;
+
+    await AwesomeNotifications().createNotification(
+      content: NotificationContent(
+        id: id, // -1 is replaced by a random number
+        channelKey: 'LanNotification',
+        title: title,
+        body: body,
+
+        notificationLayout: NotificationLayout.Default,
+      ),
+    );
+  }
+
+  static Future<void> resetBadgeCounter() async {
+    await AwesomeNotifications().resetGlobalBadge();
+  }
+
+  static Future<void> cancelNotifications() async {
+    await AwesomeNotifications().cancelAll();
   }
 
   Future<String?> getIpGateway() async {
@@ -106,6 +117,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     const duration =
         Duration(seconds: 10); // Adjust the interval as per your requirements
     Timer.periodic(duration, (timer) {
+      // scheduleNewNotification(1, 'WLan Notification', "variable.text");
       fetchDataAndNotify();
     });
   }

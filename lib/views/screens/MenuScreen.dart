@@ -41,15 +41,11 @@ class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
   void initState() {
     super.initState();
     initializePreference().whenComplete(() {
-      setState(() {});
+      if (mounted) {
+        setState(() {});
+      }
     });
   }
-
-  // @override
-  // void dispose() {
-  //   // TODO: implement dispose
-  //   super.dispose();
-  // }
 
   Future<void> initializePreference() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -88,6 +84,14 @@ class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
         RefreshRate: this.RefreshRate,
       );
     }
+  }
+
+  @override
+  void dispose() {
+    // Release any resources used by the widget
+
+    // Call the superclass dispose() method
+    super.dispose();
   }
 
   @override
