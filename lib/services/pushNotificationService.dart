@@ -34,7 +34,8 @@ class PushNotificationService {
     } else {
       print("Notloggggg");
       token = "";
-      await prefs.setString("DeviceToken", "");
+      await prefs.setString("DeviceToken", token.toString());
+      // await prefs.setString("DeviceToken", "");
       debugPrint("Device Tokenn: $token");
     }
 
