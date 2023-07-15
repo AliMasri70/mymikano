@@ -24,7 +24,8 @@ class PushNotificationService {
     // If you want to test the push notification locally,
     // you need to get the token and input to the Firebase console
     // https://console.firebase.google.com/project/YOUR_PROJECT_ID/notification/compose
-    String? token = await _fcm.getToken();
+    String? token = await FirebaseMessaging.instance.getToken();
+    // print("Device Token: " + token.toString());
     SharedPreferences prefs = await SharedPreferences.getInstance();
     bool isLoged = await prefs.getBool('IsLoggedIn') ?? false;
     if (isLoged) {
@@ -33,7 +34,7 @@ class PushNotificationService {
       debugPrint("Device Token: $token");
     } else {
       print("Notloggggg");
-      token = "";
+
       await prefs.setString("DeviceToken", token.toString());
       // await prefs.setString("DeviceToken", "");
       debugPrint("Device Tokenn: $token");
