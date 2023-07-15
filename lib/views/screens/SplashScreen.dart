@@ -1,4 +1,5 @@
 import 'package:awesome_notifications/awesome_notifications.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mymikano_app/utils/images.dart';
@@ -16,15 +17,27 @@ class SplashScreen extends StatefulWidget {
 }
 
 class _SplashScreenState extends State<SplashScreen> {
+  FirebaseMessaging _fcm = FirebaseMessaging.instance;
   Future<bool> checkIfLoggedIn() async {
     final prefs = await SharedPreferences.getInstance();
     return (prefs.getBool('IsLoggedIn') == true);
   }
 
+  gettoken() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    String token = await prefs.getString("DeviceToken").toString();
+    if (token.isEmpty || token == "") {
+      _fcm.requestPermission();
+      token = (await _fcm.getToken())!;
+      await prefs.setString("DeviceToken", token);
+    }
+  }
+
   @override
   void initState() {
     super.initState();
-
+    gettoken();
     Future.delayed(Duration(seconds: 4), () {
       checkIfLoggedIn().then((value) {
         if (value) {
