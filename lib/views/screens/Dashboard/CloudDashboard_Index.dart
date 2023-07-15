@@ -127,8 +127,18 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
 
   @override
   void dispose() {
-    timer.cancel();
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    setState(() {
+      timer.cancel();
+    });
     super.dispose();
+  }
+
+  @override
+  void didChangeDependencies() {
+    super.didChangeDependencies();
+    // Save the reference to the ancestor widget for later use.
   }
 
   @override
@@ -155,7 +165,14 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                       color: backArrowColor,
                                     ),
                                     onPressed: () {
-                                      timer.cancel();
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      setState(() {
+                                        timer.cancel();
+                                      });
+
                                       Navigator.of(context).pop();
                                     },
                                   ),
@@ -487,12 +504,14 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                         ? true
                                         : false,
                                     onSelected: (bool selected) {
-                                    if (mounted) { setState(() {
-                                        //_value = (selected ? 1 : null)!;
-                                        cloud.changeControllerModeStatus(0);
+                                      if (mounted) {
+                                        setState(() {
+                                          //_value = (selected ? 1 : null)!;
+                                          cloud.changeControllerModeStatus(0);
 
-                                        //cloud.changeIsIO(false);
-                                      });}
+                                          //cloud.changeIsIO(false);
+                                        });
+                                      }
                                     },
                                   ),
                                   Align(
@@ -538,9 +557,11 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     labels: ['MRS', 'AMF'],
                                     radiusStyle: true,
                                     onToggle: (index) async {
-                                      if (mounted) {setState(() {
-                                        cloud.changeAppModeStatus(index);
-                                      });}
+                                      if (mounted) {
+                                        setState(() {
+                                          cloud.changeAppModeStatus(index);
+                                        });
+                                      }
                                     },
                                   ),
                                 ],
@@ -641,9 +662,11 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                               new Bounceable(
                                                   scaleFactor: 0.6,
                                                   onTap: () {
-                                                  if (mounted)  { setState(() {
-                                                      cloud.changeIsIO(false);
-                                                    });}
+                                                    if (mounted) {
+                                                      setState(() {
+                                                        cloud.changeIsIO(false);
+                                                      });
+                                                    }
                                                   },
                                                   child: Container(
                                                       width: 65,
@@ -665,9 +688,11 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                           child: new Bounceable(
                                               scaleFactor: 0.6,
                                               onTap: () {
-                                                if (mounted) {setState(() {
-                                                  cloud.changeIsIO(true);
-                                                });}
+                                                if (mounted) {
+                                                  setState(() {
+                                                    cloud.changeIsIO(true);
+                                                  });
+                                                }
                                               },
                                               child: Container(
                                                   width: 48,

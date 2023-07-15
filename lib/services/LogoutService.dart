@@ -24,14 +24,15 @@ logout() async {
     debugPrint(e.toString());
   } finally {
     if (!await prefs.getBool('GuestLogin')!) gps.canceled = true;
-
-    // await prefs.setString("DeviceToken", token.toString());
+    await prefs.setString("DeviceToken", token.toString());
+    prefs.clear();
+    //
     await prefs.setBool('IsLoggedIn', false);
     await prefs.setBool('GuestLogin', false);
     await prefs.setString("CloudUsername", "");
     await prefs.setString("CloudPassword", "");
     await prefs.setString("DeviceToken", "");
-    prefs.clear();
+
     navigator.currentState!.popUntil((route) => route.isFirst);
     navigator.currentState!.pushReplacement(
       MaterialPageRoute(builder: (context) => T13SignInScreen()),

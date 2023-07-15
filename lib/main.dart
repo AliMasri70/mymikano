@@ -54,7 +54,7 @@ Future<void> main() async {
       enableVibration: true,
     ),
   ]);
- 
+
   ///////////////////////////////////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
