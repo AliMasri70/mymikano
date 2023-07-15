@@ -20,6 +20,7 @@ import 'package:mymikano_app/views/screens/MenuScreen.dart';
 import 'package:mymikano_app/views/screens/WlanNotificationScreen.dart';
 import 'package:nb_utils/nb_utils.dart';
 import 'package:provider/provider.dart';
+import 'package:toggle_switch/toggle_switch.dart';
 
 import '../../../State/ApiConfigurationStatee.dart';
 import '../../../models/ConfigurationModel.dart';
@@ -114,12 +115,15 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
     return state;
   }
 
-  @override
+   @override
   void dispose() {
-    timer.cancel();
+    ScaffoldMessenger.of(context).clearSnackBars();
+    ScaffoldMessenger.of(context).hideCurrentSnackBar();
+    setState(() {
+      timer.cancel();
+    });
     super.dispose();
   }
-
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -144,6 +148,14 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       color: backArrowColor,
                                     ),
                                     onPressed: () {
+                                      ScaffoldMessenger.of(context)
+                                          .clearSnackBars();
+                                      ScaffoldMessenger.of(context)
+                                          .hideCurrentSnackBar();
+                                      setState(() {
+                                        timer.cancel();
+                                      });
+                                      
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -517,6 +529,40 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                               SizedBox(
                                 height: 20,
                               ),
+
+Center(
+                                  child: Row(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  ToggleSwitch(
+                                    minWidth: 90.0,
+                                    cornerRadius: 20.0,
+                                    activeBgColors: [
+                                      [Colors.green[800]!],
+                                      [Colors.green[800]!]
+                                    ],
+                                    activeFgColor: Colors.white,
+                                    inactiveBgColor: Colors.grey,
+                                    inactiveFgColor: Colors.white,
+                                    initialLabelIndex: lan.AppModeStatus,
+                                    totalSwitches: 2,
+                                    labels: ['MRS', 'AMF'],
+                                    radiusStyle: true,
+                                    onToggle: (index) async {
+                                      if (mounted) {
+                                        setState(() {
+                                          lan.changeAppModeStatus(index);
+                                        });
+                                      }
+                                    },
+                                  ),
+                                ],
+                              )),
+                              SizedBox(
+                                height: 20,
+                              ),
+
+
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(5.0, 4.0, 8.0, 8.0),
@@ -531,10 +577,10 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                     child: Stack(children: <Widget>[
                                       Positioned(
                                           top: 4,
-                                          left: 15,
+                                          left: -15,
                                           child: Container(
                                               width: 90,
-                                              height: 61,
+                                              height: 66,
                                               child: IconButton(
                                                 icon: Image.asset(ic_tower,
                                                     color: (lan.mainsvoltageL1N
@@ -554,11 +600,11 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                                 onPressed: () {},
                                               ))),
                                       Positioned(
-                                          top: 15,
-                                          left: 80,
-                                          child: Container(
-                                            width: 40,
-                                            height: 48,
+                                        top: 15,
+                                              left: 60,
+                                              child: Container(
+                                                width: 50,
+                                                height: 48,
                                             child: ImageIcon(
                                               AssetImage(ic_line),
                                               color: (lan.mainsvoltageL1N
@@ -599,22 +645,29 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
-                                          left: 232,
-                                          child: new Bounceable(
-                                              scaleFactor: 0.6,
-                                              onTap: () {
-                                                setState(() {
-                                                  lan.changeIsIO(false);
-                                                });
-                                              },
-                                              child: Container(
-                                                  width: 65,
-                                                  height: 48,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image: AssetImage(ic_o),
-                                                        fit: BoxFit.fitWidth),
-                                                  ))),
+                                          left: 288,
+                                          child: Column(
+                                            children: [
+                                              SizedBox(
+                                                height: 9,
+                                              ),
+                                              new Bounceable(
+                                                  scaleFactor: 0.6,
+                                                  onTap: () {
+                                                    setState(() {
+                                                      lan.changeIsIO(false);
+                                                    });
+                                                  },
+                                                  child: Container(
+                                                      width: 65,
+                                                      height: 48,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image: AssetImage(ic_o),
+                                                            fit: BoxFit.fitWidth),
+                                                      ))),
+                                            ],
+                                          ),
                                         ),
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
@@ -640,9 +693,9 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                         ),
                                       Positioned(
                                           top: 24,
-                                          left: 185,
+                                          left: 200,
                                           child: Container(
-                                            width: 60,
+                                            width: 65,
                                             height: 28,
                                             child: ImageIcon(
                                               AssetImage(ic_g),
@@ -654,8 +707,8 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                             ),
                                           )),
                                       Positioned(
-                                          top: 15,
-                                          left: 150,
+                                           top: 15,
+                                          left: 160,
                                           child: Container(
                                             width: 50,
                                             height: 48,
@@ -679,11 +732,11 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                             ),
                                           )),
                                       Positioned(
-                                          top: 24,
+                                           top: 24,
                                           left: 115,
                                           child: Container(
                                             width: 40,
-                                            height: 26,
+                                            height: 30,
                                             child: ImageIcon(
                                               AssetImage(ic_factory),
                                               color: (lan.ReadyToLoad
@@ -709,93 +762,125 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                         Positioned(
                                           top: 72,
                                           left: 67,
-                                          child: new Bounceable(
-                                              scaleFactor: 0.6,
-                                              onTap: () {
-                                                if (lan.MCBModeStatus ==
-                                                    false) {
-                                                  lan.changeMCBModeStatus(true);
-                                                } else {
-                                                  lan.changeMCBModeStatus(
-                                                      false);
-                                                }
-                                              },
-                                              //                                          onTap: () async {
-                                              // await  Future.delayed(Duration(seconds: 2), () {
-                                              //                                                 if(lan.MCBModeStatus == false){
-                                              //
-                                              //                                                   lan.changeMCBModeStatus(
-                                              //                                                       true);
-                                              //                                                 }
-                                              //                                                 else{
-                                              //
-                                              //                                                   lan.changeMCBModeStatus(
-                                              //                                                       false);
-                                              //                                                 }
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                      height: 8,
+                                                      width: 25,
+                                                      decoration: BoxDecoration(
+                                                          color: lan
+                                                                  .MCBModeStatus
+                                                              ? greenColor
+                                                              : Colors.grey),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 3,
+                                                    ),
+                                              new Bounceable(
+                                                  scaleFactor: 0.6,
+                                                  onTap: () {
+                                                    if (lan.MCBModeStatus ==
+                                                        false) {
+                                                      lan.changeMCBModeStatus(true);
+                                                    } else {
+                                                      lan.changeMCBModeStatus(
+                                                          false);
+                                                    }
+                                                  },
+                                                  //                                          onTap: () async {
+                                                  // await  Future.delayed(Duration(seconds: 2), () {
+                                                  //                                                 if(lan.MCBModeStatus == false){
+                                                  //
+                                                  //                                                   lan.changeMCBModeStatus(
+                                                  //                                                       true);
+                                                  //                                                 }
+                                                  //                                                 else{
+                                                  //
+                                                  //                                                   lan.changeMCBModeStatus(
+                                                  //                                                       false);
+                                                  //                                                 }
 
-                                              //                                            });},
-                                              child: Container(
-                                                  width: 60,
-                                                  height: 48,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image:
-                                                            AssetImage(ic_io),
-                                                        fit: BoxFit.fitWidth),
-                                                  ))),
+                                                  //                                            });},
+                                                  child: Container(
+                                                      width: 60,
+                                                      height: 48,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image:
+                                                                AssetImage(ic_io),
+                                                            fit: BoxFit.fitWidth),
+                                                      ))),
+                                            ],
+                                          ),
                                         ),
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
                                           left: 147,
-                                          child: new Bounceable(
-                                              scaleFactor: 0.6,
-                                              onTap: () {
-                                                if (lan.ReadyToLoad
-                                                        .return_value ==
-                                                    1) {
-                                                  if (lan.GCBFeedback
-                                                          .return_value ==
-                                                      1) {
-                                                    greenline = true;
-                                                  }
-                                                }
-                                                if (lan.isGCB == false) {
-                                                  lan.changeIsGCB(true);
-                                                } else {
-                                                  lan.changeIsGCB(false);
-                                                }
-                                              },
-                                              //                                       onTap: () async {
-                                              // await  Future.delayed(Duration(seconds: 2), () {
-                                              //                                              if(lan.ReadyToLoad.return_value == 1){
-                                              //                                                 sleep(Duration(seconds: 2));
-                                              //                                                 if(lan.GCBFeedback.return_value == 1){
-                                              //                                                   greenline = true;
-                                              //                                                 }
-                                              //
-                                              //                                              }
-                                              //                                               if(lan.isGCB == false){
-                                              //
-                                              //                                                   lan.changeIsGCB(
-                                              //                                                       true);
-                                              //                                                 }
-                                              //                                                 else{
-                                              //
-                                              //                                                   lan.changeIsGCB(
-                                              //                                                       false);
-                                              //                                                 }
-                                              //
-                                              //                                           });},
-                                              child: Container(
-                                                  width: 60,
-                                                  height: 48,
-                                                  decoration: BoxDecoration(
-                                                    image: DecorationImage(
-                                                        image:
-                                                            AssetImage(ic_io),
-                                                        fit: BoxFit.fitWidth),
-                                                  ))),
+                                          child: Column(
+                                            children: [
+                                              Container(
+                                                      height: 8,
+                                                      width: 25,
+                                                      decoration: BoxDecoration(
+                                                          color: lan
+                                                                  .MCBModeStatus
+                                                              ? greenColor
+                                                              : Colors.grey),
+                                                    ),
+                                                    SizedBox(
+                                                      height: 3,
+                                                    ),
+                                              new Bounceable(
+                                                  scaleFactor: 0.6,
+                                                  onTap: () {
+                                                    if (lan.ReadyToLoad
+                                                            .return_value ==
+                                                        1) {
+                                                      if (lan.GCBFeedback
+                                                              .return_value ==
+                                                          1) {
+                                                        greenline = true;
+                                                      }
+                                                    }
+                                                    if (lan.isGCB == false) {
+                                                      lan.changeIsGCB(true);
+                                                    } else {
+                                                      lan.changeIsGCB(false);
+                                                    }
+                                                  },
+                                                  //                                       onTap: () async {
+                                                  // await  Future.delayed(Duration(seconds: 2), () {
+                                                  //                                              if(lan.ReadyToLoad.return_value == 1){
+                                                  //                                                 sleep(Duration(seconds: 2));
+                                                  //                                                 if(lan.GCBFeedback.return_value == 1){
+                                                  //                                                   greenline = true;
+                                                  //                                                 }
+                                                  //
+                                                  //                                              }
+                                                  //                                               if(lan.isGCB == false){
+                                                  //
+                                                  //                                                   lan.changeIsGCB(
+                                                  //                                                       true);
+                                                  //                                                 }
+                                                  //                                                 else{
+                                                  //
+                                                  //                                                   lan.changeIsGCB(
+                                                  //                                                       false);
+                                                  //                                                 }
+                                                  //
+                                                  //                                           });},
+                                                  child: Container(
+                                                      width: 60,
+                                                      height: 48,
+                                                      decoration: BoxDecoration(
+                                                        image: DecorationImage(
+                                                            image:
+                                                                AssetImage(ic_io),
+                                                            fit: BoxFit.fitWidth),
+                                                      ))),
+                                            ],
+                                          ),
                                         ),
                                     ])),
                               ),

@@ -46,7 +46,7 @@ class LanDashBoard_Service {
     } else {
       debugPrint(response.toString());
       return LANSensor(
-          return_value: 'N/A',  
+          return_value: 'N/A',
           id: "id",
           name: "name",
           hardware: "hardware",
@@ -60,10 +60,10 @@ class LanDashBoard_Service {
     String apiLanEndpoint = "http://" + configModel.espapiendpoint;
     int Mode;
     if (status == 2)
-      Mode = 2;     
+      Mode = 2;
     else if (status == 1)
       Mode = 1;
-     else
+    else
       Mode = 0;
 
     bool isSuccess = false;
@@ -78,6 +78,29 @@ class LanDashBoard_Service {
       // If the server did not return a 201 CREATED response,
       // then throw an exception.
       throw Exception('Failed to send command.');
+    }
+    return isSuccess;
+  }
+
+  Future<bool> SwitchApplicationMode(int status) async {
+    String Mode;
+    bool isSuccess = false;
+    //  String sensorid =  FetchSensorData( "Application Mode") as String;
+    String apiLanEndpoint = "http://" + configModel.espapiendpoint;
+    if (status == 0)
+      Mode = "MRS";
+    else
+      Mode = "AMF";
+
+    final response = await http.get(Uri.parse(
+        apiLanEndpoint + '/setApplicationMode?param=' + Mode.toString()));
+
+    if (response.statusCode == 200) {
+      isSuccess = true;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to update sensor');
     }
     return isSuccess;
   }
@@ -118,34 +141,9 @@ class LanDashBoard_Service {
     else
       Mode = 0;
 
-    bool isSuccess = false;  
+    bool isSuccess = false;
     final response = await http.get(
         Uri.parse(apiLanEndpoint + '/setGCBMode?param=' + Mode.toString()));
-    if (response.statusCode == 200) { 
-      // If the server did return a 201 CREATED response,
-      // then parse the JSON.
-      isSuccess = true;
-    } else {
-      // If the server did not return a 201 CREATED response,
-      // then throw an exception.
-      throw Exception('Failed to send command.');
-    }
-
-    return isSuccess;
-  }
-Future<bool> SwitchAlarmClear(bool status) async {
-    // SharedPreferences prefs = await SharedPreferences.getInstance();
-    // apiLanEndpoint = await prefs.getString(prefs_ApiLanEndpoint)!;
-    String apiLanEndpoint = "http://" + configModel.espapiendpoint;
-   double alarmclearvalue;
-    bool isSuccess = false;
-    if (status)
-      alarmclearvalue = 1;
-    else
-      alarmclearvalue = 0;
-
-    final response = await http.get(
-        Uri.parse(apiLanEndpoint + '/setFaultReset?params=' + alarmclearvalue.toString()));
     if (response.statusCode == 200) {
       // If the server did return a 201 CREATED response,
       // then parse the JSON.
@@ -157,7 +155,35 @@ Future<bool> SwitchAlarmClear(bool status) async {
     }
 
     return isSuccess;
-  } 
+  }
+
+  Future<bool> SwitchAlarmClear(bool status) async {
+    // SharedPreferences prefs = await SharedPreferences.getInstance();
+    // apiLanEndpoint = await prefs.getString(prefs_ApiLanEndpoint)!;
+    String apiLanEndpoint = "http://" + configModel.espapiendpoint;
+    double alarmclearvalue;
+    bool isSuccess = false;
+    if (status)
+      alarmclearvalue = 1;
+    else
+      alarmclearvalue = 0;
+
+    final response = await http.get(Uri.parse(apiLanEndpoint +
+        '/setFaultReset?params=' +
+        alarmclearvalue.toString()));
+    if (response.statusCode == 200) {
+      // If the server did return a 201 CREATED response,
+      // then parse the JSON.
+      isSuccess = true;
+    } else {
+      // If the server did not return a 201 CREATED response,
+      // then throw an exception.
+      throw Exception('Failed to send command.');
+    }
+
+    return isSuccess;
+  }
+
   Future<bool> TurnGeneratorEngineOnOff(bool status) async {
     // SharedPreferences prefs = await SharedPreferences.getInstance();
     // apiLanEndpoint = await prefs.getString(prefs_ApiLanEndpoint)!;

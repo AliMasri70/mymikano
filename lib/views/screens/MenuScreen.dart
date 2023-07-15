@@ -36,10 +36,15 @@ class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
   bool DashboardFirstTimeAccess = true;
   int RefreshRate = 2;
   String generatorType = '';
+  @override
+  void dispose() {
+    super.dispose();
+  }
 
   @override
   void initState() {
     super.initState();
+
     initializePreference().whenComplete(() {
       if (mounted) {
         setState(() {});
@@ -84,14 +89,6 @@ class _MenuScreenState extends State<MenuScreen> with ChangeNotifier {
         RefreshRate: this.RefreshRate,
       );
     }
-  }
-
-  @override
-  void dispose() {
-    // Release any resources used by the widget
-
-    // Call the superclass dispose() method
-    super.dispose();
   }
 
   @override

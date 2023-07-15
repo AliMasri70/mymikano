@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:mymikano_app/services/RegisterService.dart';
 import 'package:mymikano_app/utils/AppColors.dart';
@@ -51,205 +52,226 @@ class T13SignUpScreenState extends State<T13SignUpScreen> {
     }
   }
 
+  bool _isStatusBarHidden = false;
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: Colors.white,
-      body: SafeArea(
-        child: Center(
-          child: SingleChildScrollView(
-            child: Container(
-                margin: EdgeInsets.only(
-                    left: spacing_standard_new, right: spacing_standard_new),
-                child: Form(
-                  key: _formKey,
-                  child: Column(
-                    mainAxisSize: MainAxisSize.max,
-                    mainAxisAlignment: MainAxisAlignment.center,
-                    children: <Widget>[
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.start,
-                        children: [
-                          IconButton(
-                            onPressed: () {
-                              // Navigator.pop(context);
-                              finish(context);
-                            },
-                            icon: Icon(Icons.arrow_back_ios),
-                            color: Colors.black,
-                          ),
-                        ],
-                      ),
-                      // commonCacheImageWidget(lbl_ic_logo, 85, width: width * 0.8),
-                      TitleText(
-                        title: 'Sign Up here',
-                      ),
-                      SizedBox(height: spacing_middle),
-                      SizedBox(height: spacing_standard_new),
-                      t13EditTextStyle("Username", usernameController,
-                          isPassword: false),
-                      SizedBox(height: spacing_standard_new),
-                      t13EditTextStyle("Firstname", fnController,
-                          isPassword: false),
-                      SizedBox(height: spacing_standard_new),
-                      t13EditTextStyle("Lastname", lnController,
-                          isPassword: false),
-                      SizedBox(height: spacing_standard_new),
-                      t13EditTextStyle(lbl_hint_Email, emlController,
-                          isPassword: false),
-                      SizedBox(height: spacing_standard_new),
-                      // t13EditTextStyle(lbl_hint_password, passwController,
-                      //     isPassword: true),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please fill in the field";
-                          } else {
-                            //call function to check password
-                            bool result = validatePassword(value);
-                            if (result) {
-                              // create account event
-                              return null;
-                            } else {
-                              return "Password should contain Capital, small letter, Number & Special";
-                            }
-                          }
-                        },
-                        style: TextStyle(
-                            fontSize: textSizeMedium,
-                            fontFamily: PoppinsFamily),
-                        obscureText: !_passwordVisible,
-                        cursorColor: black,
-                        controller: passwController,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              // Based on passwordVisible state choose the icon
-                              !_passwordVisible
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
+    SystemChrome.setEnabledSystemUIMode(
+      SystemUiMode.manual,
+      overlays: _isStatusBarHidden ? [] : SystemUiOverlay.values,
+    );
+    return NotificationListener<ScrollNotification>(
+      onNotification: (notification) {
+        if (notification is ScrollStartNotification) {
+          setState(() {
+            _isStatusBarHidden = true;
+          });
+        } else if (notification is ScrollEndNotification) {
+          setState(() {
+            _isStatusBarHidden = false;
+          });
+        }
+        return true;
+      },
+      child: Scaffold(
+        backgroundColor: Colors.white,
+        body: SafeArea(
+          child: Center(
+            child: SingleChildScrollView(
+              child: Container(
+                  margin: EdgeInsets.only(
+                      left: spacing_standard_new, right: spacing_standard_new),
+                  child: Form(
+                    key: _formKey,
+                    child: Column(
+                      mainAxisSize: MainAxisSize.max,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: <Widget>[
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.start,
+                          children: [
+                            IconButton(
+                              onPressed: () {
+                                // Navigator.pop(context);
+                                finish(context);
+                              },
+                              icon: Icon(Icons.arrow_back_ios),
+                              color: Colors.black,
                             ),
-                            onPressed: () {
-                              // Update the state i.e. toogle the state of passwordVisible variable
-                              setState(() {
-                                _passwordVisible = !_passwordVisible;
-                              });
-                            },
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(26, 14, 4, 14),
-                          hintText: lbl_hint_password,
-                          hintStyle:
-                              primaryTextStyle(color: textFieldHintColor),
-                          filled: true,
-                          fillColor: lightBorderColor,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                                color: Colors.transparent, width: 0.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            // borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
-                                color: Colors.transparent, width: 0.0),
+                          ],
+                        ),
+                        // commonCacheImageWidget(lbl_ic_logo, 85, width: width * 0.8),
+                        TitleText(
+                          title: 'Sign Up here',
+                        ),
+                        SizedBox(height: spacing_middle),
+                        SizedBox(height: spacing_standard_new),
+                        t13EditTextStyle("Username", usernameController,
+                            isPassword: false),
+                        SizedBox(height: spacing_standard_new),
+                        t13EditTextStyle("Firstname", fnController,
+                            isPassword: false),
+                        SizedBox(height: spacing_standard_new),
+                        t13EditTextStyle("Lastname", lnController,
+                            isPassword: false),
+                        SizedBox(height: spacing_standard_new),
+                        t13EditTextStyle(lbl_hint_Email, emlController,
+                            isPassword: false),
+                        SizedBox(height: spacing_standard_new),
+                        // t13EditTextStyle(lbl_hint_password, passwController,
+                        //     isPassword: true),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please fill in the field";
+                            } else {
+                              //call function to check password
+                              bool result = validatePassword(value);
+                              if (result) {
+                                // create account event
+                                return null;
+                              } else {
+                                return "Password should contain Capital, small letter, Number & Special";
+                              }
+                            }
+                          },
+                          style: TextStyle(
+                              fontSize: textSizeMedium,
+                              fontFamily: PoppinsFamily),
+                          obscureText: !_passwordVisible,
+                          cursorColor: black,
+                          controller: passwController,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                !_passwordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
+                              onPressed: () {
+                                // Update the state i.e. toogle the state of passwordVisible variable
+                                setState(() {
+                                  _passwordVisible = !_passwordVisible;
+                                });
+                              },
+                            ),
+                            contentPadding: EdgeInsets.fromLTRB(26, 14, 4, 14),
+                            hintText: lbl_hint_password,
+                            hintStyle:
+                                primaryTextStyle(color: textFieldHintColor),
+                            filled: true,
+                            fillColor: lightBorderColor,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(24),
+                              borderSide: BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: spacing_standard_new),
-                      TextFormField(
-                        validator: (value) {
-                          if (value!.isEmpty) {
-                            return "Please fill in the field";
-                          } else {
-                            //call function to check password
-                            bool result = matchPassword(
-                                value, passwController.text.toString());
-                            if (result) {
-                              // create account event
-                              return null;
+                        SizedBox(height: spacing_standard_new),
+                        TextFormField(
+                          validator: (value) {
+                            if (value!.isEmpty) {
+                              return "Please fill in the field";
                             } else {
-                              return "Passwords should match";
+                              //call function to check password
+                              bool result = matchPassword(
+                                  value, passwController.text.toString());
+                              if (result) {
+                                // create account event
+                                return null;
+                              } else {
+                                return "Passwords should match";
+                              }
                             }
-                          }
-                        },
-                        style: TextStyle(
-                            fontSize: textSizeMedium,
-                            fontFamily: PoppinsFamily),
-                        obscureText: !_passwordVisible2,
-                        cursorColor: black,
-                        controller: confpasswController,
-                        keyboardType: TextInputType.visiblePassword,
-                        decoration: InputDecoration(
-                          suffixIcon: IconButton(
-                            icon: Icon(
-                              // Based on passwordVisible state choose the icon
-                              !_passwordVisible2
-                                  ? Icons.visibility
-                                  : Icons.visibility_off,
-                              color: Theme.of(context).primaryColorDark,
+                          },
+                          style: TextStyle(
+                              fontSize: textSizeMedium,
+                              fontFamily: PoppinsFamily),
+                          obscureText: !_passwordVisible2,
+                          cursorColor: black,
+                          controller: confpasswController,
+                          keyboardType: TextInputType.visiblePassword,
+                          decoration: InputDecoration(
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                // Based on passwordVisible state choose the icon
+                                !_passwordVisible2
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Theme.of(context).primaryColorDark,
+                              ),
+                              onPressed: () {
+                                // Update the state i.e. toogle the state of passwordVisible variable
+                                setState(() {
+                                  _passwordVisible2 = !_passwordVisible2;
+                                });
+                              },
                             ),
-                            onPressed: () {
-                              // Update the state i.e. toogle the state of passwordVisible variable
-                              setState(() {
-                                _passwordVisible2 = !_passwordVisible2;
-                              });
-                            },
-                          ),
-                          contentPadding: EdgeInsets.fromLTRB(26, 14, 4, 14),
-                          hintText: "Confirm Password",
-                          hintStyle:
-                              primaryTextStyle(color: textFieldHintColor),
-                          filled: true,
-                          fillColor: lightBorderColor,
-                          enabledBorder: OutlineInputBorder(
-                            borderRadius: BorderRadius.circular(10),
-                            borderSide: BorderSide(
-                                color: Colors.transparent, width: 0.0),
-                          ),
-                          focusedBorder: OutlineInputBorder(
-                            // borderRadius: BorderRadius.circular(24),
-                            borderSide: BorderSide(
-                                color: Colors.transparent, width: 0.0),
+                            contentPadding: EdgeInsets.fromLTRB(26, 14, 4, 14),
+                            hintText: "Confirm Password",
+                            hintStyle:
+                                primaryTextStyle(color: textFieldHintColor),
+                            filled: true,
+                            fillColor: lightBorderColor,
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              // borderRadius: BorderRadius.circular(24),
+                              borderSide: BorderSide(
+                                  color: Colors.transparent, width: 0.0),
+                            ),
                           ),
                         ),
-                      ),
-                      SizedBox(height: spacing_large),
-                      T13Button(
-                          textContent: lbl_Create_Account,
-                          onPressed: () {
-                            if (_formKey.currentState!.validate()) {
-                              Register(
-                                  usernameController.text.toString(),
-                                  fnController.text.toString(),
-                                  lnController.text.toString(),
-                                  emlController.text.toString(),
-                                  passwController.text.toString(),
-                                  this.context);
-                            }
-                          }),
-                      SizedBox(height: spacing_large),
-                      Row(
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: <Widget>[
-                          text(lbl_lbl_already_member,
-                              textColor: mainGreyColorTheme),
-                          SizedBox(width: spacing_control),
-                          GestureDetector(
-                            onTap: () => Navigator.push(
-                                context,
-                                MaterialPageRoute(
-                                    builder: (context) => T13SignInScreen())),
-                            child: Container(
-                              child: text(lbl_lbl_login,
-                                  fontSize: 14.0, textColor: mainColorTheme),
+                        SizedBox(height: spacing_large),
+                        T13Button(
+                            textContent: lbl_Create_Account,
+                            onPressed: () {
+                              if (_formKey.currentState!.validate()) {
+                                FocusScope.of(context).unfocus();
+                                Register(
+                                    usernameController.text.toString(),
+                                    fnController.text.toString(),
+                                    lnController.text.toString(),
+                                    emlController.text.toString(),
+                                    passwController.text.toString(),
+                                    this.context);
+                              }
+                            }),
+                        SizedBox(height: spacing_large),
+                        Row(
+                          mainAxisAlignment: MainAxisAlignment.center,
+                          children: <Widget>[
+                            text(lbl_lbl_already_member,
+                                textColor: mainGreyColorTheme),
+                            SizedBox(width: spacing_control),
+                            GestureDetector(
+                              onTap: () => Navigator.push(
+                                  context,
+                                  MaterialPageRoute(
+                                      builder: (context) => T13SignInScreen())),
+                              child: Container(
+                                child: text(lbl_lbl_login,
+                                    fontSize: 14.0, textColor: mainColorTheme),
+                              ),
                             ),
-                          ),
-                        ],
-                      ),
-                    ],
-                  ),
-                )),
+                          ],
+                        ),
+                      ],
+                    ),
+                  )),
+            ),
           ),
         ),
       ),

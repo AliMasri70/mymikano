@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:mymikano_app/models/CloudSensor_Model.dart';
 import 'package:mymikano_app/models/LanSensor_Model.dart';
 import 'package:mymikano_app/services/LanDashboard_Service.dart';
 
@@ -61,6 +62,12 @@ class LanGeneratorState extends ChangeNotifier {
   String Hours = "10";
   String Minutes = "10";
   LANSensor Rpm = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+       LANSensor ApplicationMode = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
@@ -288,7 +295,7 @@ class LanGeneratorState extends ChangeNotifier {
  int ControllerModeStatus = 1;
   bool MCBModeStatus = false;
   // bool PowerStatus = false;
-
+int AppModeStatus = 0;
   late bool MCBisAuto = MCBModeStatus;
   bool isIO = false;
   bool isGCB = false;
@@ -350,6 +357,8 @@ class LanGeneratorState extends ChangeNotifier {
               .round()
               .toString()
           : "Restricted";
+      ApplicationMode = await LanService.FetchSensorData( "Application Mode");
+
       Rpm = await LanService.FetchSensorData("RPM");
       BatteryVoltage = await LanService.FetchSensorData("BatteryVoltage");
       OilPressure = await LanService.FetchSensorData("OilPressure");
@@ -424,6 +433,14 @@ class LanGeneratorState extends ChangeNotifier {
       //   PowerStatus = true;
       // else
       //   PowerStatus = false;
+
+if (ApplicationMode.return_value == "MRS") {
+        AppModeStatus = 0;
+      } else {
+        AppModeStatus = 1;
+      }
+
+
       notifyListeners();
       return true;
     } on Exception {
@@ -431,6 +448,16 @@ class LanGeneratorState extends ChangeNotifier {
     }
   }
 
+  changeAppModeStatus(value) async {
+    bool isSuccess = await LanService.SwitchApplicationMode(value);
+    print("isSuccess: " + isSuccess.toString());
+    if (isSuccess == true) {
+      print("isSuccess: " + value.toString());
+
+      AppModeStatus = value;
+      notifyListeners();
+    }
+  }
   Future<void> ReinitiateLanService() async {
     LanService = new LanDashBoard_Service();  
   }
