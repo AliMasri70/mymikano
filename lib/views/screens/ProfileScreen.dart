@@ -195,7 +195,8 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             padding:
                                 const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
                             child: SubTitleText(
-                              title: lbl_Purchases,
+                              // title: lbl_Purchases,
+                              title: "My Orders",
                             ),
                           ),
                           GestureDetector(
