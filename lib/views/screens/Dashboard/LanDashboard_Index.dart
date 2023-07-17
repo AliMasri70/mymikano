@@ -645,7 +645,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
-                                          left: 288,
+                                          left: 261,
                                           child: Column(
                                             children: [
                                               SizedBox(
@@ -674,7 +674,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 4,
-                                          left: 241,
+                                          left: 261,
                                           child: new Bounceable(
                                               scaleFactor: 0.6,
                                               onTap: () {

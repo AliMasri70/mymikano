@@ -6,7 +6,7 @@ import 'package:mymikano_app/services/LanDashboard_Service.dart';
 class LanGeneratorState extends ChangeNotifier {
   late LanDashBoard_Service LanService;
   //LanDashBoard_Service LanService = LanDashBoard_Service();
-  final Map EnState = {  
+  final Map EnState = {
     'Init': 0,
     'Ready': 1,
     'NotReady': 2,
@@ -67,7 +67,7 @@ class LanGeneratorState extends ChangeNotifier {
       name: "Error",
       hardware: "Error",
       connected: "Error");
-       LANSensor ApplicationMode = LANSensor(
+  LANSensor ApplicationMode = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
@@ -103,7 +103,7 @@ class LanGeneratorState extends ChangeNotifier {
       name: "Error",
       hardware: "Error",
       connected: "Error");
-  LANSensor GeneratorFrequency = LANSensor(     
+  LANSensor GeneratorFrequency = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
@@ -144,166 +144,169 @@ class LanGeneratorState extends ChangeNotifier {
       id: "Error",
       name: "Error",
       hardware: "Error",
-      connected: "Error"); 
+      connected: "Error");
   LANSensor LoadAL2 = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
-      connected: "Error"); 
+      connected: "Error");
   LANSensor LoadAL3 = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
-      connected: "Error"); 
-   LANSensor generatorL1N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-   LANSensor generatorL2N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-   LANSensor generatorL3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-   LANSensor mainsvoltageL1N = LANSensor(
+      connected: "Error");
+  LANSensor generatorL1N = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
       connected: "Error");
-    LANSensor mainsvoltageL2N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-    LANSensor mainsvoltageL3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-    LANSensor mainsFrequency = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-    LANSensor generatorFrequency = LANSensor(
-      return_value: 10,
-      id: "Error",  
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-    LANSensor LoadPowerFactor = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-   LANSensor ReadyToLoad = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-      LANSensor MainsHealthy = LANSensor(
+  LANSensor generatorL2N = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
       connected: "Error");
-     LANSensor MCBFeedback = LANSensor(
+  LANSensor generatorL3N = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
       connected: "Error");
-     LANSensor GCBFeedback = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-      LANSensor mainsvoltageL1L2N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  LANSensor mainsvoltageL1L3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  LANSensor mainsvoltageL2L3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  LANSensor generatorvoltageL1L2N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-      LANSensor generatorvoltageL1L3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error"); 
-      LANSensor generatorvoltageL2L3N = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-         LANSensor LoadKvr = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-         LANSensor LoadKWh = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-         LANSensor LoadKVA = LANSensor(
-      return_value: 10,
-      id: "Error",
-      name: "Error",
-      hardware: "Error",
-      connected: "Error");  
-           LANSensor TotalFuelConsumption = LANSensor(
+  LANSensor mainsvoltageL1N = LANSensor(
       return_value: 10,
       id: "Error",
       name: "Error",
       hardware: "Error",
       connected: "Error");
- int ControllerModeStatus = 1;
+  LANSensor mainsvoltageL2N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor mainsvoltageL3N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor mainsFrequency = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor generatorFrequency = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor LoadPowerFactor = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor ReadyToLoad = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor MainsHealthy = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor MCBFeedback = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor GCBFeedback = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor mainsvoltageL1L2N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor mainsvoltageL1L3N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor mainsvoltageL2L3N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor generatorvoltageL1L2N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor generatorvoltageL1L3N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor generatorvoltageL2L3N = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor LoadKvr = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor LoadKWh = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor LoadKVA = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  LANSensor TotalFuelConsumption = LANSensor(
+      return_value: 10,
+      id: "Error",
+      name: "Error",
+      hardware: "Error",
+      connected: "Error");
+  int ControllerModeStatus = 1;
   bool MCBModeStatus = false;
   // bool PowerStatus = false;
-int AppModeStatus = 0;
+  int AppModeStatus = 0;
   late bool MCBisAuto = MCBModeStatus;
   bool isIO = false;
   bool isGCB = false;
   bool isReadyToLoad = false;
   bool MCBFeedbackState = false;
   bool GCBFeedbackState = false;
-  bool MainsHealthyStatus = false;  
-   bool alarmsclear = false;
+  bool MainsHealthyStatus = false;
+  bool alarmsclear = false;
   changeControllerModeStatus(value) async {
     bool isSuccess = await LanService.SwitchControllerMode(value);
     if (isSuccess == true) {
@@ -311,13 +314,15 @@ int AppModeStatus = 0;
       notifyListeners();
     }
   }
- changeAlarmClear(value) async {
+
+  changeAlarmClear(value) async {
     bool isSuccess = await LanService.SwitchAlarmClear(value);
     if (isSuccess == true) {
-       alarmsclear = value;
+      alarmsclear = value;
       notifyListeners();
     }
   }
+
   changeIsIO(value) async {
     bool isSuccess = await LanService.TurnGeneratorEngineOnOff(value);
     if (isSuccess == true) {
@@ -327,7 +332,7 @@ int AppModeStatus = 0;
   }
 
   changeIsGCB(value) async {
-    bool isSuccess = await LanService.SwitchGCBMode(value);  
+    bool isSuccess = await LanService.SwitchGCBMode(value);
     if (isSuccess == true) {
       isGCB = value;
       notifyListeners();
@@ -335,17 +340,15 @@ int AppModeStatus = 0;
   }
 
   changeMCBModeStatus(value) async {
-    bool isSuccess = await LanService.SwitchMCBMode(value); 
+    bool isSuccess = await LanService.SwitchMCBMode(value);
     if (isSuccess == true) {
       MCBModeStatus = value;
       notifyListeners();
-    }  
+    }
   }
 
   Future<bool> FetchData() async {
- 
     try {
-      
       EngineState = await LanService.FetchSensorData("EngineState");
       BreakState = await LanService.FetchSensorData("BreakerState");
       RunningHours = await LanService.FetchSensorData("RunningHours");
@@ -357,22 +360,22 @@ int AppModeStatus = 0;
               .round()
               .toString()
           : "Restricted";
-      ApplicationMode = await LanService.FetchSensorData( "Application Mode");
+      ApplicationMode = await LanService.FetchSensorData("ApplicationMode");
 
       Rpm = await LanService.FetchSensorData("RPM");
       BatteryVoltage = await LanService.FetchSensorData("BatteryVoltage");
       OilPressure = await LanService.FetchSensorData("OilPressure");
       CoolantTemp = await LanService.FetchSensorData("CoolantTemp");
       FuelLevel = await LanService.FetchSensorData("TotalFuelConsumption");
-      GeneratorVoltage = await LanService.FetchSensorData("OutputVoltage");  
-      GeneratorFrequency = await LanService.FetchSensorData("BreakerState"); 
+      GeneratorVoltage = await LanService.FetchSensorData("OutputVoltage");
+      GeneratorFrequency = await LanService.FetchSensorData("BreakerState");
       GeneratorLoad = await LanService.FetchSensorData("Load");
       ControllerMode = await LanService.FetchSensorData("ControllerMode");
       MCBMode = await LanService.FetchSensorData("MCB");
       GCBMode = await LanService.FetchSensorData("GCB");
       Engine = await LanService.FetchSensorData("EngineState");
       LoadAL1 = await LanService.FetchSensorData("LoadAL1");
-      LoadAL2 = await LanService.FetchSensorData("LoadAL2"); 
+      LoadAL2 = await LanService.FetchSensorData("LoadAL2");
       LoadAL3 = await LanService.FetchSensorData("LoadAL3");
       LoadKvr = await LanService.FetchSensorData("LoadKvr");
       LoadKWh = await LanService.FetchSensorData("LoadKWh");
@@ -382,30 +385,29 @@ int AppModeStatus = 0;
       generatorL3N = await LanService.FetchSensorData("GenVL3N");
       mainsvoltageL1N = await LanService.FetchSensorData("MainVL1N");
       mainsvoltageL2N = await LanService.FetchSensorData("MainVL2N");
-      mainsvoltageL3N = await LanService.FetchSensorData("MainVL3N");  
+      mainsvoltageL3N = await LanService.FetchSensorData("MainVL3N");
       mainsFrequency = await LanService.FetchSensorData("MainFrequency");
       generatorFrequency = await LanService.FetchSensorData("Frequency");
       LoadPowerFactor = await LanService.FetchSensorData("PowerFactor");
       ReadyToLoad = await LanService.FetchSensorData("ReadyToLoad");
       MainsHealthy = await LanService.FetchSensorData("MainsHealthy");
-      MCBFeedback = await LanService.FetchSensorData("MCBFeedback");  
+      MCBFeedback = await LanService.FetchSensorData("MCBFeedback");
       GCBFeedback = await LanService.FetchSensorData("GCBFeedback");
       mainsvoltageL1L2N = await LanService.FetchSensorData("MainVL1L2N");
-       mainsvoltageL1L3N = await LanService.FetchSensorData("MainVL3L1N");
-       mainsvoltageL2L3N = await LanService.FetchSensorData("MainVL2L3N");
-       generatorvoltageL1L2N = await LanService.FetchSensorData("GenVL1L2N");
-       generatorvoltageL1L3N = await LanService.FetchSensorData("GenVL3L1N");
-       generatorvoltageL2L3N = await LanService.FetchSensorData("GenVL2L3N");
-      if (ControllerMode.return_value == 2 )
-        ControllerModeStatus = 2;  
-      else if (ControllerMode.return_value == 1 )
+      mainsvoltageL1L3N = await LanService.FetchSensorData("MainVL3L1N");
+      mainsvoltageL2L3N = await LanService.FetchSensorData("MainVL2L3N");
+      generatorvoltageL1L2N = await LanService.FetchSensorData("GenVL1L2N");
+      generatorvoltageL1L3N = await LanService.FetchSensorData("GenVL3L1N");
+      generatorvoltageL2L3N = await LanService.FetchSensorData("GenVL2L3N");
+      if (ControllerMode.return_value == 2)
+        ControllerModeStatus = 2;
+      else if (ControllerMode.return_value == 1)
         ControllerModeStatus = 1;
-      else if (ControllerMode.return_value == 0 ) 
-        ControllerModeStatus = 0;
+      else if (ControllerMode.return_value == 0) ControllerModeStatus = 0;
 
       if (MCBMode.return_value == 1)
         MCBModeStatus = true;
-      else 
+      else
         MCBModeStatus = false;
 
       if (GCBMode.return_value == 1)
@@ -417,29 +419,28 @@ int AppModeStatus = 0;
         isIO = true;
       else
         isIO = false;
-      if(MCBFeedback.return_value == 1)
-      MCBFeedbackState = true;
+      if (MCBFeedback.return_value == 1)
+        MCBFeedbackState = true;
       else
-      MCBFeedbackState = false; 
-      if(GCBFeedback.return_value == 1)
-      GCBFeedbackState = true;
+        MCBFeedbackState = false;
+      if (GCBFeedback.return_value == 1)
+        GCBFeedbackState = true;
       else
-      GCBFeedbackState = false;
-      if(ReadyToLoad.return_value == 1)
-      isReadyToLoad = true;
+        GCBFeedbackState = false;
+      if (ReadyToLoad.return_value == 1)
+        isReadyToLoad = true;
       else
-      isReadyToLoad = false;
+        isReadyToLoad = false;
       // if (EngineState.return_value == 8 || EngineState.return_value == 7)
       //   PowerStatus = true;
       // else
       //   PowerStatus = false;
 
-if (ApplicationMode.return_value == "MRS") {
+      if (ApplicationMode.return_value == "MRS") {
         AppModeStatus = 0;
       } else {
         AppModeStatus = 1;
       }
-
 
       notifyListeners();
       return true;
@@ -458,7 +459,8 @@ if (ApplicationMode.return_value == "MRS") {
       notifyListeners();
     }
   }
+
   Future<void> ReinitiateLanService() async {
-    LanService = new LanDashBoard_Service();  
+    LanService = new LanDashBoard_Service();
   }
 }
