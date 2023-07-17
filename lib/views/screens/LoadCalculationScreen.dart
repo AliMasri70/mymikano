@@ -17,19 +17,20 @@ class LoadCalculationScreen extends StatefulWidget {
 }
 
 class _LoadCalculationScreenState extends State<LoadCalculationScreen> {
-  TextEditingController utilsController = TextEditingController();
-
   @override
   void initState() {
     // TODO: implement initState
-    Provider.of<LoadCalculationState>(context, listen: false).clear();
-    Provider.of<LoadCalculationState>(context, listen: false)
-        .fetchAllComponents();
-    utilsController.text =
-        Provider.of<LoadCalculationState>(context, listen: false)
-            .utils()
-            .toString();
     super.initState();
+
+    fetchData();
+  }
+
+  Future<void> fetchData() async {
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      Provider.of<LoadCalculationState>(context, listen: false).clear();
+      Provider.of<LoadCalculationState>(context, listen: false)
+          .fetchAllComponents();
+    });
   }
 
   @override
@@ -48,7 +49,8 @@ class _LoadCalculationScreenState extends State<LoadCalculationScreen> {
                         itemCount: loadCalculationState.getFieldsCount(),
                         itemBuilder: (context, index) {
                           return Padding(
-                            padding: const EdgeInsets.only(bottom: 10.0),
+                            padding: const EdgeInsets.only(
+                                bottom: 10.0, left: 8, right: 8, top: 8),
                             child: Row(
                               mainAxisAlignment: MainAxisAlignment.spaceEvenly,
                               children: [
