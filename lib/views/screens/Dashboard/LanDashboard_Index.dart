@@ -573,7 +573,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       color: Color.fromRGBO(255, 255, 255, 1),
                                     ),
                                     child: Stack(children: <Widget>[
-                                      cloud.AppModeStatus != 0
+                                      lan.AppModeStatus != 0
                                           ? Positioned(
                                               top: 4,
                                               left: -15,
@@ -597,7 +597,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                                     onPressed: () {},
                                                   )))
                                           : Container(),
-                                      cloud.AppModeStatus != 0
+                                      lan.AppModeStatus != 0
                                           ? Positioned(
                                               top: 15,
                                               left: 60,
@@ -761,7 +761,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                             ),
                                           )),
                                       if (lan.ControllerModeStatus != 2)
-                                        cloud.AppModeStatus != 0
+                                        lan.AppModeStatus != 0
                                             ? Positioned(
                                                 top: 72,
                                                 left: 67,
