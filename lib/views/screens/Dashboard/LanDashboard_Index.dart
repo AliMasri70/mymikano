@@ -115,7 +115,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
     return state;
   }
 
-   @override
+  @override
   void dispose() {
     ScaffoldMessenger.of(context).clearSnackBars();
     ScaffoldMessenger.of(context).hideCurrentSnackBar();
@@ -124,6 +124,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
     });
     super.dispose();
   }
+
   @override
   Widget build(BuildContext context) {
     return RefreshIndicator(
@@ -155,7 +156,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       setState(() {
                                         timer.cancel();
                                       });
-                                      
+
                                       Navigator.of(context).pushReplacement(
                                           MaterialPageRoute(
                                               builder: (context) =>
@@ -529,8 +530,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                               SizedBox(
                                 height: 20,
                               ),
-
-Center(
+                              Center(
                                   child: Row(
                                 mainAxisAlignment: MainAxisAlignment.center,
                                 children: [
@@ -561,8 +561,6 @@ Center(
                               SizedBox(
                                 height: 20,
                               ),
-
-
                               Padding(
                                 padding:
                                     EdgeInsets.fromLTRB(5.0, 4.0, 8.0, 8.0),
@@ -575,55 +573,40 @@ Center(
                                       color: Color.fromRGBO(255, 255, 255, 1),
                                     ),
                                     child: Stack(children: <Widget>[
-                                      Positioned(
-                                          top: 4,
-                                          left: -15,
-                                          child: Container(
-                                              width: 90,
-                                              height: 66,
-                                              child: IconButton(
-                                                icon: Image.asset(ic_tower,
-                                                    color: (lan.mainsvoltageL1N
-                                                                        .return_value >
-                                                                    0 ||
-                                                                lan.mainsvoltageL2N
-                                                                        .return_value >
-                                                                    0 ||
-                                                                lan.mainsvoltageL3N
-                                                                        .return_value >
-                                                                    0) &&
-                                                            lan.MainsHealthy
-                                                                    .return_value ==
-                                                                1
-                                                        ? GreenpowerColor
-                                                        : mainGreyColorTheme),
-                                                onPressed: () {},
-                                              ))),
-                                      Positioned(
-                                        top: 15,
+                                      cloud.AppModeStatus != 0
+                                          ? Positioned(
+                                              top: 4,
+                                              left: -15,
+                                              child: Container(
+                                                  width: 90,
+                                                  height: 66,
+                                                  child: IconButton(
+                                                    icon: Image.asset(ic_tower,
+                                                        color: (lan.mainsvoltageL1N.return_value > 0 ||
+                                                                    lan.mainsvoltageL2N
+                                                                            .return_value >
+                                                                        0 ||
+                                                                    lan.mainsvoltageL3N
+                                                                            .return_value >
+                                                                        0) &&
+                                                                lan.MainsHealthy
+                                                                        .return_value ==
+                                                                    1
+                                                            ? GreenpowerColor
+                                                            : mainGreyColorTheme),
+                                                    onPressed: () {},
+                                                  )))
+                                          : Container(),
+                                      cloud.AppModeStatus != 0
+                                          ? Positioned(
+                                              top: 15,
                                               left: 60,
                                               child: Container(
                                                 width: 50,
                                                 height: 48,
-                                            child: ImageIcon(
-                                              AssetImage(ic_line),
-                                              color: (lan.mainsvoltageL1N
-                                                                  .return_value >
-                                                              0 ||
-                                                          lan.mainsvoltageL2N
-                                                                  .return_value >
-                                                              0 ||
-                                                          lan.mainsvoltageL3N
-                                                                  .return_value >
-                                                              0) &&
-                                                      lan.MainsHealthy
-                                                              .return_value ==
-                                                          1 &&
-                                                      timedelayMCBFeedback(lan) ==
-                                                          true &&
-                                                      lan.MCBModeStatus == true
-                                                  ? GreenpowerColor
-                                                  : (lan.mainsvoltageL1N
+                                                child: ImageIcon(
+                                                  AssetImage(ic_line),
+                                                  color: (lan.mainsvoltageL1N
                                                                       .return_value >
                                                                   0 ||
                                                               lan.mainsvoltageL2N
@@ -632,16 +615,33 @@ Center(
                                                               lan.mainsvoltageL3N
                                                                       .return_value >
                                                                   0) &&
-                                                          lan.MainsHealthy
-                                                                  .return_value ==
+                                                          lan.MainsHealthy.return_value ==
                                                               1 &&
                                                           timedelayMCBFeedback(lan) ==
-                                                              false &&
-                                                          lan.MCBModeStatus == true
-                                                      ? mainColorTheme
-                                                      : mainGreyColorTheme,
-                                            ),
-                                          )),
+                                                              true &&
+                                                          lan.MCBModeStatus ==
+                                                              true
+                                                      ? GreenpowerColor
+                                                      : (lan.mainsvoltageL1N.return_value > 0 ||
+                                                                  lan.mainsvoltageL2N
+                                                                          .return_value >
+                                                                      0 ||
+                                                                  lan.mainsvoltageL3N
+                                                                          .return_value >
+                                                                      0) &&
+                                                              lan.MainsHealthy
+                                                                      .return_value ==
+                                                                  1 &&
+                                                              timedelayMCBFeedback(
+                                                                      lan) ==
+                                                                  false &&
+                                                              lan.MCBModeStatus ==
+                                                                  true
+                                                          ? mainColorTheme
+                                                          : mainGreyColorTheme,
+                                                ),
+                                              ))
+                                          : Container(),
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
@@ -663,8 +663,10 @@ Center(
                                                       height: 48,
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
-                                                            image: AssetImage(ic_o),
-                                                            fit: BoxFit.fitWidth),
+                                                            image: AssetImage(
+                                                                ic_o),
+                                                            fit: BoxFit
+                                                                .fitWidth),
                                                       ))),
                                             ],
                                           ),
@@ -707,7 +709,7 @@ Center(
                                             ),
                                           )),
                                       Positioned(
-                                           top: 15,
+                                          top: 15,
                                           left: 160,
                                           child: Container(
                                             width: 50,
@@ -732,7 +734,7 @@ Center(
                                             ),
                                           )),
                                       Positioned(
-                                           top: 24,
+                                          top: 24,
                                           left: 115,
                                           child: Container(
                                             width: 40,
@@ -759,12 +761,13 @@ Center(
                                             ),
                                           )),
                                       if (lan.ControllerModeStatus != 2)
-                                        Positioned(
-                                          top: 72,
-                                          left: 67,
-                                          child: Column(
-                                            children: [
-                                              Container(
+                                        cloud.AppModeStatus != 0
+                                            ? Positioned(
+                                                top: 72,
+                                                left: 67,
+                                                child: Column(
+                                                  children: [
+                                                    Container(
                                                       height: 8,
                                                       width: 25,
                                                       decoration: BoxDecoration(
@@ -776,43 +779,48 @@ Center(
                                                     SizedBox(
                                                       height: 3,
                                                     ),
-                                              new Bounceable(
-                                                  scaleFactor: 0.6,
-                                                  onTap: () {
-                                                    if (lan.MCBModeStatus ==
-                                                        false) {
-                                                      lan.changeMCBModeStatus(true);
-                                                    } else {
-                                                      lan.changeMCBModeStatus(
-                                                          false);
-                                                    }
-                                                  },
-                                                  //                                          onTap: () async {
-                                                  // await  Future.delayed(Duration(seconds: 2), () {
-                                                  //                                                 if(lan.MCBModeStatus == false){
-                                                  //
-                                                  //                                                   lan.changeMCBModeStatus(
-                                                  //                                                       true);
-                                                  //                                                 }
-                                                  //                                                 else{
-                                                  //
-                                                  //                                                   lan.changeMCBModeStatus(
-                                                  //                                                       false);
-                                                  //                                                 }
+                                                    new Bounceable(
+                                                        scaleFactor: 0.6,
+                                                        onTap: () {
+                                                          if (lan.MCBModeStatus ==
+                                                              false) {
+                                                            lan.changeMCBModeStatus(
+                                                                true);
+                                                          } else {
+                                                            lan.changeMCBModeStatus(
+                                                                false);
+                                                          }
+                                                        },
+                                                        //                                          onTap: () async {
+                                                        // await  Future.delayed(Duration(seconds: 2), () {
+                                                        //                                                 if(lan.MCBModeStatus == false){
+                                                        //
+                                                        //                                                   lan.changeMCBModeStatus(
+                                                        //                                                       true);
+                                                        //                                                 }
+                                                        //                                                 else{
+                                                        //
+                                                        //                                                   lan.changeMCBModeStatus(
+                                                        //                                                       false);
+                                                        //                                                 }
 
-                                                  //                                            });},
-                                                  child: Container(
-                                                      width: 60,
-                                                      height: 48,
-                                                      decoration: BoxDecoration(
-                                                        image: DecorationImage(
-                                                            image:
-                                                                AssetImage(ic_io),
-                                                            fit: BoxFit.fitWidth),
-                                                      ))),
-                                            ],
-                                          ),
-                                        ),
+                                                        //                                            });},
+                                                        child: Container(
+                                                            width: 60,
+                                                            height: 48,
+                                                            decoration:
+                                                                BoxDecoration(
+                                                              image: DecorationImage(
+                                                                  image:
+                                                                      AssetImage(
+                                                                          ic_io),
+                                                                  fit: BoxFit
+                                                                      .fitWidth),
+                                                            ))),
+                                                  ],
+                                                ),
+                                              )
+                                            : Container(),
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
@@ -820,17 +828,16 @@ Center(
                                           child: Column(
                                             children: [
                                               Container(
-                                                      height: 8,
-                                                      width: 25,
-                                                      decoration: BoxDecoration(
-                                                          color: lan
-                                                                  .MCBModeStatus
-                                                              ? greenColor
-                                                              : Colors.grey),
-                                                    ),
-                                                    SizedBox(
-                                                      height: 3,
-                                                    ),
+                                                height: 8,
+                                                width: 25,
+                                                decoration: BoxDecoration(
+                                                    color: lan.MCBModeStatus
+                                                        ? greenColor
+                                                        : Colors.grey),
+                                              ),
+                                              SizedBox(
+                                                height: 3,
+                                              ),
                                               new Bounceable(
                                                   scaleFactor: 0.6,
                                                   onTap: () {
@@ -875,9 +882,10 @@ Center(
                                                       height: 48,
                                                       decoration: BoxDecoration(
                                                         image: DecorationImage(
-                                                            image:
-                                                                AssetImage(ic_io),
-                                                            fit: BoxFit.fitWidth),
+                                                            image: AssetImage(
+                                                                ic_io),
+                                                            fit: BoxFit
+                                                                .fitWidth),
                                                       ))),
                                             ],
                                           ),

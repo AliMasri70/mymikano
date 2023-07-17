@@ -51,6 +51,7 @@ dependencies:
   localstorage: ^4.0.0+1
   flutter_bounceable: ^1.0.3
   toggle_switch: ^2.1.0
+  flutter_statusbarcolor_ns: ^0.5.0
 
   network_info_plus: ^3.0.0
   flutter_paystack:

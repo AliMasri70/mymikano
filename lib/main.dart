@@ -7,6 +7,7 @@ import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:flutter_statusbarcolor_ns/flutter_statusbarcolor_ns.dart';
 import 'package:mymikano_app/State/ApiConfigurationState.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/CurrencyState.dart';
@@ -54,16 +55,16 @@ Future<void> main() async {
       enableVibration: true,
     ),
   ]);
-
-  ///////////////////////////////////////
+  ///////////setSystemUIOverlayStyle(style))))))//////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
-  Future.delayed(Duration(milliseconds: 1)).then(
-      (value) => SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
-            statusBarBrightness: Brightness.light,
-            statusBarColor: Colors.white,
-            statusBarIconBrightness: Brightness.dark,
-          )));
+  // SystemChrome.setSystemUIOverlayStyle(SystemUiOverlayStyle(
+  //   statusBarBrightness: Brightness.light,
+  //   statusBarColor: Colors.white,
+  //   statusBarIconBrightness: Brightness.dark,
+  // ));
+  FlutterStatusbarcolor.setStatusBarColor(Colors.white);
+  FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
   runApp(MyApp());

@@ -68,87 +68,70 @@ class _Theme5DashboardState extends State<Theme5Dashboard> {
 
   @override
   Widget build(BuildContext context) {
-    SystemChrome.setEnabledSystemUIMode(
-      SystemUiMode.manual,
-      overlays: _isStatusBarHidden ? [] : SystemUiOverlay.values,
-    );
-    return NotificationListener<ScrollNotification>(
-        onNotification: (notification) {
-          if (notification is ScrollStartNotification) {
-            setState(() {
-              _isStatusBarHidden = true;
-            });
-          } else if (notification is ScrollEndNotification) {
-            setState(() {
-              _isStatusBarHidden = false;
-            });
-          }
-          return true;
-        },
-        child: Consumer<MainDashboardState>(
-          builder: ((context, mainDashboardState, child) => WillPopScope(
-                onWillPop: () async {
-                  bool toExit = false;
-                  await showDialog<void>(
-                    context: context,
-                    barrierDismissible: false, // user must tap button!
-                    builder: (BuildContext context) {
-                      return AlertDialog(
-                        title: const Text('Exit Dialog'),
-                        content: SingleChildScrollView(
-                          child: ListBody(
-                            children: const <Widget>[
-                              Text('Are you sure you want to exit the app?'),
-                            ],
-                          ),
-                        ),
-                        actions: <Widget>[
-                          TextButton(
-                            child: const Text('Yes'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              toExit = true;
-                            },
-                          ),
-                          TextButton(
-                            child: const Text('No'),
-                            onPressed: () {
-                              Navigator.pop(context);
-                              toExit = false;
-                            },
-                          ),
+    return Consumer<MainDashboardState>(
+      builder: ((context, mainDashboardState, child) => WillPopScope(
+            onWillPop: () async {
+              bool toExit = false;
+              await showDialog<void>(
+                context: context,
+                barrierDismissible: false, // user must tap button!
+                builder: (BuildContext context) {
+                  return AlertDialog(
+                    title: const Text('Exit Dialog'),
+                    content: SingleChildScrollView(
+                      child: ListBody(
+                        children: const <Widget>[
+                          Text('Are you sure you want to exit the app?'),
                         ],
-                      );
-                    },
-                  );
-                  return toExit;
-                },
-                child: Scaffold(
-                  backgroundColor: Colors.white,
-                  bottomNavigationBar: BankingBottomNavigationBar(
-                    backgroundColor: bottomNavigationBarColor,
-                    selectedItemColor: bottomNavigationBarSelectedItemColor,
-                    unselectedItemColor: Colors.white,
-                    items: <BankingBottomNavigationBarItem>[
-                      BankingBottomNavigationBarItem(icon: ic_menu),
-                      BankingBottomNavigationBarItem(icon: ic_search),
-                      BankingBottomNavigationBarItem(icon: ic_dog_house),
-                      if (!guestLogin)
-                        BankingBottomNavigationBarItem(icon: ic_handcart),
-                      if (!guestLogin)
-                        BankingBottomNavigationBarItem(icon: ic_customer),
+                      ),
+                    ),
+                    actions: <Widget>[
+                      TextButton(
+                        child: const Text('Yes'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          toExit = true;
+                        },
+                      ),
+                      TextButton(
+                        child: const Text('No'),
+                        onPressed: () {
+                          Navigator.pop(context);
+                          toExit = false;
+                        },
+                      ),
                     ],
-                    currentIndex: mainDashboardState.selectedIndex(),
-                    unselectedIconTheme:
-                        IconThemeData(color: mainGreyColorTheme, size: 20),
-                    selectedIconTheme: IconThemeData(
-                        color: bottomNavigationBarSelectedItemColor, size: 20),
-                    onTap: mainDashboardState.setSelectedIndex,
-                    type: BankingBottomNavigationBarType.fixed,
-                  ),
-                  body: pages[mainDashboardState.selectedIndex()],
-                ),
-              )),
-        ));
+                  );
+                },
+              );
+              return toExit;
+            },
+            child: Scaffold(
+              backgroundColor: Colors.white,
+              bottomNavigationBar: BankingBottomNavigationBar(
+                backgroundColor: bottomNavigationBarColor,
+                selectedItemColor: bottomNavigationBarSelectedItemColor,
+                unselectedItemColor: Colors.white,
+                items: <BankingBottomNavigationBarItem>[
+                  BankingBottomNavigationBarItem(icon: ic_menu),
+                  BankingBottomNavigationBarItem(icon: ic_search),
+                  BankingBottomNavigationBarItem(icon: ic_dog_house),
+                  if (!guestLogin)
+                    BankingBottomNavigationBarItem(icon: ic_handcart),
+                  if (!guestLogin)
+                    BankingBottomNavigationBarItem(icon: ic_customer),
+                ],
+                currentIndex: mainDashboardState.selectedIndex(),
+                unselectedIconTheme:
+                    IconThemeData(color: mainGreyColorTheme, size: 20),
+                selectedIconTheme: IconThemeData(
+                    color: bottomNavigationBarSelectedItemColor, size: 20),
+                onTap: mainDashboardState.setSelectedIndex,
+                type: BankingBottomNavigationBarType.fixed,
+              ),
+              body: pages[mainDashboardState.selectedIndex()],
+            ),
+          )),
+    );
   }
 }
