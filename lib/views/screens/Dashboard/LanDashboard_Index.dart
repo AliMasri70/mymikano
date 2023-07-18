@@ -645,7 +645,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
-                                          left: 241,
+                                          left: 251,
                                           child: Column(
                                             children: [
                                               SizedBox(
@@ -831,7 +831,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                                 height: 8,
                                                 width: 25,
                                                 decoration: BoxDecoration(
-                                                    color: lan.MCBModeStatus
+                                                    color: lan.isGCB
                                                         ? greenColor
                                                         : Colors.grey),
                                               ),
@@ -962,6 +962,10 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                         padding: EdgeInsets.zero,
                                         shrinkWrap: true,
                                         children: <Widget>[
+                                          infotile(
+                                              title: "Engine State",
+                                              value:
+                                                  lan.EngineState.return_value),
                                           infotile(
                                             title: lbl_Pressure,
                                             value: ((lan
