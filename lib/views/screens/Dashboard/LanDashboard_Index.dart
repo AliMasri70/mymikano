@@ -645,7 +645,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       if (lan.ControllerModeStatus != 2)
                                         Positioned(
                                           top: 72,
-                                          left: 261,
+                                          left: 241,
                                           child: Column(
                                             children: [
                                               SizedBox(

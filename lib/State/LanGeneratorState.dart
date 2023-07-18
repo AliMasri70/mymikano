@@ -436,7 +436,7 @@ class LanGeneratorState extends ChangeNotifier {
       // else
       //   PowerStatus = false;
 
-      if (ApplicationMode.return_value == "MRS") {
+      if (ApplicationMode.return_value == 1.00) {
         AppModeStatus = 0;
       } else {
         AppModeStatus = 1;
