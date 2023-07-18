@@ -959,13 +959,14 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                     children: [
                                       ListView(
                                         physics: const ScrollPhysics(),
-                                        padding: EdgeInsets.zero,
+                                        padding:
+                                            EdgeInsets.symmetric(horizontal: 5),
                                         shrinkWrap: true,
                                         children: <Widget>[
                                           infotile(
                                               title: "Engine State",
                                               value:
-                                                  lan.EngineState.return_value),
+                                                  lan.PowerStatus.toString()),
                                           infotile(
                                             title: lbl_Pressure,
                                             value: ((lan

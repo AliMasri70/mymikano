@@ -297,7 +297,7 @@ class LanGeneratorState extends ChangeNotifier {
       connected: "Error");
   int ControllerModeStatus = 1;
   bool MCBModeStatus = false;
-  bool PowerStatus = false;
+  String PowerStatus = "";
   int AppModeStatus = 0;
   late bool MCBisAuto = MCBModeStatus;
   bool isIO = false;
@@ -453,10 +453,8 @@ class LanGeneratorState extends ChangeNotifier {
         isReadyToLoad = true;
       else
         isReadyToLoad = false;
-      if (EngineState.return_value == 8 || EngineState.return_value == 7)
-        PowerStatus = true;
-      else
-        PowerStatus = false;
+      if (EngineState.return_value != -1)
+        PowerStatus = powerStatusValue[EngineState.return_value];
 
       if (ApplicationMode.return_value == 1.00) {
         AppModeStatus = 0;
