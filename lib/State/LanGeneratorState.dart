@@ -308,7 +308,7 @@ class LanGeneratorState extends ChangeNotifier {
   bool MainsHealthyStatus = false;
   bool alarmsclear = false;
 
-  var powerStatusValue = [
+  List<String> powerStatusValue = [
     "Init",
     "Ready",
     "NotReady",
@@ -454,7 +454,8 @@ class LanGeneratorState extends ChangeNotifier {
       else
         isReadyToLoad = false;
       if (EngineState.return_value != -1) {
-        PowerStatus = powerStatusValue[EngineState.return_value];
+        int indexEngine = double.parse(EngineState.return_value).toInt();
+        PowerStatus = powerStatusValue[indexEngine];
       }
 
       if (ApplicationMode.return_value == 1.00) {
