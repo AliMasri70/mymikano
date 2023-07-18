@@ -453,7 +453,7 @@ class LanGeneratorState extends ChangeNotifier {
         isReadyToLoad = true;
       else
         isReadyToLoad = false;
-      if (EngineState.return_value != -1) {
+      if (EngineState.return_value != null) {
         int indexEngine = double.parse(EngineState.return_value).toInt();
         PowerStatus = powerStatusValue[indexEngine];
       }
