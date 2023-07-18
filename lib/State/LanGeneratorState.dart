@@ -297,7 +297,7 @@ class LanGeneratorState extends ChangeNotifier {
       connected: "Error");
   int ControllerModeStatus = 1;
   bool MCBModeStatus = false;
-  // bool PowerStatus = false;
+  bool PowerStatus = false;
   int AppModeStatus = 0;
   late bool MCBisAuto = MCBModeStatus;
   bool isIO = false;
@@ -307,6 +307,28 @@ class LanGeneratorState extends ChangeNotifier {
   bool GCBFeedbackState = false;
   bool MainsHealthyStatus = false;
   bool alarmsclear = false;
+
+  var powerStatusValue = [
+    "Init",
+    "Ready",
+    "NotReady",
+    "Prestart",
+    "Cranking",
+    "Pause",
+    "Starting",
+    "Running",
+    "Loaded",
+    "Soft unld",
+    "Cooling",
+    "Stop",
+    "Shutdown",
+    "Ventil",
+    "EmergMan",
+    "Soft load",
+    "WaitStop",
+    "SDVentil"
+  ];
+
   changeControllerModeStatus(value) async {
     bool isSuccess = await LanService.SwitchControllerMode(value);
     if (isSuccess == true) {
@@ -431,10 +453,10 @@ class LanGeneratorState extends ChangeNotifier {
         isReadyToLoad = true;
       else
         isReadyToLoad = false;
-      // if (EngineState.return_value == 8 || EngineState.return_value == 7)
-      //   PowerStatus = true;
-      // else
-      //   PowerStatus = false;
+      if (EngineState.return_value == 8 || EngineState.return_value == 7)
+        PowerStatus = true;
+      else
+        PowerStatus = false;
 
       if (ApplicationMode.return_value == 1.00) {
         AppModeStatus = 0;
