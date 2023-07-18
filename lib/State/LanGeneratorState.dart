@@ -453,8 +453,9 @@ class LanGeneratorState extends ChangeNotifier {
         isReadyToLoad = true;
       else
         isReadyToLoad = false;
-      if (EngineState.return_value != -1)
+      if (EngineState.return_value != -1) {
         PowerStatus = powerStatusValue[EngineState.return_value];
+      }
 
       if (ApplicationMode.return_value == 1.00) {
         AppModeStatus = 0;
