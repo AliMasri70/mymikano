@@ -10,8 +10,10 @@ import 'package:mymikano_app/views/widgets/SubTitleText.dart';
 import 'package:mymikano_app/views/widgets/T13Widget.dart';
 import 'package:mymikano_app/views/widgets/TitleText.dart';
 import 'package:nb_utils/nb_utils.dart';
+import 'package:permission_handler/permission_handler.dart';
 import 'package:provider/provider.dart';
 
+import '../../services/LocalUserPositionService.dart';
 import 'PrivacyPolicyScreen.dart';
 import 'ProfileEditScreen.dart';
 import 'PurchasesScreen.dart';
@@ -48,10 +50,18 @@ class _ProfileScreenState extends State<ProfileScreen> {
   }
 
   void getLocation() async {
-    LocationPermission permission = await Geolocator.requestPermission();
-    Position position = await Geolocator.getCurrentPosition(
-        desiredAccuracy: LocationAccuracy.low);
+    // await Geolocator.isLocationServiceEnabled();
+
+    await Geolocator.requestPermission();
+    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
+    // sendGpsCoord();
+
     checkLocationServicesEnabled();
+  }
+
+  void sendGpsCoord() async {
+    // gps().canceled = false;
+    gps.StartTimer();
   }
 
   Future<void> checkLocationServicesEnabled() async {
