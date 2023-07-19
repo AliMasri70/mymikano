@@ -454,8 +454,11 @@ class LanGeneratorState extends ChangeNotifier {
       else
         isReadyToLoad = false;
       if (EngineState.return_value != null) {
-        int indexEngine = double.parse(EngineState.return_value).toInt();
+        print("enginestateResult1: ${EngineState.return_value}");
+        int indexEngine = double.parse(EngineState.return_value.toString()).toInt();
         PowerStatus = powerStatusValue[indexEngine];
+         print("enginestateResult: ${PowerStatus}");
+
       }
 
       if (ApplicationMode.return_value == 1.00) {
