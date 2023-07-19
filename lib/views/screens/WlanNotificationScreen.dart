@@ -40,7 +40,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     String? IPaddr = await getIpGateway();
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    String apiLanIP= await prefs.getString(prefs_ApiLanEndpoint).toString();
+    String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
     print('$apiLanIP/alarms/');
 
     final response = await dio.get('$apiLanIP/alarms/');
@@ -174,6 +174,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ),
               ]),
               SizedBox(height: 20),
+              Text("notification Length: ${viewList.length}"),
               Expanded(
                 child: ListView.builder(
                   itemCount: viewList.length,
