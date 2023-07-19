@@ -5,6 +5,7 @@ import 'package:awesome_notifications/awesome_notifications.dart';
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:mymikano_app/State/ApiConfigurationStatee.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/NotificationState.dart';
 import 'package:mymikano_app/models/NotificationModel.dart';
@@ -17,6 +18,7 @@ import 'package:nb_utils/nb_utils.dart';
 import 'package:network_info_plus/network_info_plus.dart';
 import 'package:provider/provider.dart';
 
+import '../../State/ApiConfigurationState.dart';
 import '../../utils/AppColors.dart';
 import '../widgets/TitleText.dart';
 import 'MainDashboard.dart';
@@ -36,12 +38,16 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
   final alarmManager = AlarmManager();
   Future<void> fetchDataAndNotify() async {
     String? IPaddr = await getIpGateway();
-    print('http://$IPaddr/alarms/');
+    SharedPreferences prefs = await SharedPreferences.getInstance();
 
-    final response = await dio.get('http://$IPaddr/alarms/');
+    String apiLanIP= await prefs.getString(prefs_ApiLanEndpoint).toString();
+    print('$apiLanIP/alarms/');
+
+    final response = await dio.get('$apiLanIP/alarms/');
     if (response.statusCode == 200) {
       newVariables.clear();
       final jsonList = json.decode(response.data) as List<dynamic>;
+      print('response: $response');
 
       int len1 = jsonList.length;
       int len2 = alarmManager.previousVariables.length;

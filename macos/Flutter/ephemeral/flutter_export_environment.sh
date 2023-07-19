@@ -1,11 +1,11 @@
 #!/bin/sh
 # This is a generated file; do not edit or check into version control.
-export "FLUTTER_ROOT=/Users/najiattar/flutter"
-export "FLUTTER_APPLICATION_PATH=/Users/najiattar/Desktop/newww/Fork-MyMikano_App"
+export "FLUTTER_ROOT=D:\flutter 3.7\flutter"
+export "FLUTTER_APPLICATION_PATH=C:\Users\Atallah\Documents\GitHub\Fork-MyMikano_App"
 export "COCOAPODS_PARALLEL_CODE_SIGN=true"
 export "FLUTTER_BUILD_DIR=build"
 export "FLUTTER_BUILD_NAME=1.0.2"
-export "FLUTTER_BUILD_NUMBER=6"
+export "FLUTTER_BUILD_NUMBER=7"
 export "DART_OBFUSCATION=false"
 export "TRACK_WIDGET_CREATION=true"
 export "TREE_SHAKE_ICONS=false"
