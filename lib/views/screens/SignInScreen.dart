@@ -42,7 +42,7 @@ class T13SignInScreenState extends State<T13SignInScreen> {
 
   @override
   void initState() {
-    getLocation();
+    // getLocation();
     // Provider.of<ProductState>(context, listen: false).clear();
     // Provider.of<InspectionsState>(context, listen: false).clear();
     // Provider.of<RequestFormState>(context, listen: false).clear();

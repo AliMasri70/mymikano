@@ -26,6 +26,7 @@ const lbl_Company_Email = 'hello@gmail.com';
 const lbl_Full_Name = 'Full name';
 const lbl_Personal_Info = 'Personal Info';
 const lbl_Notifications = 'Notifications';
+const lbl_gps = 'Location';
 const lbl_Language = 'Language';
 const lbl_Purchases = 'Purchases';
 const lbl_Privacy = 'Privacy';

@@ -10,6 +10,7 @@ class UserState extends ChangeNotifier {
   String Role = "user";
   bool termsAccepted = true;
   bool NotificationsEnabled = true;
+  bool GPSEnabled = false;
   Address ChosenAddress = Address();
   bool guestLogin = true;
   List<Address> listofAddresses = [];
@@ -105,6 +106,14 @@ class UserState extends ChangeNotifier {
     NotificationsEnabled = await CustomerService().setNotificationsState(state);
     notifyListeners();
   }
+
+  Future<bool> fetchGPSState() async {
+    return await CustomerService().checkLocationServicesEnabled();
+
+    // notifyListeners();
+  }
+
+
 
   Future<void> fetchtermsState() async {
     termsAccepted = await CustomerService().getTermsState();

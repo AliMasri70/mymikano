@@ -1,5 +1,6 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mymikano_app/models/RFQModel.dart';
 import 'package:mymikano_app/models/StoreModels/AddressModel.dart';
 import 'package:mymikano_app/models/StoreModels/OrderModel.dart';
@@ -326,6 +327,40 @@ class CustomerService {
       debugPrint(e.toString());
       throw Exception('Failed to Change Quantity');
     }
+  }
+
+
+  Future<bool> checkLocationServicesEnabled() async {
+    LocationPermission permission;
+    bool serviceEnabled = false;
+
+    // Check location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      // Location permission is permanently denied, handle accordingly
+      serviceEnabled = false;
+      return serviceEnabled;
+    }
+
+    // Request location permission if it is not granted
+    if (permission == LocationPermission.denied) {
+      // Location permission is denied, handle accordingly
+      serviceEnabled = false;
+      return serviceEnabled;
+    }
+
+    // Check if location service is enabled
+    serviceEnabled = await Geolocator.isLocationServiceEnabled();
+    if (!serviceEnabled) {
+      // Location services are disabled, handle accordingly
+      serviceEnabled = true;
+      return serviceEnabled;
+    }
+
+    return serviceEnabled;
+    // return serviceEnabled;;
+    // Location services are enabled, proceed with your logic
+    // ...
   }
 
   Future<bool> getNotificationsState() async {

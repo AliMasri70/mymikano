@@ -61,6 +61,7 @@ dependencies:
   carousel_slider: ^4.2.1
   flutter_background_service: ^2.4.6
   awesome_notifications: ^0.6.19
+
 #  flutter_absolute_path:
 #    git:
 #      url: https://github.com/kornperkus/flutter_absolute_path.git

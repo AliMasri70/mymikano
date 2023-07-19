@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:geolocator/geolocator.dart';
 import 'package:mymikano_app/State/UserState.dart';
 import 'package:mymikano_app/services/LogoutService.dart';
 import 'package:mymikano_app/services/StoreServices/CustomerService.dart';
@@ -26,10 +27,63 @@ class _ProfileScreenState extends State<ProfileScreen> {
   bool privacyPolicyAccepted = false;
 
   bool switchstate = false;
-
+  bool serviceEnabled = false;
   @override
   void initState() {
+    checkLocationServicesEnabled();
     super.initState();
+  }
+
+  Future<void> setGPSService(bool value) async {
+    print("GPSEnabled 2 : " + value.toString());
+    if (value == false) {
+      // GeolocatorPlatform.instance.checkPermission();
+      final GeolocatorPlatform geolocator = GeolocatorPlatform.instance;
+
+      // Disable location updates
+      await geolocator.openAppSettings();
+    } else {
+      getLocation();
+    }
+  }
+
+  void getLocation() async {
+    LocationPermission permission = await Geolocator.requestPermission();
+    Position position = await Geolocator.getCurrentPosition(
+        desiredAccuracy: LocationAccuracy.low);
+    checkLocationServicesEnabled();
+  }
+
+  Future<void> checkLocationServicesEnabled() async {
+    LocationPermission permission;
+
+    // Check location permission
+    permission = await Geolocator.checkPermission();
+    if (permission == LocationPermission.deniedForever) {
+      // Location permission is permanently denied, handle accordingly
+      setState(() {
+        serviceEnabled = false;
+      });
+    }
+
+    // Request location permission if it is not granted
+    if (permission == LocationPermission.denied) {
+      // Location permission is denied, handle accordingly
+      setState(() {
+        serviceEnabled = false;
+      });
+    }
+
+    // Request location permission if it is not granted
+    if (permission == LocationPermission.always ||
+        permission == LocationPermission.whileInUse) {
+      // Location permission is denied, handle accordingly
+      setState(() {
+        serviceEnabled = true;
+      });
+    }
+
+    print("GPSEnabled 33: " + serviceEnabled.toString());
   }
 
   @override
@@ -134,6 +188,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                             value: state.NotificationsEnabled,
                             onChanged: (value) {
                               state.setNotificationsState(value);
+                            },
+                            activeColor: mainColorTheme,
+                          ),
+                        ],
+                      ),
+                    ),
+                    SizedBox(
+                      height: 40,
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                        children: [
+                          Padding(
+                            padding:
+                                const EdgeInsets.fromLTRB(0.0, 10.0, 0.0, 0.0),
+                            child: SubTitleText(
+                              title: lbl_gps,
+                            ),
+                          ),
+                          Switch(
+                            value: serviceEnabled,
+                            onChanged: (value) {
+                              print("GPSEnabled : " + value.toString());
+                              setGPSService(value);
                             },
                             activeColor: mainColorTheme,
                           ),
