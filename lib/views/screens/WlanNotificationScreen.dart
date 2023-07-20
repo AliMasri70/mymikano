@@ -43,16 +43,16 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
     // print('http://192.168.1.14:8080/alarms');
 
-    // final response = await dio.get('$apiLanIP/alarms');
-    try{ final response = await dio.get('http://192.168.1.14:8080/alarms');
-    print('responsecodee: ${response.statusCode}');
+    try{ final response = await dio.get('$apiLanIP/alarms');
+    // try{ final response = await dio.get('http://192.168.1.14:8080/alarms');
+    print('responsecodee: ${response}');
 
     if (response.statusCode == 200) {
       print('response: ${response.data[0]}');
       //
       newVariables.clear();
-      final List jsonList = response.data;
-
+      final List jsonList =response.data;
+      print("in prefs newww:"+jsonList.toString());
       try {
         alarmManager.clear();
         final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -99,10 +99,10 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
       setState(() {
         // alarmManager.previousVariables.clear();
-        alarmManager.clear()
+        // alarmManager.clear()
 ;        viewList.clear();
         viewList.addAll(variables);
-        alarmManager.addAll(newVariables);
+        alarmManager.addAll(variables);
       });
 
       try {
@@ -124,16 +124,15 @@ print("alarmlist len22:"+jsonString.toString());
         // Handle errors, if any
         print('Error saving data to SharedPreferences: $e');
       }
-      if (newVariables.isNotEmpty) {
+      if (variables.isNotEmpty) {
         // Create a notification
 
-        if (len1 > len2) {
-          for (var variable in newVariables) {
+          for (var variable in variables) {
             scheduleNewNotification(
                 variable.hashCode, 'WLan Notification', variable.text);
 
-            setState(() {});
-          }
+            // setState(() {});
+
         }
       }
     }}
@@ -214,7 +213,7 @@ Future<void> loadPrefs()async{
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var duration =
-        Duration(seconds: 3); // Adjust the interval as per your requirements
+        Duration(seconds: 2); // Adjust the interval as per your requirements
     Timer.periodic(duration, (timer) {
       // scheduleNewNotification(1, 'WLan Notification', "variable.text");
       fetchDataAndNotify();
@@ -267,9 +266,8 @@ Future<void> loadPrefs()async{
                 ),
               ]),
               SizedBox(height: 20),
-              viewList.isEmpty
-                  ? Expanded(
-                      child: ListView.builder(
+               Expanded(
+                      child:alarmManager.isEmpty?Container(): ListView.builder(
                         itemCount: alarmManager.length,
                         itemBuilder: (context, index) {
                           // NotificationModel notification =
@@ -278,25 +276,12 @@ Future<void> loadPrefs()async{
 
                           return WlanNotificationItem(
                             wlanNotification:
-                                alarmManager[index],
+                                alarmManager[alarmManager.length-1-index],
                           );
                         },
                       ),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: viewList.length,
-                        itemBuilder: (context, index) {
-                          // NotificationModel notification =
-                          //     Provider.of<NotificationState>(context)
-                          //         .notifications[index];
 
-                          return WlanNotificationItem(
-                            wlanNotification: viewList[index],
-                          );
-                        },
-                      ),
-                    ),
             ],
           ),
         ),
