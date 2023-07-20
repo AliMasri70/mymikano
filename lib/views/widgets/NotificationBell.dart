@@ -15,8 +15,8 @@ class NotificationBell extends StatelessWidget {
         onPressed: () {
           Navigator.of(context).push(
             MaterialPageRoute(
-              // builder: (context) => NotificationsPage(),
-              builder: (context) => WlanNotificationScreen(),
+              builder: (context) => NotificationsPage(),
+              // builder: (context) => WlanNotificationScreen(),
               // builder: (context) => LanDashboard_Index(
               //       RefreshRate: 1,
               //     )
