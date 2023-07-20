@@ -46,6 +46,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     final response = await dio.get('$apiLanIP/alarms');
     if (response.statusCode == 200) {
       print('response: ${response.data[0]}');
+      print(apiLanIP);
 
       newVariables.clear();
       final List jsonList = response.data;
