@@ -45,22 +45,25 @@ class _ProfileScreenState extends State<ProfileScreen> {
       // Disable location updates
       await geolocator.openAppSettings();
     } else {
-      getLocation();
+      requestAlwaysPermission();
+
+      // getLocation();
     }
   }
 
-  void getLocation() async {
-    // await Geolocator.isLocationServiceEnabled();
-
-    await Geolocator.requestPermission();
-    await Geolocator.getCurrentPosition(desiredAccuracy: LocationAccuracy.best);
-    // sendGpsCoord();
-
+  Future<void> requestAlwaysPermission() async {
+    try {
+      final status = await Geolocator.requestPermission();
+      status == await LocationPermission.always;
+      await Permission.locationAlways.request();
+    } catch (e) {
+      log(e.toString());
+    }
     checkLocationServicesEnabled();
   }
 
   void sendGpsCoord() async {
-    // gps().canceled = false;
+    gps.canceled = false;
     gps.StartTimer();
   }
 
@@ -88,6 +91,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
     if (permission == LocationPermission.always ||
         permission == LocationPermission.whileInUse) {
       // Location permission is denied, handle accordingly
+      try {
+        sendGpsCoord();
+      } catch (e) {
+        print("catchhhhhh: " + e.toString());
+      }
       setState(() {
         serviceEnabled = true;
       });
