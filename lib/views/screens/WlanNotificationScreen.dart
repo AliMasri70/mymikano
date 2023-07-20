@@ -41,13 +41,15 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     SharedPreferences prefs = await SharedPreferences.getInstance();
 
     String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
-    print('$apiLanIP/alarms/');
+    // print('http://192.168.1.14:8080/alarms');
 
-    final response = await dio.get('$apiLanIP/alarms/');
+    final response = await dio.get('$apiLanIP/alarms');
     if (response.statusCode == 200) {
+      print('response: ${response.data[0]}');
+
       newVariables.clear();
-      final jsonList = json.decode(response.data) as List<dynamic>;
-      print('response: $response');
+      final List jsonList = response.data;
+      // print('response: ${jsonList}');
 
       int len1 = jsonList.length;
       int len2 = alarmManager.previousVariables.length;
@@ -174,7 +176,6 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ),
               ]),
               SizedBox(height: 20),
-              Text("notification Length: ${viewList.length}"),
               Expanded(
                 child: ListView.builder(
                   itemCount: viewList.length,

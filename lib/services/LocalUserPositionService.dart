@@ -20,6 +20,7 @@ class gps {
 
     if (defaultTargetPlatform == TargetPlatform.android) {
       locationSettings = AndroidSettings(
+
         accuracy: LocationAccuracy.best,
         intervalDuration: Duration(seconds: settings.refreshRate!),
       );
@@ -27,14 +28,17 @@ class gps {
       locationSettings = AppleSettings(
         accuracy: LocationAccuracy.best,
         activityType: ActivityType.other,
-        pauseLocationUpdatesAutomatically: true,
+        pauseLocationUpdatesAutomatically: false,
         // Only set to true if our app will be started up in the background.
-        showBackgroundLocationIndicator: false,
+        showBackgroundLocationIndicator: true,
       );
     }
 
     positionStream =
-        Geolocator.getPositionStream(locationSettings: locationSettings)
+        Geolocator.getPositionStream(
+          locationSettings: locationSettings,
+
+        )
             .listen((position) async {
       String endtime = settings.endTime!.split(" ")[1];
       String startTime = settings.startTime!.split(" ")[1];
