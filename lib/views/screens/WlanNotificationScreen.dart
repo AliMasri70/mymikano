@@ -46,14 +46,23 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     final response = await dio.get('$apiLanIP/alarms');
     if (response.statusCode == 200) {
       print('response: ${response.data[0]}');
-
+      alarmManager.previousVariables.clear();
       newVariables.clear();
       final List jsonList = response.data;
-      // print('response: ${jsonList}');
 
+      try {
+        final SharedPreferences prefs = await SharedPreferences.getInstance();
+        final jsonString = prefs.getString("previousVariables");
+        if (jsonString != null) {
+          final jsonArray = jsonDecode(jsonString);
+          alarmManager.previousVariables.addAll(jsonArray);
+        }
+      } catch (e) {
+        // Handle errors, if any
+        print('Error loading data from SharedPreferences: $e');
+      }
       int len1 = jsonList.length;
       int len2 = alarmManager.previousVariables.length;
-
       final variables = jsonList.map((json) {
         String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
         return WlanNotificationModel.fromJson(json, currentDate);
@@ -68,12 +77,13 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
       });
 
       setState(() {
-        alarmManager.previousVariables.clear();
+        // alarmManager.previousVariables.clear();
         viewList.clear();
         viewList.addAll(variables);
         alarmManager.previousVariables.addAll(newVariables);
       });
-
+      final jsonString = jsonEncode(alarmManager.previousVariables);
+      await prefs.setString("previousVariables", jsonString);
       if (newVariables.isNotEmpty) {
         // Create a notification
 
@@ -178,14 +188,14 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
               SizedBox(height: 20),
               Expanded(
                 child: ListView.builder(
-                  itemCount: viewList.length,
+                  itemCount: alarmManager.previousVariables.length,
                   itemBuilder: (context, index) {
                     // NotificationModel notification =
                     //     Provider.of<NotificationState>(context)
                     //         .notifications[index];
 
                     return WlanNotificationItem(
-                      wlanNotification: viewList[index],
+                      wlanNotification: alarmManager.previousVariables[index],
                     );
                   },
                 ),
