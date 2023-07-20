@@ -32,7 +32,7 @@ class WlanNotificationScreen extends StatefulWidget {
 
 class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
   final dio = Dio();
-
+  bool loaded = false;
   List<WlanNotificationModel> viewList = [];
   List<WlanNotificationModel> newVariables = [];
   final alarmManager = AlarmManager();
@@ -43,14 +43,16 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
     // print('http://192.168.1.14:8080/alarms');
 
-    final response = await dio.get('$apiLanIP/alarms');
+    // final response = await dio.get('$apiLanIP/alarms');
+    final response = await dio.get('http://192.168.0.102/alarms');
     if (response.statusCode == 200) {
       print('response: ${response.data[0]}');
-      alarmManager.previousVariables.clear();
+      //
       newVariables.clear();
       final List jsonList = response.data;
 
       try {
+        alarmManager.previousVariables.clear();
         final SharedPreferences prefs = await SharedPreferences.getInstance();
         final jsonString = prefs.getString("previousVariables");
         if (jsonString != null) {
@@ -63,6 +65,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
       }
       int len1 = jsonList.length;
       int len2 = alarmManager.previousVariables.length;
+      print(len1.toString() + "==" + len2.toString());
       final variables = jsonList.map((json) {
         String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
         return WlanNotificationModel.fromJson(json, currentDate);
@@ -84,6 +87,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
       });
       final jsonString = jsonEncode(alarmManager.previousVariables);
       await prefs.setString("previousVariables", jsonString);
+
       if (newVariables.isNotEmpty) {
         // Create a notification
 
@@ -131,9 +135,11 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     return await info.getWifiGatewayIP();
   }
 
-  void setupTimer() {
-    const duration =
-        Duration(seconds: 10); // Adjust the interval as per your requirements
+  void setupTimer() async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    var duration =
+        Duration(seconds: 3); // Adjust the interval as per your requirements
     Timer.periodic(duration, (timer) {
       // scheduleNewNotification(1, 'WLan Notification', "variable.text");
       fetchDataAndNotify();
@@ -186,20 +192,36 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ),
               ]),
               SizedBox(height: 20),
-              Expanded(
-                child: ListView.builder(
-                  itemCount: alarmManager.previousVariables.length,
-                  itemBuilder: (context, index) {
-                    // NotificationModel notification =
-                    //     Provider.of<NotificationState>(context)
-                    //         .notifications[index];
+              viewList.length <= 0
+                  ? Expanded(
+                      child: ListView.builder(
+                        itemCount: alarmManager.previousVariables.length,
+                        itemBuilder: (context, index) {
+                          // NotificationModel notification =
+                          //     Provider.of<NotificationState>(context)
+                          //         .notifications[index];
 
-                    return WlanNotificationItem(
-                      wlanNotification: alarmManager.previousVariables[index],
-                    );
-                  },
-                ),
-              ),
+                          return WlanNotificationItem(
+                            wlanNotification:
+                                alarmManager.previousVariables[index],
+                          );
+                        },
+                      ),
+                    )
+                  : Expanded(
+                      child: ListView.builder(
+                        itemCount: viewList.length,
+                        itemBuilder: (context, index) {
+                          // NotificationModel notification =
+                          //     Provider.of<NotificationState>(context)
+                          //         .notifications[index];
+
+                          return WlanNotificationItem(
+                            wlanNotification: viewList[index],
+                          );
+                        },
+                      ),
+                    ),
             ],
           ),
         ),
