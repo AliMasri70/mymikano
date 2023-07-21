@@ -46,7 +46,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     try {
       final response = await dio.get('$apiLanIP/alarms');
       // try {
-      //   final response = await dio.get('http://192.168.0.102/alarms');
+      //   final response = await dio.get('http://192.168.1.14:8080/alarms');
       print('responsecodee: ${response}');
 
       if (response.statusCode == 200) {
