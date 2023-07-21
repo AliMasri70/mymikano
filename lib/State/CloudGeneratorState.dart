@@ -378,7 +378,8 @@ class CloudGeneratorState extends ChangeNotifier {
 
       ControllerMode =
           FindSensor(cloudsensors, dotenv.env['ControllerMode_id'].toString());
-      ApplicationMode = FindSensor(cloudsensors, "ApplicationMode");
+      // ApplicationMode = FindSensor(cloudsensors, "ApplicationMode");
+      ApplicationMode = FindSensorr(cloudsensors, "Application Mode");
 
       MCBMode = FindSensor(cloudsensors, dotenv.env['MCBMode_id'].toString());
       GCBMode = FindSensor(cloudsensors, dotenv.env['GCB_id'].toString());
@@ -443,6 +444,7 @@ class CloudGeneratorState extends ChangeNotifier {
       else if (ControllerMode.value == "MAN")
         ControllerModeStatus = 1;
       else if (ControllerMode.value == "OFF") ControllerModeStatus = 0;
+      print("sensor.sensorID" + ApplicationMode.value);
 
       if (ApplicationMode.value == "MRS") {
         AppModeStatus = 0;
@@ -507,7 +509,7 @@ class CloudGeneratorState extends ChangeNotifier {
     final index = cloudsensors
         .indexWhere((element) => element.sensorName.trim() == param.trim());
     CloudSensor sensor = cloudsensors.elementAt(index);
-
+    print("sensor.sensorID" + sensor.sensorID);
     return sensor;
   }
 
