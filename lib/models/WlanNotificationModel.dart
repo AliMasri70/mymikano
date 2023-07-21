@@ -1,7 +1,7 @@
 class WlanNotificationModel {
-  final int level;
-  final bool active;
-  final bool confirmed;
+  final String level;
+  final String active;
+  final String confirmed;
   final String text;
   final String dateTime;
 
@@ -16,9 +16,9 @@ class WlanNotificationModel {
   factory WlanNotificationModel.fromJson(
       Map<String, dynamic> json, String dateTime) {
     return WlanNotificationModel(
-      level: json['level'] as int,
-      active: json['active'] as bool,
-      confirmed: json['confirmed'] as bool? ?? false,
+      level: json['level'] as String,
+      active: json['active'] as String,
+      confirmed: json['confirmed'] as String? ?? '',
       text: json['text'] as String,
       dateTime: dateTime, // Set the current date and time
     );

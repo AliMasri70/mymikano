@@ -35,7 +35,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
   bool loaded = false;
   List<WlanNotificationModel> viewList = [];
   List<WlanNotificationModel> newVariables = [];
-  final alarmManager = AlarmManager();
+  List<WlanNotificationModel> alarmManager =[];
   Future<void> fetchDataAndNotify() async {
     String? IPaddr = await getIpGateway();
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -43,28 +43,46 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
     // print('http://192.168.1.14:8080/alarms');
 
-    // final response = await dio.get('$apiLanIP/alarms');
-    final response = await dio.get('http://192.168.0.102/alarms');
+    try{ final response = await dio.get('$apiLanIP/alarms');
+    // try{ final response = await dio.get('http://192.168.1.14:8080/alarms');
+    print('responsecodee: ${response}');
+
     if (response.statusCode == 200) {
       print('response: ${response.data[0]}');
       //
       newVariables.clear();
-      final List jsonList = response.data;
-
+      final List jsonList =response.data;
+      print("in prefs newww:"+jsonList.toString());
       try {
-        alarmManager.previousVariables.clear();
+        alarmManager.clear();
         final SharedPreferences prefs = await SharedPreferences.getInstance();
-        final jsonString = prefs.getString("previousVariables");
-        if (jsonString != null) {
-          final jsonArray = jsonDecode(jsonString);
-          alarmManager.previousVariables.addAll(jsonArray);
+        String? jsonData =  prefs.getString("previousVariables");
+        print("in prefs prr:"+"jsonString.toString()");
+        if (jsonData != null) {
+          List<dynamic> decodedData = jsonDecode(jsonData);
+
+            final newlist = decodedData
+                .map((notificationJson) => WlanNotificationModel(
+              level: notificationJson['level'],
+              active: notificationJson['active'],
+              confirmed: notificationJson['confirmed'],
+              text: notificationJson['text'],
+              dateTime: notificationJson['dateTime'],
+            ))
+                .toList();
+          setState(() {
+            alarmManager.addAll(newlist);
+          });
+          print("in prefs 200:"+alarmManager.toString());
+        }  else {
+          print("in length else");
         }
       } catch (e) {
         // Handle errors, if any
-        print('Error loading data from SharedPreferences: $e');
+        print('in prefs:error $e');
       }
       int len1 = jsonList.length;
-      int len2 = alarmManager.previousVariables.length;
+      int len2 = alarmManager.length;
       print(len1.toString() + "==" + len2.toString());
       final variables = jsonList.map((json) {
         String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -72,7 +90,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
       }).toList();
 
       variables.forEach((element) {
-        if (!alarmManager.previousVariables.contains(element)) {
+        if (!alarmManager.contains(element)) {
           setState(() {
             newVariables.add(element);
           });
@@ -81,28 +99,84 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
       setState(() {
         // alarmManager.previousVariables.clear();
-        viewList.clear();
+        // alarmManager.clear()
+;        viewList.clear();
         viewList.addAll(variables);
-        alarmManager.previousVariables.addAll(newVariables);
+        alarmManager.addAll(variables);
       });
-      final jsonString = jsonEncode(alarmManager.previousVariables);
-      await prefs.setString("previousVariables", jsonString);
 
-      if (newVariables.isNotEmpty) {
+      try {
+print("alarmlist len:"+alarmManager.length.toString());
+List<Map<String, dynamic>> alarmManagerData = alarmManager
+    .map((notification) => {
+  'level': notification.level,
+  'active': notification.active,
+  'confirmed': notification.confirmed,
+  'text': notification.text,
+  'dateTime': notification.dateTime,
+})
+    .toList();
+String jsonString = jsonEncode(alarmManagerData);
+print("alarmlist len22:"+jsonString.toString());
+        await prefs.setString("previousVariables", "");
+        await prefs.setString("previousVariables", jsonString);
+      } catch (e) {
+        // Handle errors, if any
+        print('Error saving data to SharedPreferences: $e');
+      }
+      if (variables.isNotEmpty) {
         // Create a notification
 
-        if (len1 > len2) {
-          for (var variable in newVariables) {
+          for (var variable in variables) {
             scheduleNewNotification(
                 variable.hashCode, 'WLan Notification', variable.text);
 
-            setState(() {});
-          }
+            // setState(() {});
+
         }
       }
+    }}
+    catch(e) {
+      print("elseeeee");
     }
   }
 
+
+Future<void> loadPrefs()async{
+  try {
+
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String? jsonData =  prefs.getString("previousVariables");
+    print("in prefs laded:"+jsonData.toString());
+    if (jsonData != null) {
+      List<dynamic> decodedData = jsonDecode(jsonData);
+
+      final newlist = decodedData
+          .map((notificationJson) => WlanNotificationModel(
+        level: notificationJson['level'],
+        active: notificationJson['active'],
+        confirmed: notificationJson['confirmed'],
+        text: notificationJson['text'],
+        dateTime: notificationJson['dateTime'],
+      ))
+          .toList();
+      setState(() {
+        alarmManager.clear();
+        alarmManager.addAll(newlist);
+      });
+
+      print("in prefsss22:"+alarmManager.length.toString());
+      print("in prefsss22:"+alarmManager[0].toString());
+
+    }  else {
+      print("in length else");
+    }
+  } catch (e) {
+    // Handle errors, if any
+    print('in prefs:error $e');
+  }
+
+}
   static Future<void> scheduleNewNotification(
       int id, String title, String body) async {
     bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
@@ -139,7 +213,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
     final SharedPreferences prefs = await SharedPreferences.getInstance();
 
     var duration =
-        Duration(seconds: 3); // Adjust the interval as per your requirements
+        Duration(seconds: 2); // Adjust the interval as per your requirements
     Timer.periodic(duration, (timer) {
       // scheduleNewNotification(1, 'WLan Notification', "variable.text");
       fetchDataAndNotify();
@@ -154,7 +228,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
   @override
   void initState() {
-    // TODO: implement initState
+    loadPrefs();    // TODO: implement initState
     setupTimer();
 
     super.initState();
@@ -162,7 +236,7 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
   @override
   Widget build(BuildContext context) {
-    final alarmManager = AlarmManager();
+
     return Scaffold(
       body: Padding(
         padding: EdgeInsets.symmetric(horizontal: 16),
@@ -192,10 +266,9 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ),
               ]),
               SizedBox(height: 20),
-              viewList.length <= 0
-                  ? Expanded(
-                      child: ListView.builder(
-                        itemCount: alarmManager.previousVariables.length,
+               Expanded(
+                      child:alarmManager.isEmpty?Container(): ListView.builder(
+                        itemCount: alarmManager.length,
                         itemBuilder: (context, index) {
                           // NotificationModel notification =
                           //     Provider.of<NotificationState>(context)
@@ -203,25 +276,12 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
                           return WlanNotificationItem(
                             wlanNotification:
-                                alarmManager.previousVariables[index],
+                                alarmManager[alarmManager.length-1-index],
                           );
                         },
                       ),
                     )
-                  : Expanded(
-                      child: ListView.builder(
-                        itemCount: viewList.length,
-                        itemBuilder: (context, index) {
-                          // NotificationModel notification =
-                          //     Provider.of<NotificationState>(context)
-                          //         .notifications[index];
 
-                          return WlanNotificationItem(
-                            wlanNotification: viewList[index],
-                          );
-                        },
-                      ),
-                    ),
             ],
           ),
         ),
