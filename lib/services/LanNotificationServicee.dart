@@ -38,14 +38,14 @@ Future<FlutterBackgroundService> initializeService() async {
         // this will be executed when app is in foreground or background in separated isolate
         onStart: onStart,
         // auto start service
-        autoStart: false,
+        autoStart: true,
         isForegroundMode: true,
         initialNotificationContent: '',
         initialNotificationTitle: '',
         foregroundServiceNotificationId: 1),
     iosConfiguration: IosConfiguration(
       // auto start service
-      autoStart: false,
+      autoStart: true,
       // this will be executed when app is in foreground in separated isolate
       onForeground: onStart,
       // you have to enable background fetch capability on xcode project
@@ -138,22 +138,32 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
               alarmManager.clear();
               final SharedPreferences prefs =
                   await SharedPreferences.getInstance();
-              final jsonString = prefs.getString("previousVariables");
-              if (jsonString != null) {
-                print("in length");
-                final jsonArray = jsonDecode(jsonString);
+              String? jsonData = prefs.getString("previousVariables");
 
-                alarmManager.addAll(jsonArray);
+              if (jsonData != null) {
+                List<dynamic> decodedData = jsonDecode(jsonData);
+
+                final newlist = decodedData
+                    .map((notificationJson) => WlanNotificationModel(
+                          level: notificationJson['level'],
+                          active: notificationJson['active'],
+                          confirmed: notificationJson['confirmed'],
+                          text: notificationJson['text'],
+                          dateTime: notificationJson['dateTime'],
+                        ))
+                    .toList();
+
+                alarmManager.addAll(newlist);
               } else {
                 print("in length else");
               }
             } catch (e) {
               // Handle errors, if any
-              print('Error loading data from SharedPreferences: $e');
+              print('in prefs:error $e');
             }
             int len1 = jsonList.length;
             int len2 = alarmManager.length;
-            print("in length" + len1.toString() + "==" + len2.toString());
+            print(len1.toString() + "==" + len2.toString());
             final variables = jsonList.map((json) {
               String currentDate =
                   DateFormat('dd-MM-yyyy').format(DateTime.now());
@@ -165,15 +175,42 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
                 newVariables.add(element);
               }
             });
-            print("in length newVariables" + newVariables.length.toString());
 
             // alarmManager.previousVariables.clear();
+            // alarmManager.clear()
+            ;
             viewList.clear();
             viewList.addAll(variables);
-            alarmManager.addAll(newVariables);
+            alarmManager.addAll(variables);
 
-            final jsonString = jsonEncode(alarmManager);
-            await prefs.setString("previousVariables", jsonString);
+            try {
+              List<Map<String, dynamic>> alarmManagerData = alarmManager
+                  .map((notification) => {
+                        'level': notification.level,
+                        'active': notification.active,
+                        'confirmed': notification.confirmed,
+                        'text': notification.text,
+                        'dateTime': notification.dateTime,
+                      })
+                  .toList();
+              String jsonString = jsonEncode(alarmManagerData);
+
+              await prefs.setString("previousVariables", "");
+              await prefs.setString("previousVariables", jsonString);
+            } catch (e) {
+              // Handle errors, if any
+              print('Error saving data to SharedPreferences: $e');
+            }
+            if (variables.isNotEmpty) {
+              // Create a notification
+
+              for (var variable in variables) {
+                scheduleNewNotification(
+                    variable.hashCode, 'WLan Notification', variable.text);
+
+                // setState(() {});
+              }
+            }
           }
         }
       }
@@ -279,4 +316,21 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
       },
     );
   });
+}
+
+Future<void> scheduleNewNotification(int id, String title, String body) async {
+  bool isAllowed = await AwesomeNotifications().isNotificationAllowed();
+  // if (!isAllowed) isAllowed = await displayNotificationRationale();
+  if (!isAllowed) return;
+
+  await AwesomeNotifications().createNotification(
+    content: NotificationContent(
+      id: id, // -1 is replaced by a random number
+      channelKey: 'LanNotification',
+      title: title,
+      body: body,
+
+      notificationLayout: NotificationLayout.Default,
+    ),
+  );
 }

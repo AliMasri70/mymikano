@@ -1,4 +1,5 @@
 import 'dart:async';
+import 'dart:convert';
 import 'dart:ui';
 
 import 'package:awesome_notifications/awesome_notifications.dart';
@@ -15,6 +16,8 @@ import 'package:mymikano_app/State/LanGeneratorState.dart';
 import 'package:mymikano_app/State/NotificationState.dart';
 import 'package:mymikano_app/State/RequestFormState.dart';
 import 'package:mymikano_app/State/WSVGeneratorState.dart';
+import 'package:mymikano_app/models/ConfigurationModel.dart';
+import 'package:mymikano_app/services/LanNotificationServicee.dart';
 import 'package:mymikano_app/services/pushNotificationService.dart';
 import 'package:mymikano_app/utils/appsettings.dart';
 import 'package:mymikano_app/views/screens/Dashboard/AlarmPage.dart';
@@ -55,6 +58,9 @@ Future<void> main() async {
       enableVibration: true,
     ),
   ]);
+  SharedPreferences prefs = await SharedPreferences.getInstance();
+
+  String config = await prefs.getString('Configurations') ?? "";
   ///////////setSystemUIOverlayStyle(style))))))//////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -67,6 +73,13 @@ Future<void> main() async {
   FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
+  if (config != "") {
+    print("in configggg");
+
+    initializeService();
+  } else {
+    print("not initialized yet");
+  }
   runApp(MyApp());
 }
 
