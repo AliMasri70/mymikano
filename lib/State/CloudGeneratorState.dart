@@ -378,7 +378,7 @@ class CloudGeneratorState extends ChangeNotifier {
 
       ControllerMode =
           FindSensor(cloudsensors, dotenv.env['ControllerMode_id'].toString());
-      ApplicationMode = FindSensorr(cloudsensors, "Application Mode");
+      ApplicationMode = FindSensor(cloudsensors, "ApplicationMode");
 
       MCBMode = FindSensor(cloudsensors, dotenv.env['MCBMode_id'].toString());
       GCBMode = FindSensor(cloudsensors, dotenv.env['GCB_id'].toString());

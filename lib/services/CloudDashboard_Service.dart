@@ -147,7 +147,7 @@ class CloudDashBoard_Service {
   Future<bool> SwitchApplicationMode(int status) async {
     String Mode;
     bool isSuccess = false;
-    String sensorid = FindSensorr(cloudsensors, "Application Mode");
+    //  String sensorid = FindSensorr(cloudsensors, "Application Mode");
 
     if (status == 0)
       Mode = "MRS";
@@ -172,7 +172,7 @@ class CloudDashBoard_Service {
       },
       body: jsonEncode([
         <String, String>{
-          'generatorSensorID': sensorid,
+          'generatorSensorID': dotenv.env['ApplicationMode'].toString(),
           'value': Mode.toString(),
           //'timeStamp':DateTime.now().toString()
           'timeStamp': DateTime.now().toIso8601String()

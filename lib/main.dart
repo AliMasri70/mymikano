@@ -20,6 +20,7 @@ import 'package:mymikano_app/models/ConfigurationModel.dart';
 import 'package:mymikano_app/services/LanNotificationServicee.dart';
 import 'package:mymikano_app/services/pushNotificationService.dart';
 import 'package:mymikano_app/utils/appsettings.dart';
+import 'package:mymikano_app/utils/strings.dart';
 import 'package:mymikano_app/views/screens/Dashboard/AlarmPage.dart';
 import 'package:mymikano_app/views/screens/Dashboard/Dashboard_Index.dart';
 import 'package:mymikano_app/views/screens/Dashboard/GeneratorAlertsPage.dart';
@@ -60,7 +61,7 @@ Future<void> main() async {
   ]);
   SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  String config = await prefs.getString('Configurations') ?? "";
+  String config = await prefs.getString(prefs_ApiLanEndpoint) ?? "";
   ///////////setSystemUIOverlayStyle(style))))))//////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -73,7 +74,7 @@ Future<void> main() async {
   FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
-  if (config != "") {
+  if (config.isNotEmpty) {
     print("in configggg");
 
     initializeService();
