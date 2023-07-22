@@ -125,15 +125,15 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
     // for (ConfigurationModel model in configsList) {
     // if (model.cloudMode == 0) {
     //       String apiLanIP =
-    // print('in background noti 2 $decodedData');
+    // print('in background noti 2 $decodedData');"http://192.168.0.170/alarms/index.php";
 
-    String apiLanIP = "http://192.168.0.170/alarms/index.php";
-    // await prefs.getString(prefs_ApiLanEndpoint).toString() == null
-    //     ? IPaddr
-    //     : await prefs.getString(prefs_ApiLanEndpoint).toString();
+    String apiLanIP =
+        await prefs.getString(prefs_ApiLanEndpoint).toString() == null
+            ? IPaddr
+            : await prefs.getString(prefs_ApiLanEndpoint).toString();
     // print('http://192.168.1.14:8080/alarms');
     try {
-      print('in loop');
+      print('in loop $apiLanIP');
 
       // final response = await dio.get('http://192.168.0.102/alarms');
 
