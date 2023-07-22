@@ -3,6 +3,7 @@ import 'package:flutter/services.dart';
 import 'package:mymikano_app/State/CurrencyState.dart';
 import 'package:mymikano_app/State/MainDashboardState.dart';
 import 'package:mymikano_app/State/ProductState.dart';
+import 'package:mymikano_app/services/LanNotificationServicee.dart';
 import 'package:mymikano_app/services/PaymentService.dart';
 import 'package:mymikano_app/utils/AppColors.dart';
 import 'package:mymikano_app/utils/images.dart';
@@ -63,6 +64,8 @@ class _Theme5DashboardState extends State<Theme5Dashboard> {
   @override
   void initState() {
     init();
+    
+
     super.initState();
   }
 

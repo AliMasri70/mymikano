@@ -89,6 +89,7 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
   var dio = Dio();
   String IPaddr = await getIpGateway() ?? "192.168.0.1";
   // Only available for flutter 3.0.0 and later
+  print('in loop');
   DartPluginRegistrant.ensureInitialized();
   if (service is AndroidServiceInstance) {
     service.on('setAsForeground').listen((event) {
@@ -108,9 +109,9 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
   // bring to foreground
   int refreshDuration = prefs.getInt('refreshDuration') != null
       ? prefs.getInt('refreshDuration')!.toInt()
-      : 10;
-
-  Timer.periodic(Duration(seconds: refreshDuration), (timer) async {
+      : 1;
+  print('in loop ${prefs.getInt('refreshDuration')!.toInt()}');
+  Timer.periodic(Duration(seconds: 1), (timer) async {
     //make the call to the api just here//
     List<LanAlarm> listAllAlarms = [];
     // List<LanAlarm> listAlarms;
@@ -124,14 +125,15 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
     // for (ConfigurationModel model in configsList) {
     // if (model.cloudMode == 0) {
     //       String apiLanIP =
+    // print('in background noti 2 $decodedData');
 
-    String apiLanIP =
-        await prefs.getString(prefs_ApiLanEndpoint).toString() == null
-            ? IPaddr
-            : await prefs.getString(prefs_ApiLanEndpoint).toString();
+    String apiLanIP = "http://192.168.0.170/alarms/index.php";
+    // await prefs.getString(prefs_ApiLanEndpoint).toString() == null
+    //     ? IPaddr
+    //     : await prefs.getString(prefs_ApiLanEndpoint).toString();
     // print('http://192.168.1.14:8080/alarms');
     try {
-      // print('in llllll $apiLanIP');
+      print('in loop');
 
       // final response = await dio.get('http://192.168.0.102/alarms');
 

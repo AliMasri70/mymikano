@@ -59,9 +59,9 @@ Future<void> main() async {
       enableVibration: true,
     ),
   ]);
-  SharedPreferences prefs = await SharedPreferences.getInstance();
+  // SharedPreferences prefs = await SharedPreferences.getInstance();
 
-  String config = await prefs.getString(prefs_ApiLanEndpoint) ?? "";
+  // String config = await prefs.getString(prefs_ApiLanEndpoint) ?? "";
   ///////////setSystemUIOverlayStyle(style))))))//////////
   SystemChrome.setPreferredOrientations(
       [DeviceOrientation.portraitUp, DeviceOrientation.portraitDown]);
@@ -74,13 +74,13 @@ Future<void> main() async {
   FlutterStatusbarcolor.setStatusBarWhiteForeground(false);
   await Firebase.initializeApp();
   await dotenv.load(fileName: ".env");
-  if (config.isNotEmpty) {
-    print("in configggg");
+  // if (config.isNotEmpty) {
+  //   print("in configggg");
 
-    initializeService();
-  } else {
-    print("not initialized yet");
-  }
+  initializeService();
+  // } else {
+  //   print("not initialized yet");
+  // }
   runApp(MyApp());
 }
 

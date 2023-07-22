@@ -8,6 +8,7 @@ import 'package:flutter_spinkit/flutter_spinkit.dart';
 import 'package:mymikano_app/State/CloudGeneratorState.dart';
 import 'package:mymikano_app/State/LanGeneratorState.dart';
 import 'package:mymikano_app/models/GeneratorModel.dart';
+import 'package:mymikano_app/services/LanNotificationServicee.dart';
 import 'package:mymikano_app/utils/AppColors.dart';
 import 'package:mymikano_app/utils/appsettings.dart';
 import 'package:mymikano_app/utils/images.dart';
@@ -51,6 +52,7 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
   @override
   void initState() {
     super.initState();
+    // initializeService();
     getSelectedConfigurationModel();
     isDataFetched().whenComplete(() {
       setState(() {});
