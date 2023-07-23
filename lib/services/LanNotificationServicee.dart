@@ -140,7 +140,7 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
       final response = await dio.get('$apiLanIP/alarms');
       if (response.statusCode == 200) {
         final List jsonList = response.data;
-        // print('in background noti 1 $jsonList');
+        print('in llllll 1 $jsonList');
         try {
           alarmManager.clear();
           final SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -161,7 +161,7 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
                 .toList();
 
             alarmManager.addAll(newlist);
-            print("in llllll 1  ${alarmManager.length}");
+            // print("in llllll 1  ${alarmManager.length}");
           } else {
             print("in length else");
           }
@@ -176,7 +176,7 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
         }).toList();
 
         alarmManager.addAll(variables);
-        // print('in background noti 3 $alarmManager');
+       print("in llllll 1  ${alarmManager.length}");
 
         try {
           List<Map<String, dynamic>> alarmManagerData = alarmManager

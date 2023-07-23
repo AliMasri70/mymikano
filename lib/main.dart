@@ -77,7 +77,7 @@ Future<void> main() async {
   // if (config.isNotEmpty) {
   //   print("in configggg");
 
-  initializeService();
+  // initializeService();
   // } else {
   //   print("not initialized yet");
   // }

@@ -36,121 +36,32 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
   List<WlanNotificationModel> viewList = [];
   List<WlanNotificationModel> newVariables = [];
   List<WlanNotificationModel> alarmManager = [];
-  // Future<void> fetchDataAndNotify() async {
-  // String? IPaddr = await getIpGateway();
-  //   SharedPreferences prefs = await SharedPreferences.getInstance();
+  bool isLoading = false;
 
-  //   String apiLanIP = await prefs.getString(prefs_ApiLanEndpoint).toString();
-  //   // print('http://192.168.1.14:8080/alarms');
+  Future<void> deleteNotifications() async {
+    print("deleting notifications");
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    await prefs.setString("previousVariables", "");
+    setState(() {});
+    loadPrefs();
+  }
 
-  //   // try {
-  //   //   final response = await dio.get('$apiLanIP/alarms');
-  //   try {
-  //     final response = await dio.get('http://192.168.0.102/alarms');
-  //     print('responsecodee: ${response}');
-
-  //     if (response.statusCode == 200) {
-  //       print('response: ${response.data[0]}');
-  //       //
-  //       newVariables.clear();
-  //       final List jsonList = response.data;
-  //       print("in prefs newww:" + jsonList.toString());
-  //       try {
-  //         alarmManager.clear();
-  //         final SharedPreferences prefs = await SharedPreferences.getInstance();
-  //         String? jsonData = await prefs.getString("previousVariables");
-  //         print("in prefs prr:" + "jsonString.toString()");
-  //         if (jsonData != null) {
-  //           List<dynamic> decodedData = jsonDecode(jsonData);
-
-  //           final newlist = decodedData
-  //               .map((notificationJson) => WlanNotificationModel(
-  //                     level: notificationJson['level'],
-  //                     active: notificationJson['active'],
-  //                     confirmed: notificationJson['confirmed'],
-  //                     text: notificationJson['text'],
-  //                     dateTime: notificationJson['dateTime'],
-  //                   ))
-  //               .toList();
-  //           setState(() {
-  //             alarmManager.addAll(newlist);
-  //           });
-  //           print("in prefs 200:" + alarmManager.toString());
-  //         } else {
-  //           print("in length else");
-  //         }
-  //       } catch (e) {
-  //         // Handle errors, if any
-  //         print('in prefs:error $e');
-  //       }
-  //       int len1 = jsonList.length;
-  //       int len2 = alarmManager.length;
-  //       print(len1.toString() + "==" + len2.toString());
-  //       final variables = jsonList.map((json) {
-  //         String currentDate = DateFormat('dd-MM-yyyy').format(DateTime.now());
-  //         return WlanNotificationModel.fromJson(json, currentDate);
-  //       }).toList();
-
-  //       variables.forEach((element) {
-  //         if (!alarmManager.contains(element)) {
-  //           setState(() {
-  //             newVariables.add(element);
-  //           });
-  //         }
-  //       });
-
-  //       setState(() {
-  //         // alarmManager.previousVariables.clear();
-  //         // alarmManager.clear()
-  //         ;
-  //         viewList.clear();
-  //         viewList.addAll(variables);
-  //         alarmManager.addAll(variables);
-  //       });
-
-  //       try {
-  //         print("alarmlist len:" + alarmManager.length.toString());
-  //         List<Map<String, dynamic>> alarmManagerData = alarmManager
-  //             .map((notification) => {
-  //                   'level': notification.level,
-  //                   'active': notification.active,
-  //                   'confirmed': notification.confirmed,
-  //                   'text': notification.text,
-  //                   'dateTime': notification.dateTime,
-  //                 })
-  //             .toList();
-  //         String jsonString = jsonEncode(alarmManagerData);
-  //         print("alarmlist len22:" + jsonString.toString());
-  //         await prefs.setString("previousVariables", "");
-  //         await prefs.setString("previousVariables", jsonString);
-  //       } catch (e) {
-  //         // Handle errors, if any
-  //         print('Error saving data to SharedPreferences: $e');
-  //       }
-  //       if (variables.isNotEmpty) {
-  //         // Create a notification
-
-  //         for (var variable in variables) {
-  //           scheduleNewNotification(
-  //               variable.hashCode, 'WLan Notification', variable.text);
-
-  //           // setState(() {});
-  //         }
-  //       }
-  //     }
-  //   } catch (e) {
-  //     print("elseeeee");
-  //   }
-  // }
+  @override
+  void didChangeDependencies() {
+    loadPrefs();
+    setState(() {});
+    super.didChangeDependencies();
+  }
 
   Future<void> loadPrefs() async {
+    setState(() {
+      isLoading = true;
+    });
     try {
       final SharedPreferences prefs = await SharedPreferences.getInstance();
       String jsonData = await prefs.getString("previousVariables") ?? "";
-      print("in wlan is loaded or not" + jsonData.toString());
-      setState(() {
-        alarmManager.clear();
-      });
+      print("in llllll 11 " + jsonData.toString());
+
       if (jsonData != null) {
         List<dynamic> decodedData = jsonDecode(jsonData);
 
@@ -164,9 +75,10 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ))
             .toList();
         setState(() {
+          alarmManager.clear();
           alarmManager.addAll(newlist);
         });
-        print("in llllll ${alarmManager.length}");
+        print("in llllll 12 ${alarmManager.length}");
       } else {
         print("in length else");
       }
@@ -174,7 +86,9 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
       // Handle errors, if any
       print('in prefs:error $e');
     }
-    setState(() {});
+    setState(() {
+      isLoading = false;
+    });
   }
 
   static Future<void> scheduleNewNotification(
@@ -229,8 +143,8 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
 
   @override
   void initState() {
-    // loadPrefs(); // TODO: implement initState
-    setupTimer();
+    loadPrefs();
+    // setupTimer();
 
     super.initState();
   }
@@ -259,29 +173,69 @@ class _WlanNotificationScreenState extends State<WlanNotificationScreen> {
                 ),
                 Align(
                   alignment: Alignment.center,
-                  child: TitleText(
-                    title: lbl_WlanNotifications,
-                    textSize: 24,
+                  child: Padding(
+                    padding: const EdgeInsets.only(right: 50),
+                    child: TitleText(
+                      title: lbl_WlanNotifications,
+                      textSize: 23,
+                    ),
+                  ),
+                ),
+                Align(
+                  alignment: Alignment.centerRight,
+                  child: Row(
+                    mainAxisAlignment: MainAxisAlignment.end,
+                    children: [
+                      Spacer(),
+                      Padding(
+                        padding: const EdgeInsets.only(left: 20),
+                        child: IconButton(
+                          icon: Icon(
+                            Icons.refresh_rounded,
+                            color: backArrowColor,
+                          ),
+                          onPressed: () {
+                            loadPrefs();
+                          },
+                        ),
+                      ),
+                      IconButton(
+                        icon: Icon(
+                          Icons.delete,
+                          color: backArrowColor,
+                        ),
+                        onPressed: () {
+                          deleteNotifications();
+                        },
+                      ),
+                    ],
                   ),
                 ),
               ]),
               SizedBox(height: 20),
               Expanded(
-                child: alarmManager.isEmpty
-                    ? Container()
-                    : ListView.builder(
-                        itemCount: alarmManager.length,
-                        itemBuilder: (context, index) {
-                          // NotificationModel notification =
-                          //     Provider.of<NotificationState>(context)
-                          //         .notifications[index];
+                child: isLoading
+                    ? Center(
+                        child: CircularProgressIndicator(),
+                      )
+                    : alarmManager.length == 0
+                        ? Center(
+                            child: Text("Wlan Notification Empty"),
+                            // child: CircularProgressIndicator(),
+                          )
+                        : ListView.builder(
+                            itemCount: alarmManager.length,
+                            itemBuilder: (context, index) {
+                              // NotificationModel notification =
+                              //     Provider.of<NotificationState>(context)
+                              //         .notifications[index];
 
-                          return WlanNotificationItem(
-                            wlanNotification:
-                                alarmManager[alarmManager.length - 1 - index],
-                          );
-                        },
-                      ),
+                              return WlanNotificationItem(
+                                wlanNotification: alarmManager[
+                                    alarmManager.length - 1 - index],
+                              );
+                            },
+                          ),
               )
             ],
           ),

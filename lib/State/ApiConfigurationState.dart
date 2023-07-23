@@ -59,12 +59,12 @@ class ApiConfigurationState extends ChangeNotifier {
     notifyListeners();
   }
 
-  void update() async { 
+  void update() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     DashBoardFirstTimeAccess = prefs.getBool(prefs_DashboardFirstTimeAccess)!;
     option = prefs.getString(prefs_ApiConfigurationOption)!;
     RefreshRate = prefs.getInt(prefs_RefreshRate)!;
-    password = prefs.getString(prefs_Password)!;   
+    password = prefs.getString(prefs_Password)!;
     chosenSSID = prefs.getString(prefs_SSID);
     cloudUsername = prefs.getString(prefs_CloudUsername)!;
     cloudPassword = prefs.getString(prefs_CloudPassword)!;
@@ -172,10 +172,10 @@ class ApiConfigurationState extends ChangeNotifier {
   void resetPreferences() async {
     clear();
     SharedPreferences prefs = await SharedPreferences.getInstance();
-    prefs.setBool(prefs_DashboardFirstTimeAccess, true);   
+    prefs.setBool(prefs_DashboardFirstTimeAccess, true);
     prefs.remove(prefs_SSID);
     prefs.remove(prefs_Password);
-    prefs.remove(prefs_RefreshRate); 
+    prefs.remove(prefs_RefreshRate);
     prefs.remove(prefs_CloudUsername);
     prefs.remove(prefs_CloudPassword);
     prefs.remove(prefs_CloudMode);

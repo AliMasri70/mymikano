@@ -423,14 +423,14 @@ class _LanDashboard_IndexState extends State<LanDashboard_Index> {
                                       },
                                       icon: Icon(Icons.settings)),
                                   Spacer(),
-                                  IconButton(
-                                      onPressed: () {
-                                        Navigator.of(context).push(
-                                            MaterialPageRoute(
-                                                builder: (context) =>
-                                                    WlanNotificationScreen()));
-                                      },
-                                      icon: Icon(Icons.warning)),
+                                  // IconButton(
+                                  //     onPressed: () {
+                                  //       Navigator.of(context).push(
+                                  //           MaterialPageRoute(
+                                  //               builder: (context) =>
+                                  //                   WlanNotificationScreen()));
+                                  //     },
+                                  //     icon: Icon(Icons.warning)),
 
                                   // GestureDetector(
                                   //       onTap: () {
