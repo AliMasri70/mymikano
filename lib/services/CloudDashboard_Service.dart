@@ -147,8 +147,18 @@ class CloudDashBoard_Service {
   Future<bool> SwitchApplicationMode(int status) async {
     String Mode;
     bool isSuccess = false;
-     String sensorid = FindSensorr(cloudsensors, "Application Mode");
+    // String sensorid = FindSensorr(cloudsensors, "Application Mode");
 
+    print("sensor.sensorID change: " +
+        dotenv.env['ApplicationMode_id'].toString());
+    // Fluttertoast.showToast(
+    //     msg: "sensor.sensorID change: " +dotenv.env['ApplicationMode_id'].toString(),
+    //     toastLength: Toast.LENGTH_SHORT,
+    //     gravity: ToastGravity.CENTER,
+    //     timeInSecForIosWeb: 1,
+    //     backgroundColor: Colors.red,
+    //     textColor: Colors.white,
+    //     fontSize: 16.0);
     if (status == 0)
       Mode = "MRS";
     else
@@ -172,7 +182,7 @@ class CloudDashBoard_Service {
       },
       body: jsonEncode([
         <String, String>{
-          'generatorSensorID': sensorid,
+          'generatorSensorID': dotenv.env['ApplicationMode_id'].toString(),
           'value': Mode.toString(),
           //'timeStamp':DateTime.now().toString()
           'timeStamp': DateTime.now().toIso8601String()

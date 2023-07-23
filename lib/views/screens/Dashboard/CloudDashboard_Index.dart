@@ -422,7 +422,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                                         RefreshRate: 1)));
                                       },
                                       icon: Icon(Icons.settings)),
-                                  Spacer(),
+                                  // Spacer(),
                                   IconButton(
                                       onPressed: () {
                                         Navigator.of(context).push(
@@ -558,6 +558,7 @@ class _CloudDashboard_IndexState extends State<CloudDashboard_Index> {
                                     radiusStyle: true,
                                     onToggle: (index) async {
                                       if (mounted) {
+                                      
                                         setState(() {
                                           cloud.changeAppModeStatus(index);
                                         });

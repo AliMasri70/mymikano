@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_dotenv/flutter_dotenv.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 import 'package:mymikano_app/models/CloudSensor_Model.dart';
 import 'package:mymikano_app/services/CloudDashboard_Service.dart';
 
@@ -321,7 +322,7 @@ class CloudGeneratorState extends ChangeNotifier {
 
   changeAppModeStatus(value) async {
     bool isSuccess = await cloudService.SwitchApplicationMode(value);
-    print("isSuccess: " + isSuccess.toString());
+
     if (isSuccess == true) {
       print("isSuccess: " + value.toString());
 
@@ -378,8 +379,9 @@ class CloudGeneratorState extends ChangeNotifier {
 
       ControllerMode =
           FindSensor(cloudsensors, dotenv.env['ControllerMode_id'].toString());
-      // ApplicationMode = FindSensor(cloudsensors, "ApplicationMode");
-      ApplicationMode = FindSensorr(cloudsensors, "Application Mode");
+      ApplicationMode =
+          FindSensor(cloudsensors, dotenv.env['ApplicationMode_id'].toString());
+      // ApplicationMode = FindSensorr(cloudsensors, "Application Mode");
 
       MCBMode = FindSensor(cloudsensors, dotenv.env['MCBMode_id'].toString());
       GCBMode = FindSensor(cloudsensors, dotenv.env['GCB_id'].toString());
@@ -438,7 +440,7 @@ class CloudGeneratorState extends ChangeNotifier {
           cloudsensors, dotenv.env['TotalFuelConsumption_id'].toString());
       //for testing purposes only//
       //MCBMode = await DashModelView.GetControllerMode();
-
+      print("cloudsensors" + cloudsensors[1].toString());
       if (ControllerMode.value == "AUTO")
         ControllerModeStatus = 2;
       else if (ControllerMode.value == "MAN")
@@ -451,6 +453,7 @@ class CloudGeneratorState extends ChangeNotifier {
       } else {
         AppModeStatus = 1;
       }
+
       //for testing purposes only
       //MCBMode.value="1";
       if (MCBMode.value == "Close-On")

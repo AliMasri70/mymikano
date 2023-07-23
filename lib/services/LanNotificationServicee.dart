@@ -110,7 +110,7 @@ Future<void> GetAndPushNotifications(ServiceInstance service) async {
   int refreshDuration = prefs.getInt('refreshDuration') != null
       ? prefs.getInt('refreshDuration')!.toInt()
       : 1;
-  print('in loop ${prefs.getInt('refreshDuration')!.toInt()}');
+  // print('in loop ${prefs.getInt('refreshDuration')!.toInt()}');
   Timer.periodic(Duration(seconds: 1), (timer) async {
     //make the call to the api just here//
     List<LanAlarm> listAllAlarms = [];
